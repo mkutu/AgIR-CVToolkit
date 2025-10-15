@@ -167,6 +167,30 @@ def download_cvat(
         f"run_root: {cfg['paths']['run_root']}"
     )
 
+@app.command("preprocess")
+def preprocess(
+    config: str = typer.Option("config", help="Hydra config name (without .yaml)"),
+    override: List[str] = typer.Option(None, "--override", "-o", help="Hydra overrides"),
+):
+    """Preprocess training data (pad/crop/resize, split, compute stats)."""
+    cfg = _compose_cfg(config, override)
+    cfg = finalize_cfg(
+        cfg,
+        stage="preprocess",
+        dataset="train",
+        cli_overrides=override
+    )
+    
+    setup_logging(cfg)
+    from agir_cvtoolkit.pipelines.stages.preprocess import PreprocessStage
+    PreprocessStage(cfg).run()
+    
+    typer.echo(
+        f"Preprocessing complete\n"
+        f"run_id: {cfg['runtime']['run_id']}\n"
+        f"run_root: {cfg['paths']['run_root']}"
+    )
+
 @app.command("train")
 def train(
     config: str = typer.Option("config", help="Hydra config name (without .yaml)"),

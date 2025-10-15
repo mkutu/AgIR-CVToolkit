@@ -4,6 +4,7 @@
 Training stage for segmentation models using PyTorch Lightning.
 
 Integrates with the AgIR-CVToolkit pipeline:
+- Optionally runs preprocessing before training
 - Reads from preprocessed train/val splits
 - Applies augmentations
 - Trains segmentation models
@@ -54,17 +55,53 @@ class TrainingStage:
             "best_checkpoint": None,
         }
     
+    def _run_preprocessing_if_needed(self) -> None:
+        """Run preprocessing if enabled and data not already processed."""
+        if not self.train_cfg.get("auto_preprocess", False):
+            log.info("Auto-preprocessing disabled, assuming data is ready")
+            return
+        
+        # Check if preprocessed data already exists
+        train_images = Path(self.train_cfg.train_images_dir)
+        if train_images.exists() and any(train_images.iterdir()):
+            log.info("Preprocessed training data found, skipping preprocessing")
+            return
+        
+        # Run preprocessing
+        log.info("=" * 80)
+        log.info("Running preprocessing before training...")
+        log.info("=" * 80)
+        
+        from agir_cvtoolkit.pipelines.stages.preprocess import PreprocessStage
+        
+        # Check if preprocess config exists
+        if not hasattr(self.cfg, "preprocess"):
+            log.warning("No preprocess config found, skipping preprocessing")
+            return
+        
+        preprocess_stage = PreprocessStage(self.cfg)
+        preprocess_stage.run()
+        
+        log.info("Preprocessing complete, continuing to training...")
+        log.info("")
+    
     def run(self) -> None:
         """Run the training pipeline."""
         log.info("=" * 80)
         log.info("Starting Training Pipeline")
         log.info("=" * 80)
         
+        # Run preprocessing if needed
+        self._run_preprocessing_if_needed()
+        
         # Set seed for reproducibility
         set_seed(self.train_cfg.seed)
         
         # Setup device
         self._setup_device()
+        
+        # Verify data paths exist
+        self._verify_data_paths()
         
         # Create datasets
         train_ds, val_ds = self._create_datasets()
@@ -119,6 +156,41 @@ class TrainingStage:
         log.info(f"Best checkpoint: {self.metrics['best_checkpoint']}")
         log.info(f"Metrics saved to: {metrics_path}")
         log.info("=" * 80)
+    
+    def _verify_data_paths(self) -> None:
+        """Verify that data directories exist and contain data."""
+        train_images = Path(self.train_cfg.train_images_dir)
+        train_masks = Path(self.train_cfg.train_masks_dir)
+        val_images = Path(self.train_cfg.val_images_dir)
+        val_masks = Path(self.train_cfg.val_masks_dir)
+        
+        errors = []
+        if not train_images.exists():
+            errors.append(f"Train images directory not found: {train_images}")
+        elif not any(train_images.iterdir()):
+            errors.append(f"Train images directory is empty: {train_images}")
+        
+        if not train_masks.exists():
+            errors.append(f"Train masks directory not found: {train_masks}")
+        elif not any(train_masks.iterdir()):
+            errors.append(f"Train masks directory is empty: {train_masks}")
+        
+        if not val_images.exists():
+            errors.append(f"Val images directory not found: {val_images}")
+        elif not any(val_images.iterdir()):
+            errors.append(f"Val images directory is empty: {val_images}")
+        
+        if not val_masks.exists():
+            errors.append(f"Val masks directory not found: {val_masks}")
+        elif not any(val_masks.iterdir()):
+            errors.append(f"Val masks directory is empty: {val_masks}")
+        
+        if errors:
+            error_msg = "\n".join(errors)
+            raise FileNotFoundError(
+                f"Data directories not found or empty:\n{error_msg}\n\n"
+                f"Please run 'agir-cvtoolkit preprocess' first or set auto_preprocess=true"
+            )
     
     def _setup_device(self) -> None:
         """Setup GPU device."""

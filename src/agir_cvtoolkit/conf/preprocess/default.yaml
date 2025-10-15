@@ -5,6 +5,9 @@
 source:
   type: "cvat_download"  # "cvat_download" | "custom" | "inference_results"
   
+  # Database for image resolution (when images not in CVAT download)
+  db: "semif"  # "semif" | "field" | null
+  
   # Task selection for cvat_download type:
   # - null (default): combine ALL tasks in cvat_downloads folder
   # - ["task1", "task2"]: only combine specified tasks (by sanitized directory name)
@@ -14,6 +17,16 @@ source:
   # For custom type: specify custom paths
   custom_images_dir: null
   custom_masks_dir: null
+
+# Image resolution (NEW STEP)
+# Resolves image locations when downloading masks-only from CVAT
+resolve_images:
+  enabled: true  # Set to false to skip image resolution
+  
+  # Search locations in order:
+  # 1. run_root/images (from prior inference)
+  # 2. cvat_downloads/<task>/images
+  # 3. Database query + copy to resolved_images
 
 # Preprocessing steps
 pad_gridcrop_resize:

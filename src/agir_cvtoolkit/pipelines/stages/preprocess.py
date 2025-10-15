@@ -4,10 +4,12 @@
 Preprocessing stage for training data preparation.
 
 Workflow:
-1. Load images/masks from CVAT download or custom directory
-2. Standardize sizes via pad/grid-crop/resize
-3. Split into train/val/test sets
-4. Compute dataset statistics for normalization
+1. Aggregate tasks from multiple sources (if needed)
+2. Resolve images for masks (check local, CVAT, database)
+3. Create image/mask manifest
+4. Standardize sizes via pad/grid-crop/resize
+5. Split into train/val/test sets
+6. Compute dataset statistics for normalization
 """
 
 import json
@@ -16,11 +18,13 @@ from pathlib import Path
 
 from omegaconf import DictConfig
 
+from agir_cvtoolkit.core.db import AgirDB
 from agir_cvtoolkit.pipelines.utils.preprocess_utils import (
     pad_gridcrop_resize_preprocess,
     train_val_test_split,
     compute_rgb_mean_std,
 )
+from agir_cvtoolkit.pipelines.utils.image_resolver import ImageResolver
 
 log = logging.getLogger(__name__)
 
@@ -37,6 +41,7 @@ class PreprocessStage:
         # Metrics tracking
         self.metrics = {
             "source_images": 0,
+            "resolved_images": 0,
             "preprocessed_images": 0,
             "train_samples": 0,
             "val_samples": 0,
@@ -45,6 +50,7 @@ class PreprocessStage:
             "rgb_std": None,
             "aggregated_tasks": [],
             "total_tasks": 0,
+            "resolution_stats": {},
         }
     
     def _find_source_data(self) -> tuple[Path, Path]:
@@ -106,11 +112,15 @@ class PreprocessStage:
                 images_dir = task_dir / "images"
                 annotations_dir = task_dir / "annotations"
                 
-                if not images_dir.exists():
-                    raise FileNotFoundError(f"Images directory not found: {images_dir}")
-                
+                # For CVAT, we often only have masks
                 masks_dir = annotations_dir if annotations_dir.exists() else images_dir
                 
+                # Images directory might not exist or be empty
+                if not images_dir.exists() or not any(images_dir.iterdir()):
+                    log.warning(f"No images found in {images_dir}, will resolve from database")
+                    images_dir = self.run_root / "images"
+                
+                self.metrics["total_tasks"] = 1
                 return images_dir, masks_dir
             
             # Multiple tasks: aggregate into combined directory
@@ -124,6 +134,7 @@ class PreprocessStage:
                 raise FileNotFoundError(f"Custom images directory not found: {images_dir}")
             if not masks_dir.exists():
                 raise FileNotFoundError(f"Custom masks directory not found: {masks_dir}")
+            self.metrics["total_tasks"] = 1
             return images_dir, masks_dir
         
         elif source_cfg.type == "inference_results":
@@ -134,7 +145,7 @@ class PreprocessStage:
                 raise FileNotFoundError(f"Inference images directory not found: {images_dir}")
             if not masks_dir.exists():
                 raise FileNotFoundError(f"Inference masks directory not found: {masks_dir}")
-            self.metrics["total_tasks"] = 1  # Single source
+            self.metrics["total_tasks"] = 1
             return images_dir, masks_dir
         
         else:
@@ -155,8 +166,8 @@ class PreprocessStage:
         log.info("=" * 80)
         
         # Create combined directories
-        combined_images = self.run_root / "combined" / "images"
-        combined_masks = self.run_root / "combined" / "masks"
+        combined_images = Path(self.paths.preprocessed) / "images"
+        combined_masks = Path(self.paths.preprocessed) / "masks"
         combined_images.mkdir(parents=True, exist_ok=True)
         combined_masks.mkdir(parents=True, exist_ok=True)
         
@@ -171,35 +182,39 @@ class PreprocessStage:
             
             # Find images directory
             images_dir = task_dir / "images"
-            if not images_dir.exists():
-                log.warning(f"  No images directory found, skipping")
-                continue
             
             # Find masks directory (try annotations first, then images)
-            masks_dir = task_dir / "annotations"
+            masks_dir = task_dir / "defaultannot"
             if not masks_dir.exists():
                 masks_dir = images_dir
             
-            # Copy images
-            task_images = list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.png"))
-            for img_path in task_images:
-                # Create unique filename: taskname_originalname
-                new_name = f"{task_dir.name}_{img_path.name}"
-                dest_path = combined_images / new_name
-                
-                # Skip if already exists (avoid duplicates)
-                if dest_path.exists():
-                    log.warning(f"  Skipping duplicate: {new_name}")
-                    continue
-                
-                shutil.copy2(img_path, dest_path)
+            # Copy images if they exist
+            copied_images = 0
+            if images_dir.exists():
+                task_images = list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.JPG"))
+                for img_path in task_images:
+                    # Create unique filename: taskname_originalname
+                    new_name = f"{img_path.name}"
+                    dest_path = combined_images / new_name
+                    
+                    # Skip if already exists (avoid duplicates)
+                    if dest_path.exists():
+                        log.warning(f"  Skipping duplicate: {new_name}")
+                        continue
+                    
+                    shutil.copy2(img_path, dest_path)
+                    copied_images += 1
             
             # Copy masks
+            if not masks_dir.exists():
+                log.warning(f"  No masks directory found, skipping masks")
+                continue
+            
             task_masks = list(masks_dir.glob("*_mask.png")) + list(masks_dir.glob("*.png"))
+            copied_masks = 0
             for mask_path in task_masks:
                 # Match the renamed image
-                # If mask is img_mask.png, new name should be taskname_img_mask.png
-                new_name = f"{task_dir.name}_{mask_path.name}"
+                new_name = f"{mask_path.name}"
                 dest_path = combined_masks / new_name
                 
                 if dest_path.exists():
@@ -207,10 +222,7 @@ class PreprocessStage:
                     continue
                 
                 shutil.copy2(mask_path, dest_path)
-            
-            # Count what we copied
-            copied_images = len([f for f in combined_images.glob(f"{task_dir.name}_*")])
-            copied_masks = len([f for f in combined_masks.glob(f"{task_dir.name}_*")])
+                copied_masks += 1
             
             log.info(f"  Copied {copied_images} images, {copied_masks} masks")
             
@@ -237,6 +249,80 @@ class PreprocessStage:
         
         return combined_images, combined_masks
     
+    def _resolve_images(
+        self,
+        masks_dir: Path,
+        task_names: list[str] = None
+    ) -> Path:
+        """
+        Resolve image locations for all masks and create manifest.
+        
+        This handles cases where CVAT downloads only include masks,
+        resolving images from:
+        1. run_root/images (from inference)
+        2. CVAT task folders
+        3. Database query + download
+        
+        Args:
+            masks_dir: Directory containing mask files
+            task_names: List of task names (for aggregated tasks)
+        
+        Returns:
+            Path to manifest file
+        """
+        log.info("")
+        log.info("=" * 80)
+        log.info("Resolving images for masks...")
+        log.info("=" * 80)
+        
+        # Setup database connection if configured
+        db_client = None
+        source_cfg = self.preprocess_cfg.source
+        
+        if source_cfg.get("db"):
+            db_name = source_cfg.db
+            db_cfg = self.cfg.db[db_name]
+            
+            log.info(f"Connecting to {db_name} database for image resolution...")
+            db_client = AgirDB.connect(
+                db_type=db_name,
+                sqlite_path=db_cfg.sqlite_path,
+                table=db_cfg.get("table")
+            )
+            # Check if connection was successful
+            if not db_client:
+                log.error(f"Failed to connect to {db_name} database, proceeding without DB resolution")
+            else:
+                log.info(f"Connected to {db_name} database")
+        
+        # Create resolver
+        resolver = ImageResolver(
+            run_root=self.run_root,
+            cvat_downloads_dir=Path(self.paths.cvat_downloads),
+            db_client=db_client
+        )
+        
+        # Create manifest
+        manifest_path = self.run_root / "image_mask_manifest.txt"
+        num_pairs = resolver.create_manifest(
+            masks_dir=masks_dir,
+            output_path=manifest_path,
+            task_names=task_names
+        )
+        
+        # Store stats
+        self.metrics["resolved_images"] = num_pairs
+        self.metrics["resolution_stats"] = resolver.stats
+        
+        # Close database
+        if db_client:
+            db_client.close()
+        
+        log.info("=" * 80)
+        log.info("")
+        
+        return manifest_path
+    
     def run(self) -> None:
         """Run the preprocessing pipeline."""
         log.info("=" * 80)
@@ -246,10 +332,21 @@ class PreprocessStage:
         # Find source data
         source_images, source_masks = self._find_source_data()
         
-        # Count source images
-        source_image_files = list(source_images.glob("*.jpg")) + list(source_images.glob("*.JPG"))
-        self.metrics["source_images"] = len(source_image_files)
-        log.info(f"Found {self.metrics['source_images']} source images")
+        # Count source masks
+        source_mask_files = list(source_masks.glob("*.png")) + list(source_masks.glob("*_mask.png"))
+        self.metrics["source_images"] = len(source_mask_files)
+        log.info(f"Found {len(source_mask_files)} source masks")
+        
+        # Get task names if aggregated
+        task_names = None
+        if self.metrics["total_tasks"] > 1:
+            task_names = [t["task_name"] for t in self.metrics["aggregated_tasks"]]
+        
+        # Step 0: Resolve images for masks (NEW STEP)
+        if self.preprocess_cfg.get("resolve_images", {}).get("enabled", True):
+            manifest_path = self._resolve_images(source_masks, task_names)
+            log.info(f"Image/mask manifest created: {manifest_path}")
+            log.info(f"Resolved {self.metrics['resolved_images']} image/mask pairs")
         
         # Create output directories
         preprocessed_images = Path(self.paths.preprocessed) / "images"
@@ -262,6 +359,13 @@ class PreprocessStage:
             log.info("")
             log.info("Step 1: Standardizing image sizes (pad/grid-crop/resize)...")
             log.info("-" * 80)
+            
+            # Use resolved images if we created them
+            if self.metrics.get("resolved_images", 0) > 0:
+                resolved_images_dir = self.run_root / "resolved_images"
+                if resolved_images_dir.exists() and any(resolved_images_dir.iterdir()):
+                    source_images = resolved_images_dir
+                    log.info(f"Using resolved images from: {source_images}")
             
             pad_gridcrop_resize_preprocess(
                 images_dir=source_images,
@@ -279,12 +383,13 @@ class PreprocessStage:
             log.info("Skipping pad/grid-crop/resize (disabled)")
             # Copy source files directly
             import shutil
+            source_image_files = list(source_images.glob("*.jpg")) + list(source_images.glob("*.JPG"))
             for img_path in source_image_files:
                 shutil.copy2(img_path, preprocessed_images / img_path.name)
                 mask_path = source_masks / f"{img_path.stem}_mask.png"
                 if mask_path.exists():
                     shutil.copy2(mask_path, preprocessed_masks / mask_path.name)
-            self.metrics["preprocessed_images"] = self.metrics["source_images"]
+            self.metrics["preprocessed_images"] = len(source_image_files)
         
         # Step 2: Train/Val/Test Split
         if self.preprocess_cfg.split.enabled:
@@ -363,7 +468,18 @@ class PreprocessStage:
                 log.info(f"  - {task_stat['task_name']}: {task_stat['images']} images, {task_stat['masks']} masks")
             log.info("")
         
-        log.info(f"Source images: {self.metrics['source_images']}")
+        # Image resolution info
+        if self.metrics.get('resolved_images', 0) > 0:
+            res_stats = self.metrics['resolution_stats']
+            log.info(f"Image Resolution:")
+            log.info(f"  Found in run_images: {res_stats['found_in_run_images']}")
+            log.info(f"  Found in CVAT: {res_stats['found_in_cvat']}")
+            log.info(f"  Found in DB: {res_stats['found_in_db']}")
+            log.info(f"  Not found: {res_stats['not_found']}")
+            log.info("")
+        
+        log.info(f"Source masks: {self.metrics['source_images']}")
+        log.info(f"Resolved pairs: {self.metrics.get('resolved_images', 0)}")
         log.info(f"Preprocessed images: {self.metrics['preprocessed_images']}")
         if self.preprocess_cfg.split.enabled:
             log.info(f"Train samples: {self.metrics['train_samples']}")

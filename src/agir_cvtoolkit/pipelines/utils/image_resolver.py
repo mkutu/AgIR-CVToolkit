@@ -179,80 +179,180 @@ class ImageResolver:
         """
         Query database for image path using cutout_id.
         
+        Handles three cases:
+        1. cutout_id matches mask stem (is_cropout=True) AND cropout_path exists
+        → Return cropout_path directly (already cropped)
+        2. cutout_id matches mask stem (is_cropout=True) BUT cropout_path doesn't exist
+        → Crop full image using bbox_xywh and save to resolved_images
+        3. cutout_id doesn't match mask stem (is_cropout=False, cutout_id is actually image_id)
+        → Return full image_path (no cropping needed)
+        
+        Args:
+            cutout_id: Cutout ID or image ID to query
+            mask_path: Path to mask file (used to determine if cropping is needed)
+        
         Returns:
-            Path to image in original location (on NFS/LTS)
+            Path to image in original location or resolved_images directory
         """
-        is_cropout = None
         if not self.db_client:
             log.error("No database client provided for image resolution")
             return None
         
         try:
-            # Query database for this cutout_id
+            # Query database for record
             record = self.db_client.get(cutout_id)
+            
+            # If not found by cutout_id, try image_id
             if not record:
-                # Use image_id field if available
                 record = self.db_client.get_by_image_id(cutout_id)
-                if record:
-                    if record.cutout_id == mask_path.stem:
-                        is_cropout = True
-                    else:
-                        is_cropout = False
-                else:
-                    log.warning(f"No database record found for image_id: {cutout_id}")
-                    record = None
-
-            else:
-                is_cropout = True  # Assume cutout_id matches
+                if not record:
+                    log.warning(f"No database record found for cutout_id or image_id: {cutout_id}")
+                    return None
             
+            # Determine if this is a cropout (cutout_id matches mask stem)
+            mask_stem = mask_path.stem.replace("_mask", "")
+            is_cropout = (record.cutout_id == mask_stem)
             
-            # Try different path fields based on database type
+            # Handle based on database type
             if self.db_client.db_type == "semif":
-                # Try cropout first (already cropped)
-                cropout_path = record.aux_paths.get("cropout_path", None)
-                if cropout_path and cropout_path != "None" and is_cropout:
-                    cutout_ncsu_nfs = record.extras.get("cutout_ncsu_nfs", None)
-                    lts_root = Path("/mnt/research-projects/s/screberg")
-                    crop_path_suffix = str(cropout_path).lstrip("/")
-                    crop_path = lts_root / cutout_ncsu_nfs / crop_path_suffix
-                    if crop_path.exists():
-                        return crop_path
-                
-                # Fall back to full image + bbox
-                else:
-                    image_path_suffix = record.image_path
-                    ncsu_nfs = record.extras.get("ncsu_nfs", None)
-                    lts_root = Path("/mnt/research-projects/s/screberg")
-                    full_image_path = lts_root / ncsu_nfs / image_path_suffix
-                    if full_image_path.exists():
-                        # Save to self.resolved_images_dir
-                        self.resolved_images_dir.mkdir(parents=True, exist_ok=True)
-                        dest_path = self.resolved_images_dir / f"{cutout_id}.jpg"
-                        if dest_path.exists():
-                            return dest_path
-                        if is_cropout:
-                            bbox_xywh = record.extras.get("bbox_xywh", None)
-                            cropped_image = self.read_image_and_crop(img_path, bbox_xywh)
-                            if cropped_image:
-                                cropped_image.save(dest_path, format="JPEG", quality=100)
-                                return dest_path
-                        else:
-                            return full_image_path
-                    else:
-                        return None
-            
+                return self._resolve_semif_image(record, is_cropout, cutout_id)
             elif self.db_client.db_type == "field":
-                # Try different path options
-                for path_key in ["developed_image_path", "image_path"]:
-                    if record.aux_paths.get(path_key):
-                        img_path = record.aux_paths[path_key]
-                        if img_path.exists():
-                            
-                                    return dest_path
-            return None
-            
+                return self._resolve_field_image(record)
+            else:
+                log.error(f"Unsupported database type: {self.db_client.db_type}")
+                return None
+                
         except Exception as e:
             log.exception(f"Error querying database for {cutout_id}: {e}")
+            return None
+
+
+    def _resolve_semif_image(
+        self, 
+        record, 
+        is_cropout: bool, 
+        cutout_id: str
+    ) -> Optional[Path]:
+        """
+        Resolve image path for SemiF database records.
+        
+        Args:
+            record: Database record
+            is_cropout: True if cutout_id matches mask stem (needs cropping or cropout)
+            cutout_id: Cutout ID for naming resolved images
+        
+        Returns:
+            Path to image
+        """
+        lts_root = Path("/mnt/research-projects/s/screberg")
+        
+        # CASE 1: cropout_path exists and we need a cropout → use it directly
+        if is_cropout:
+            cropout_path = record.aux_paths.get("cropout_path")
+            if cropout_path and str(cropout_path).lower() not in ("none", "null", ""):
+                cutout_ncsu_nfs = record.extras.get("cutout_ncsu_nfs", "")
+                crop_path = lts_root / cutout_ncsu_nfs / str(cropout_path).lstrip("/")
+                
+                if crop_path.exists():
+                    log.debug(f"Found existing cropout: {crop_path}")
+                    return crop_path
+        
+        # CASE 2 & 3: Need to use full image_path
+        image_path_suffix = record.image_path
+        if not image_path_suffix:
+            log.warning(f"No image_path found for cutout_id: {cutout_id}")
+            return None
+        
+        ncsu_nfs = record.extras.get("ncsu_nfs", "")
+        full_image_path = lts_root / ncsu_nfs / str(image_path_suffix).lstrip("/")
+        
+        if not full_image_path.exists():
+            log.warning(f"Image path does not exist: {full_image_path}")
+            return None
+        
+        # CASE 2: is_cropout=True but no cropout_path → crop and save
+        if is_cropout:
+            bbox_xywh = record.extras.get("bbox_xywh")
+            if not bbox_xywh:
+                log.warning(f"No bbox_xywh found for cutout_id: {cutout_id}")
+                return None
+            
+            # Crop and save to resolved_images
+            self.resolved_images_dir.mkdir(parents=True, exist_ok=True)
+            dest_path = self.resolved_images_dir / f"{cutout_id}.jpg"
+            
+            if dest_path.exists():
+                log.debug(f"Cropped image already exists: {dest_path}")
+                return dest_path
+            
+            cropped_image = self._crop_image_by_bbox(full_image_path, bbox_xywh)
+            if cropped_image:
+                cropped_image.save(dest_path, format="JPEG", quality=100)
+                log.debug(f"Cropped and saved image: {dest_path}")
+                return dest_path
+            else:
+                log.error(f"Failed to crop image for cutout_id: {cutout_id}")
+                return None
+        
+        # CASE 3: is_cropout=False → return full image (no cropping)
+        else:
+            log.debug(f"Using full image (no cropping): {full_image_path}")
+            return full_image_path
+
+
+    def _resolve_field_image(self, record) -> Optional[Path]:
+        """
+        Resolve image path for Field database records.
+        
+        Args:
+            record: Database record
+        
+        Returns:
+            Path to image
+        """
+        # Try different path options in priority order
+        for path_key in ["developed_image_path", "image_path"]:
+            img_path = record.aux_paths.get(path_key)
+            if img_path and img_path.exists():
+                log.debug(f"Found field image: {img_path}")
+                return img_path
+        
+        log.warning(f"No valid image path found in field record")
+        return None
+
+
+    def _crop_image_by_bbox(
+        self, 
+        img_path: Path, 
+        bbox_xywh: Tuple[int, int, int, int]
+    ) -> Optional[Image.Image]:
+        """
+        Read image and crop to bounding box.
+        
+        Args:
+            img_path: Path to source image
+            bbox_xywh: Bounding box in (x, y, width, height) format
+        
+        Returns:
+            Cropped PIL Image or None on error
+        """
+        try:
+            # Parse bbox if it's a string
+            if isinstance(bbox_xywh, str):
+                import ast
+                bbox_xywh = ast.literal_eval(bbox_xywh)
+            
+            img = Image.open(img_path).convert("RGB")
+            x, y, w, h = [int(v) for v in bbox_xywh]
+            
+            # Clamp to valid coordinates
+            x, y = max(0, x), max(0, y)
+            
+            # Crop (PIL uses x1, y1, x2, y2 format)
+            return img.crop((x, y, x + w, y + h))
+            
+        except Exception as e:
+            log.error(f"Failed to read/crop image {img_path}: {e}")
             return None
     
     def copy_image_to_resolved(

@@ -142,7 +142,7 @@ def _process_one_image(
                 
                 stem = f"{img_path.stem}_{left}_{top}"
                 tile_img.save(out_images / f"{stem}{img_path.suffix}")
-                tile_mask.save(out_masks / f"{stem}_mask.png")
+                tile_mask.save(out_masks / f"{stem}.png")
         
         if remove_src:
             img_path.unlink()
@@ -183,7 +183,7 @@ def _process_one_image(
     )
 
 
-def pad_gridcrop_resize(
+def pad_gridcrop_resize_preprocess(
     images_dir: Path,
     masks_dir: Path,
     out_images: Path,
@@ -206,7 +206,7 @@ def pad_gridcrop_resize(
     out_masks.mkdir(parents=True, exist_ok=True)
     
     # Find all image files
-    img_paths = sorted(images_dir.glob("*.jpg")) + sorted(images_dir.glob("*.png"))
+    img_paths = sorted(images_dir.glob("*.jpg")) + sorted(images_dir.glob("*.JPG"))
     
     use_cc = bool(cfg.get('use_concurrency', False))
     workers = int(cfg.get('num_workers', 1)) if use_cc else 1
@@ -221,7 +221,7 @@ def pad_gridcrop_resize(
             futures = {}
             for img_path in img_paths:
                 # Find corresponding mask
-                mask_path = masks_dir / f"{img_path.stem}_mask.png"
+                mask_path = masks_dir / f"{img_path.stem}.png"
                 if not mask_path.exists():
                     log.warning(f"No mask found for {img_path.name}, skipping")
                     continue
@@ -238,7 +238,7 @@ def pad_gridcrop_resize(
     else:
         # Sequential processing
         for img_path in img_paths:
-            mask_path = masks_dir / f"{img_path.stem}_mask.png"
+            mask_path = masks_dir / f"{img_path.stem}.png"
             if not mask_path.exists():
                 log.warning(f"No mask found for {img_path.name}, skipping")
                 continue
@@ -349,7 +349,7 @@ def train_val_test_split(
             for split_name, imgs in splits.items():
                 img_dest, mask_dest = outs[split_name]
                 for img_path in imgs:
-                    mask_path = masks_dir / f"{img_path.stem}_mask.png"
+                    mask_path = masks_dir / f"{img_path.stem}.png"
                     if not mask_path.exists():
                         log.warning(f"No mask for {img_path.stem}, skipping")
                         continue
@@ -359,7 +359,7 @@ def train_val_test_split(
         for split_name, imgs in splits.items():
             img_dest, mask_dest = outs[split_name]
             for img_path in imgs:
-                mask_path = masks_dir / f"{img_path.stem}_mask.png"
+                mask_path = masks_dir / f"{img_path.stem}.png"
                 if not mask_path.exists():
                     log.warning(f"No mask for {img_path.stem}, skipping")
                     continue

@@ -2,7 +2,7 @@
 # Segmentation inference configuration
 # Data source
 source:
-  type: "db_query"  # "query_result" | "db_query"
+  type: "query_result"  # "query_result" | "db_query"
   db: "semif"       # "semif" | "field"
   
   # Filters (only used when type="db_query")

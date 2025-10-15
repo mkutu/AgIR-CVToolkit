@@ -3,13 +3,28 @@
 ## Overview
 
 The preprocessing pipeline prepares training data by:
-1. **Standardizing sizes** via pad/grid-crop/resize
-2. **Splitting** into train/val/test sets
-3. **Computing statistics** for normalization
+1. **Aggregating tasks** (if multiple CVAT downloads)
+2. **Standardizing sizes** via pad/grid-crop/resize
+3. **Splitting** into train/val/test sets
+4. **Computing statistics** for normalization
+
+**Multi-Task Support:** Automatically combines multiple CVAT downloads into one training dataset!
 
 ## Quick Start
 
-### Automatic Preprocessing (Recommended)
+### Multi-Task Training (Most Common)
+
+Download multiple annotation batches and train on combined data:
+
+```bash
+# 1. Download multiple CVAT tasks
+agir-cvtoolkit download-cvat -o cvat_download.task_ids=[101,102,103]
+
+# 2. Train (all tasks automatically combined!)
+agir-cvtoolkit train
+```
+
+### Automatic Preprocessing (Single Task)
 
 The simplest way is to let training automatically preprocess data:
 
@@ -53,6 +68,11 @@ Edit `conf/preprocess/default.yaml`:
 # Source of data
 source:
   type: "cvat_download"  # or "custom"
+  
+  # Task selection (for cvat_download):
+  tasks: null  # null = ALL tasks (default)
+  # OR specify tasks explicitly:
+  # tasks: ["barley_task", "wheat_task"]
 
 # Standardize image sizes
 pad_gridcrop_resize:
@@ -105,15 +125,46 @@ val_masks_dir: ${paths.run_root}/val/masks
 
 ## Common Use Cases
 
-### 1. Standard Training Workflow
+### 1. Combine Multiple CVAT Tasks (Recommended)
+
+Download multiple tasks and combine them automatically:
+
+```bash
+# Download multiple tasks
+agir-cvtoolkit download-cvat -o cvat_download.task_ids=[101,102,103]
+
+# Train - automatically combines all downloaded tasks
+agir-cvtoolkit train
+```
+
+All tasks in the `cvat_downloads` folder are automatically combined!
+
+### 2. Combine Specific CVAT Tasks
+
+Combine only selected tasks by name:
+
+```bash
+# Download multiple tasks
+agir-cvtoolkit download-cvat -o cvat_download.project_id=12345
+
+# Preprocess only specific tasks
+agir-cvtoolkit preprocess \
+  -o preprocess.source.tasks='["barley_task","wheat_task"]'
+
+# Then train
+agir-cvtoolkit train -o train.auto_preprocess=false
+```
+
+**Note:** Task names are the sanitized directory names (lowercase, underscores).
+
+### 3. Standard Training Workflow (Single Task)
 
 Download from CVAT and train with automatic preprocessing:
 
 ```bash
-# Download refined annotations
+# Download refined annotations (single task)
 agir-cvtoolkit download-cvat \
-  -o cvat_download.project_id=12345 \
-  -o cvat_download.required_status=completed
+  -o cvat_download.task_ids=[101]
 
 # Train (preprocessing happens automatically)
 agir-cvtoolkit train \
@@ -172,6 +223,58 @@ agir-cvtoolkit preprocess \
 
 ## Understanding Preprocessing Steps
 
+### Task Aggregation (Multi-Task Support)
+
+When you have multiple CVAT tasks downloaded, preprocessing can combine them:
+
+**Automatic (default):**
+```yaml
+source:
+  type: "cvat_download"
+  tasks: null  # Combines ALL tasks
+```
+
+**Explicit selection:**
+```yaml
+source:
+  type: "cvat_download"
+  tasks: ["task_1", "task_2"]  # Only these tasks
+```
+
+**How it works:**
+1. Scans `cvat_downloads/` for task directories
+2. Copies images/masks from each task into a combined folder
+3. Prefixes filenames with task name to avoid collisions
+4. Tracks per-task statistics
+
+**Example output structure:**
+```
+cvat_downloads/
+├── barley_segmentation/
+│   ├── images/
+│   └── annotations/
+└── wheat_annotation/
+    ├── images/
+    └── annotations/
+
+→ Combined into:
+combined/
+├── images/
+│   ├── barley_segmentation_img001.jpg
+│   ├── barley_segmentation_img002.jpg
+│   ├── wheat_annotation_img001.jpg
+│   └── wheat_annotation_img002.jpg
+└── masks/
+    ├── barley_segmentation_img001_mask.png
+    └── ...
+```
+
+**Benefits:**
+- Train on data from multiple annotation sessions
+- Incrementally add more annotated data
+- Mix different crop types or conditions
+- Track which tasks contributed to training
+
 ### Step 1: Pad/Grid-Crop/Resize
 
 This standardizes all images to a fixed size (default 2048x2048):
@@ -226,6 +329,7 @@ Computes RGB mean and std across all training images:
 
 After preprocessing, your run folder contains:
 
+### Single Task
 ```
 outputs/runs/{run_id}/
 ├── cvat_downloads/       # Downloaded CVAT data
@@ -246,6 +350,42 @@ outputs/runs/{run_id}/
 │   └── masks/
 └── datastats/           # Normalization stats
     └── rgb_mean_std.json
+```
+
+### Multiple Tasks (Aggregated)
+```
+outputs/runs/{run_id}/
+├── cvat_downloads/       # Downloaded CVAT data
+│   ├── barley_task/
+│   │   ├── images/
+│   │   └── annotations/
+│   └── wheat_task/
+│       ├── images/
+│       └── annotations/
+├── combined/            # Aggregated from all tasks
+│   ├── images/
+│   │   ├── barley_task_img001.jpg
+│   │   ├── barley_task_img002.jpg
+│   │   ├── wheat_task_img001.jpg
+│   │   └── wheat_task_img002.jpg
+│   └── masks/
+│       ├── barley_task_img001_mask.png
+│       └── ...
+├── preprocessed/        # Standardized (from combined)
+│   ├── images/
+│   └── masks/
+├── train/              # Training set
+│   ├── images/
+│   └── masks/
+├── val/                # Validation set
+│   ├── images/
+│   └── masks/
+├── test/               # Test set
+│   ├── images/
+│   └── masks/
+├── datastats/          # Normalization stats
+│   └── rgb_mean_std.json
+└── metrics.json        # Includes per-task statistics
 ```
 
 ## Performance Tuning
@@ -282,6 +422,38 @@ agir-cvtoolkit preprocess \
 ```
 
 ## Troubleshooting
+
+### "None of the specified tasks found"
+
+**Cause:** Task names don't match directory names.
+
+**Solution:** List available tasks first:
+```bash
+# See what tasks are available
+ls outputs/runs/{run_id}/cvat_downloads/
+
+# Use exact directory names (lowercase)
+agir-cvtoolkit preprocess \
+  -o preprocess.source.tasks='["barley_task","wheat_task"]'
+```
+
+### Combining Tasks with Different Formats
+
+**Problem:** Downloaded tasks with different export formats.
+
+**Solution:** Re-download with consistent format:
+```bash
+# Use same format for all
+agir-cvtoolkit download-cvat \
+  -o cvat_download.dataset_format="Segmentation mask 1.1" \
+  -o cvat_download.task_ids=[101,102,103]
+```
+
+### Duplicate Filenames Across Tasks
+
+**Automatic handling:** Preprocessing prefixes filenames with task names, so duplicates are avoided:
+- `task1/img001.jpg` → `combined/task1_img001.jpg`
+- `task2/img001.jpg` → `combined/task2_img001.jpg`
 
 ### "CVAT downloads directory not found"
 
@@ -328,6 +500,45 @@ agir-cvtoolkit preprocess \
 6. **Compute statistics** on train set only (never val/test)
 
 ## Integration with Full Pipeline
+
+### Multi-Task Training Workflow
+
+Complete workflow combining multiple CVAT tasks:
+
+```bash
+# 1. Segment and upload multiple batches
+agir-cvtoolkit query --db semif \
+  --filters "category_common_name=barley" \
+  --sample "stratified:by=area_bin,per_group=50"
+agir-cvtoolkit infer-seg
+agir-cvtoolkit upload-cvat
+
+# [Manual: Refine barley masks in CVAT]
+
+# 2. Segment and upload wheat batch
+agir-cvtoolkit query --db semif \
+  --filters "category_common_name=wheat" \
+  --sample "stratified:by=area_bin,per_group=50"
+agir-cvtoolkit infer-seg
+agir-cvtoolkit upload-cvat
+
+# [Manual: Refine wheat masks in CVAT]
+
+# 3. Download all completed tasks
+agir-cvtoolkit download-cvat \
+  -o cvat_download.required_status=completed
+
+# 4. Train on combined dataset (automatic multi-task aggregation!)
+agir-cvtoolkit train \
+  -o train.max_epochs=100 \
+  -o train.batch_size=8
+
+# 5. Use trained model for inference
+agir-cvtoolkit infer-seg \
+  -o seg_inference.model.ckpt_path=outputs/runs/train_xxx/model/best.pth
+```
+
+### Single Task Workflow (for reference)
 
 Complete training workflow:
 

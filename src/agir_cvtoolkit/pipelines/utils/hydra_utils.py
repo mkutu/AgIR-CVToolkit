@@ -118,6 +118,7 @@ def finalize_cfg(cfg: DictConfig, *, stage: str, dataset: str, cli_overrides: li
         "plots": run_root / "plots",
         "upload": run_root / "upload",
         "cvat_downloads": run_root / "cvat_downloads",  # ADD THIS LINE
+        "preprocessed": run_root / "preprocessed",
     }
     for p in [run_root, *sub.values()]:
         p.mkdir(parents=True, exist_ok=True)
@@ -152,16 +153,11 @@ def finalize_cfg(cfg: DictConfig, *, stage: str, dataset: str, cli_overrides: li
         "plots": str(sub["plots"]),
         "upload": str(sub["upload"]),
         "cvat_downloads": str(sub["cvat_downloads"]),  # ADD THIS LINE
+        "preprocessed": str(sub["preprocessed"]),
         "cfg_path": str(run_root / "cfg.yaml"),
         "metrics_path": str(run_root / "metrics.json"),
         "manifest_path": str(run_root / "manifest.jsonl"),
     }
-
-    # # Add train/images, train/masks, val/images, val/masks, test/images, test/masks
-    # if stage == "train" or stage == "preprocess":
-    #     for split in ["train", "val", "test"]:
-    #         (run_root / "train_val_test" / split / "images").mkdir(parents=True, exist_ok=True)
-    #         (run_root / "train_val_test" / split / "masks").mkdir(parents=True, exist_ok=True)
 
     # Setup logging dir
     cfg.train.logger.csv.save_dir = cfg.paths.logs

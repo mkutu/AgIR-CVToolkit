@@ -1,0 +1,75 @@
+# conf/preprocess/default.yaml
+# Preprocessing configuration for training data preparation
+
+# Source of data to preprocess
+source:
+  type: "cvat_download"  # "cvat_download" | "custom"
+  # For cvat_download: automatically finds latest CVAT download in run folder
+  # For custom: specify custom paths below
+  custom_images_dir: null
+  custom_masks_dir: null
+
+# Preprocessing steps
+pad_gridcrop_resize:
+  enabled: true
+  
+  # Concurrency settings
+  use_concurrency: true
+  num_workers: 16
+  
+  # Target size for all images/masks
+  size:
+    height: 2048
+    width: 2048
+  
+  # If true, skip saving images/masks with no annotations
+  ignore_empty_data: true
+  
+  # If true, remove source files after processing (saves disk space)
+  remove_src: false
+  
+  # Padding settings for images smaller than target
+  pad:
+    enabled: true
+    mode: constant  # constant | reflect | replicate
+    fill: 0  # Fill value for padding (0 = black)
+  
+  # Grid cropping for very large images
+  grid_crop:
+    enabled: true
+    stride: 512  # Overlap between tiles
+    threshold: 2.5  # Crop if image is this many times larger than target
+  
+  # Resize settings for images between target and threshold
+  resize:
+    enabled: true
+    interpolation:
+      image: BILINEAR  # NEAREST | BILINEAR | BICUBIC | LANCZOS
+      mask: NEAREST    # Always use NEAREST for masks
+
+# Train/val/test split
+split:
+  enabled: true
+  
+  # Concurrency settings
+  use_concurrency: true
+  num_workers: 16
+  
+  # Split ratios (must sum to ~1.0)
+  train: 0.8
+  val: 0.15
+  test: 0.05
+  
+  # If true, remove preprocessed files after splitting (saves disk space)
+  remove_src: false
+  
+  # Random seed for reproducible splits (inherits from train.seed if not set)
+  seed: null
+
+# Compute dataset statistics for normalization
+compute_data_stats:
+  enabled: true
+  
+  # Concurrency settings
+  use_concurrency: true
+  num_workers: 16

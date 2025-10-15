@@ -10,6 +10,10 @@ pin_memory: true
 use_data_augmentation: true
 use_data_normalization: false
 
+# If true, automatically run preprocessing before training
+# Set to false if you've already preprocessed data
+auto_preprocess: true
+
 # GPU configuration
 use_multi_gpu: false
 gpu:
@@ -64,15 +68,15 @@ trainer:
 logger:
   csv:
     _target_: pytorch_lightning.loggers.CSVLogger
-    save_dir: ${paths.run_root}
+    save_dir: 
     name: "csv_logs"
     enable: true
   
   wandb:
     _target_: pytorch_lightning.loggers.WandbLogger
     project: "agir-segmentation"
-    name: ${runtime.run_id}
-    save_dir: ${paths.run_root}
+    name:
+    save_dir: 
     enable: false
 
 # Visualization during training
@@ -84,8 +88,16 @@ augmentation_visualizer:
   enabled: false
   num_samples: 4
 
-# Data paths (set these via CLI or project config)
-# train_images_dir: path/to/train/images
-# train_masks_dir: path/to/train/masks
-# val_images_dir: path/to/val/images
-# val_masks_dir: path/to/val/masks
+# Data paths (automatically set by preprocessing, or manually specify)
+# If auto_preprocess=true, these are set automatically
+# If auto_preprocess=false, you must set these manually
+train_images_dir: # ${paths.run_root}/train/images
+train_masks_dir: # ${paths.run_root}/train/masks
+val_images_dir: # ${paths.run_root}/val/images
+val_masks_dir: # ${paths.run_root}/val/masks
+test_images_dir: # ${paths.run_root}/test/images
+test_masks_dir: # ${paths.run_root}/test/masks
+
+# Dataset statistics directory (for normalization)
+# Set automatically if preprocessing computes stats
+project_datastats_dir: #${paths.run_root}/datastats

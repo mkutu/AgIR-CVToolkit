@@ -157,6 +157,17 @@ def finalize_cfg(cfg: DictConfig, *, stage: str, dataset: str, cli_overrides: li
         "manifest_path": str(run_root / "manifest.jsonl"),
     }
 
+    # # Add train/images, train/masks, val/images, val/masks, test/images, test/masks
+    # if stage == "train" or stage == "preprocess":
+    #     for split in ["train", "val", "test"]:
+    #         (run_root / "train_val_test" / split / "images").mkdir(parents=True, exist_ok=True)
+    #         (run_root / "train_val_test" / split / "masks").mkdir(parents=True, exist_ok=True)
+
+    # Setup logging dir
+    cfg.train.logger.csv.save_dir = cfg.paths.logs
+    cfg.train.logger.wandb.save_dir = cfg.paths.logs
+    cfg.train.logger.wandb.name = cfg.runtime.run_id
+
     # Persist the frozen cfg for reproducibility (after we enriched it)
     cfg_path = Path(cfg.paths["cfg_path"])
     with open(cfg_path, "w") as f:

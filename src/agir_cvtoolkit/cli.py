@@ -166,5 +166,30 @@ def download_cvat(
         f"run_id: {cfg['runtime']['run_id']}\n"
         f"run_root: {cfg['paths']['run_root']}"
     )
+
+@app.command("train")
+def train(
+    config: str = typer.Option("config", help="Hydra config name (without .yaml)"),
+    override: List[str] = typer.Option(None, "--override", "-o", help="Hydra overrides"),
+):
+    """Train a segmentation model using PyTorch Lightning."""
+    cfg = _compose_cfg(config, override)
+    cfg = finalize_cfg(
+        cfg,
+        stage="train",
+        dataset=cfg.get("train", {}).get("dataset", "field"),
+        cli_overrides=override
+    )
+    
+    setup_logging(cfg)
+    from agir_cvtoolkit.pipelines.stages.train import TrainingStage
+    TrainingStage(cfg).run()
+    
+    typer.echo(
+        f"Training complete\n"
+        f"run_id: {cfg['runtime']['run_id']}\n"
+        f"run_root: {cfg['paths']['run_root']}"
+    )
+
 if __name__ == "__main__":
     app()

@@ -1,0 +1,193 @@
+# example_training_project.yaml
+# Complete configuration example for a training project
+#
+# Usage:
+#   agir-cvtoolkit train --config example_training_project
+
+# Project information (creates organized output directory)
+project:
+  name: "barley_segmentation"
+  subname: "run_001"
+
+# Paths configuration
+paths:
+  # Training data
+  train_images_dir: /data/barley/train/images
+  train_masks_dir: /data/barley/train/masks
+  val_images_dir: /data/barley/val/images
+  val_masks_dir: /data/barley/val/masks
+  
+  # Optional: Pre-computed dataset statistics for normalization
+  # project_datastats_dir: /data/barley/stats
+
+# Training configuration
+train:
+  seed: 42
+  max_epochs: 50
+  batch_size: 8
+  num_workers: 4
+  pin_memory: true
+  
+  # Enable/disable features
+  use_data_augmentation: true
+  use_data_normalization: false
+  
+  # Model architecture
+  model:
+    arch_name: "Unet"
+    encoder_name: "resnet34"
+    encoder_weights: "imagenet"
+    in_channels: 3
+    classes: 1
+  
+  # Optimizer
+  optimizer:
+    _target_: torch.optim.Adam
+    lr: 0.001
+    weight_decay: 0.0001
+  
+  # Learning rate scheduler
+  scheduler:
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+    mode: "min"
+    factor: 0.5
+    patience: 5
+    min_lr: 0.00001
+  
+  # Checkpointing
+  checkpoint:
+    monitor: "val_loss"
+    mode: "min"
+    save_top_k: 3
+    save_last: true
+  
+  # Early stopping
+  early_stop:
+    monitor: "val_loss"
+    mode: "min"
+    patience: 10
+  
+  # Visualization (useful for debugging)
+  dataloader_visualizer:
+    enabled: true
+    num_samples: 4
+  
+  augmentation_visualizer:
+    enabled: true
+    num_samples: 4
+  
+  # Logging
+  logger:
+    csv:
+      _target_: pytorch_lightning.loggers.CSVLogger
+      save_dir: ${paths.run_root}
+      name: "csv_logs"
+      enable: true
+    
+    wandb:
+      _target_: pytorch_lightning.loggers.WandbLogger
+      project: "agir-barley-segmentation"
+      name: ${runtime.run_id}
+      save_dir: ${paths.run_root}
+      enable: false  # Set to true to enable W&B
+
+# Augmentation configuration
+augment:
+  train:
+    enable: true
+    
+    img_size:
+      height: 512
+      width: 512
+    
+    # Spatial augmentations
+    spatial:
+      enable: true
+      
+      horizontal_flip:
+        enable: true
+        p: 0.5
+      
+      vertical_flip:
+        enable: false
+        p: 0.5
+      
+      random_rotate90:
+        enable: true
+        p: 0.5
+      
+      affine:
+        enable: true
+        scale: [0.9, 1.1]
+        rotate: [-15, 15]
+        p: 0.3
+      
+      shift_scale_rotate:
+        enable: true
+        shift_limit: 0.1
+        scale_limit: 0.1
+        rotate_limit: 15
+        p: 0.3
+    
+    # Pixel-level augmentations
+    pixel:
+      enable: true
+      
+      random_brightness_contrast:
+        enable: true
+        brightness_limit: 0.2
+        contrast_limit: 0.2
+        p: 0.5
+      
+      color_jitter:
+        enable: true
+        brightness: 0.2
+        contrast: 0.2
+        saturation: 0.2
+        hue: 0.1
+        p: 0.3
+      
+      gaussian_blur:
+        enable: true
+        blur_limit: [3, 7]
+        p: 0.3
+      
+      gauss_noise:
+        enable: true
+        var_limit: [10, 50]
+        p: 0.3
+    
+    # Batch-level augmentations
+    batch:
+      enable: false
+      
+      mixup:
+        enable: false
+        p: 0.5
+        alpha: 0.2
+      
+      cutmix:
+        enable: false
+        p: 0.5
+        alpha: 1.0
+      
+      mosaic:
+        enable: false
+        p: 0.5
+  
+  # Validation (minimal augmentation)
+  val:
+    enable: true
+    
+    img_size:
+      height: 512
+      width: 512
+    
+    spatial:
+      enable: false
+    
+    pixel:
+      enable: false
+    
+    batch:
+      enable: false

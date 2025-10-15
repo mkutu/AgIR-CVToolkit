@@ -202,6 +202,16 @@ class AgirDB:
         
         return cls(db_type, Path(sqlite_path), table, id_col)
     
+    def get_by_image_id(self, image_id: str) -> Optional[ImageRecord]:
+        """Get a single record by image_id (if applicable)."""
+        if self.db_type != "semif":
+            raise NotImplementedError("get_by_image_id is only supported for 'semif' databases")
+        
+        spec = QuerySpec(filters={"image_id": image_id}, limit=1)
+        for rec in self.query(spec):
+            return rec
+        return None
+    
     def _get_connection(self) -> sqlite3.Connection:
         """Get or create database connection."""
         if self._conn is None:

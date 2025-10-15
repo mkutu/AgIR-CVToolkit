@@ -1,0 +1,19 @@
+# CVAT Upload Configuration
+# CVAT server connection
+project_id: 319384  # Optional: assign task to existing project
+organization_slug: PSA
+# Task configuration
+task_name:  # Auto-generated from run_id if null
+labels:
+  - "weed"
+
+# Mask handling strategy
+mask_strategy: "mask"  # "polygon" (works everywhere) or "mask" (CVAT 2.0+)
+
+source:
+  type: "segmentations"
+  db: "semif"
+
+label_map:
+  # category_common_name: "{value}"
+  _default: "weed"

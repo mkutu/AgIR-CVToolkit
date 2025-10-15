@@ -1,0 +1,8 @@
+out_root: outputs/
+# scratch_root: ${oc.env:SCRATCH,/tmp}/${oc.env:USER,unknown}
+keys_file: .keys/default.yaml
+images:
+  mode: "link"
+
+# Species information JSON file
+lts_species_info: /mnt/research-projects/s/screberg/longterm_images2/semifield-utils/species_information/species_info.json

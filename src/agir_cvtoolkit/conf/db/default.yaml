@@ -1,0 +1,20 @@
+semif:
+  # sqlite_path: ${working_dir}/tests/data/db/AgIR_DB_v1_0_202509_100000sample.db  # repo-local default; override in -o paths.sqlite=/path
+  sqlite_path: /home/mkutuga/SemiF-DB/AgIR_DB_v1_0_202510.db
+
+  table: semif 
+  
+  root_map:
+    longterm_images: /mnt/research-projects/s/screberg/longterm_images   # from your sample
+    GROW_DATA: /mnt/research-projects/s/screberg/GROW_DATA
+    longterm_images2: /mnt/research-projects/s/screberg/longterm_images2
+    LTS: /home/mkutuga/AgIR-CVToolkit/research-projects/agir_lts
+    STAGING: /home/mkutuga/AgIR-CVToolkit/research-projects/staging
+
+field:
+  sqlite_path: ${working_dir}/tests/data/db/agir_field_v2_1000.db
+  table: field_data
+
+  root_map:
+    images: /mnt/research-projects/r/raatwell/longterm_images3/field-batches
+    staging: /home/mkutuga/AgIR-CVToolkit/research-projects/staging

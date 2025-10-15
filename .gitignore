@@ -1,0 +1,77 @@
+# --- Project-specific ---
+# Ignore data folders or large files
+./data/
+outputs/
+runs/
+models/
+notebooks/
+checkpoints/
+.keys
+experimental/
+run.sh
+
+
+# --- Python ---
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+
+# --- Virtual environments ---
+env/
+venv/
+.venv/
+ENV/
+.ENV/
+
+# --- IDE / Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Logs & Reports ---
+*.log
+logs/
+*.out
+*.err
+*.txt
+
+# --- OS / System ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# --- Jupyter ---
+.ipynb_checkpoints
+*.ipynb_out
+
+# --- Configuration / Secrets ---
+*.env
+.env*
+secrets.yml
+config.yaml
+config.yml
+
+# --- Cache & temp ---
+.cache/
+*.tmp
+*.bak
+*.old
+tmp/
+temp/
+
+# --- Tests ---
+.coverage
+.tox/
+.nox/
+.pytest_cache/

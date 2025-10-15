@@ -1,0 +1,34 @@
+[project]
+name = "agir-cvtoolkit"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+  "hydra-core>=1.3",
+  "typer>=0.12",
+  "pydantic>=2.6",
+  "rich>=13",
+  "opencv-python>=4.9",
+  "numpy>=1.26",
+  "Pillow>=10.3",
+  "sqlalchemy>=2.0",
+]
+
+[project.scripts]
+agir-cv = "agir_cvtoolkit.cli:app"
+
+[tool.ruff]
+line-length = 100
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"agir_cvtoolkit.conf" = ["**/*.yaml"]
+

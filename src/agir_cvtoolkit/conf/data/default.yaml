@@ -1,0 +1,12 @@
+semif:
+  path_column: full_path
+  id_column: image_id
+  cutout_id_column: cutout_id
+  common_name_column: category_common_name
+  
+
+field:
+  path_column: full_path
+  id_column: image_id
+  cutout_id_column: cutout_id
+  common_name_column: common_name

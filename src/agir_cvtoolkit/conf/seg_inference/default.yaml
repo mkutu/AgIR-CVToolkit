@@ -1,0 +1,75 @@
+# Configuration for segmentation inference pipeline
+# Segmentation inference configuration
+# Data source
+source:
+  type: "db_query"  # "query_result" | "db_query"
+  db: "semif"       # "semif" | "field"
+  
+  # Filters (only used when type="db_query")
+  filters:
+    state: #"NC"
+    # category_common_name: ["barley", "winter wheat", "cereal rye"]
+  
+  # Sampling (optional)
+  sample:
+    strategy: #"stratified"  # "random" | "seeded" | "stratified"
+    by: # ["category_common_name", "area_bin"]
+    per_group: # 10
+    # seed: 42  # for seeded/stratified
+  
+  # Limit (optional)
+  limit: # 1000
+
+# GPU configuration
+gpu:
+  max_gpus: 1
+  exclude_ids: [0]
+
+# Model configuration
+model:
+  arch: "unet"  # "unet" | "deeplabv3plus" | "segformer"
+  encoder_name: "mit_b0"
+  in_channels: 3
+  num_classes: 1  # 1=binary, >=2 multi-class
+  encoder_weights: "imagenet"
+  pad_divisor: 32
+  strict_load: true
+  
+  # Checkpoint path (REQUIRED - override via CLI)
+  ckpt_path: /home/mkutuga/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-11_13_29_12/checkpoints/epoch=49-step=38750-val_loss=0.00.ckpt # mit_bo
+  # ckpt_path: /home/mkutuga/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-10_08_36_13/checkpoints/epoch=47-step=37200-val_loss=0.00.ckpt # mit_b4
+  
+  # Normalization parameters
+  normalization:
+    mean: [0.41402342925576485, 0.39733920011077273, 0.307018603782374]
+    std: [0.16444163299636838, 0.1441124174531256, 0.14779539166305755]
+
+# Tiled inference configuration
+tile:
+  height: 1024
+  width: 1024
+  overlap: 0.5      # 0.0 to 0.95
+  pad_mode: "reflect"  # "reflect" | "constant"
+
+# Post-processing
+post_process:
+  threshold: 0.5              # Binary threshold
+  min_area: 0                 # Min connected component area (pixels)
+  edge_occupancy_threshold: null  # Skip if edge > threshold (0.0-1.0)
+
+# Output configuration
+output:
+  save_masks: true
+  save_images: true
+  save_cutouts: false
+  save_visualizations: false
+
+# Visualization (only used if save_visualizations=true)
+visualization:
+  enabled: true
+  overlay_alpha: 0.5
+
+
+# Runtime config (populated by hydra_utils.py)
+runtime: {}
+paths: {}

@@ -1,0 +1,36 @@
+# Configuration for CVAT download stage
+# Organization (optional, leave null for personal workspace)
+organization_slug: PSA
+
+# Task filtering
+project_id: 314175  # null = all projects, or specific project ID
+task_ids: null  # null = all tasks, or [101, 102, 103] for specific tasks
+required_status: "completed"  # Filter by status: completed, annotation, validation, acceptance, null for all
+
+# Image validation
+check_image_exists: true  # Only download masks for images that still exist in CVAT
+
+# Download settings
+dataset_format: "Ultralytics YOLO Detection 1.0" #"COCO 1.0" #"Ultralytics YOLO Segmentation 1.0" #"CamVid 1.0"  # Export format: "COCO 1.0", "YOLO 1.1", "Segmentation mask 1.1", etc.
+include_images: false  # Whether to download images along with annotations
+overwrite_existing: false  # Whether to re-download if already exists
+
+# Example usage commands:
+# 
+# Download all completed tasks:
+#   agir-cvtoolkit download-cvat
+#
+# Download specific tasks:
+#   agir-cvtoolkit download-cvat -o cvat_download.task_ids=[101,102,103]
+#
+# Download all tasks regardless of status:
+#   agir-cvtoolkit download-cvat -o cvat_download.required_status=null
+#
+# Download with images included:
+#   agir-cvtoolkit download-cvat -o cvat_download.include_images=true
+#
+# Download in YOLO format:
+#   agir-cvtoolkit download-cvat -o cvat_download.dataset_format="YOLO 1.1"
+#
+# Skip image existence check (faster but may include deleted):
+#   agir-cvtoolkit download-cvat -o cvat_download.check_image_exists=false

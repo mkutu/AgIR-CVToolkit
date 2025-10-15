@@ -1,0 +1,91 @@
+# Configuration for training stage
+# Training hyperparameters
+seed: 42
+max_epochs: 100
+batch_size: 8
+num_workers: 4
+pin_memory: true
+
+# Enable/disable augmentation and normalization
+use_data_augmentation: true
+use_data_normalization: false
+
+# GPU configuration
+use_multi_gpu: false
+gpu:
+  max_gpus: 1
+  exclude_ids: [0]
+
+# Model architecture
+model:
+  arch_name: "Unet"
+  encoder_name: "resnet34"
+  encoder_weights: "imagenet"
+  in_channels: 3
+  classes: 1
+  decoder_attention_type: null  # null, "scse", etc.
+  encoder_freeze: false
+
+# Optimizer
+optimizer:
+  _target_: torch.optim.Adam
+  lr: 0.001
+  weight_decay: 0.0001
+
+# Learning rate scheduler
+scheduler:
+  _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  mode: "min"
+  factor: 0.5
+  patience: 5
+  min_lr: 0.00001
+
+# Checkpointing
+checkpoint:
+  monitor: "val_loss"
+  mode: "min"
+  save_top_k: 3
+  save_last: true
+
+# Early stopping
+early_stop:
+  monitor: "val_loss"
+  mode: "min"
+  patience: 10
+
+# PyTorch Lightning Trainer
+trainer:
+  accelerator: "auto"
+  precision: "32"
+  deterministic: false
+  strategy: "auto"
+
+# Loggers
+logger:
+  csv:
+    _target_: pytorch_lightning.loggers.CSVLogger
+    save_dir: ${paths.run_root}
+    name: "csv_logs"
+    enable: true
+  
+  wandb:
+    _target_: pytorch_lightning.loggers.WandbLogger
+    project: "agir-segmentation"
+    name: ${runtime.run_id}
+    save_dir: ${paths.run_root}
+    enable: false
+
+# Visualization during training
+dataloader_visualizer:
+  enabled: false
+  num_samples: 4
+
+augmentation_visualizer:
+  enabled: false
+  num_samples: 4
+
+# Data paths (set these via CLI or project config)
+# train_images_dir: path/to/train/images
+# train_masks_dir: path/to/train/masks
+# val_images_dir: path/to/val/images
+# val_masks_dir: path/to/val/masks

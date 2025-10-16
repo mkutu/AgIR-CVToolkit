@@ -4,7 +4,7 @@ A comprehensive guide to each pipeline stage in the AgIR-CVToolkit.
 
 ---
 
-## 📊 Stage 1: Query
+## Stage 1: Query
 
 **Purpose:** Query SemiF/Field databases to select images for processing
 
@@ -46,7 +46,7 @@ outputs/runs/{run_id}/query/
 
 ---
 
-## 🎯 Stage 2: Inference (Segmentation)
+## Stage 2: Inference (Segmentation)
 
 **Purpose:** Run segmentation models to generate mask predictions
 
@@ -85,7 +85,7 @@ outputs/runs/{run_id}/
 
 ---
 
-## 📤 Stage 3: Upload to CVAT
+## Stage 3: Upload to CVAT
 
 **Purpose:** Upload images and preliminary annotations to CVAT for human refinement
 
@@ -119,7 +119,7 @@ agir-cvtoolkit upload-cvat \
 
 ---
 
-## 📥 Stage 4: Download from CVAT
+## Stage 4: Download from CVAT
 
 **Purpose:** Download refined annotations from CVAT after human review
 
@@ -161,7 +161,7 @@ outputs/runs/{run_id}/cvat_downloads/
 
 ---
 
-## 🔧 Stage 5: Preprocess
+## Stage 5: Preprocess
 
 **Purpose:** Prepare training data by standardizing sizes, splitting datasets, and computing statistics
 
@@ -215,7 +215,7 @@ outputs/runs/{run_id}/
 
 ---
 
-## 🎓 Stage 6: Train
+## Stage 6: Train
 
 **Purpose:** Train segmentation models using PyTorch Lightning
 
@@ -276,7 +276,7 @@ outputs/runs/{run_id}/
 
 ---
 
-## 🔄 Complete Pipeline Workflow
+## Complete Pipeline Workflow
 
 ### Single-Task Workflow
 ```bash
@@ -328,7 +328,7 @@ agir-cvtoolkit train -o train.max_epochs=100
 
 ---
 
-## 📁 Run Folder Structure
+## Run Folder Structure
 
 Every run creates a standardized folder:
 
@@ -357,7 +357,7 @@ outputs/runs/{project_name}/{subname}/
 
 ---
 
-## 🔑 Key Configuration Files
+## Key Configuration Files
 
 ### Default Configs Location
 ```
@@ -385,7 +385,7 @@ agir-cvtoolkit train \
 
 ---
 
-## 💡 Tips & Best Practices
+## Tips & Best Practices
 
 ### General
 - **Run stages sequentially** - Each stage builds on previous outputs
@@ -420,7 +420,7 @@ agir-cvtoolkit train \
 
 ---
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### "Run not found"
 - Check `outputs/runs/` for available runs
@@ -444,7 +444,7 @@ agir-cvtoolkit train \
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 - **Full Documentation**: `docs/README.md`
 - **Query Guide**: `docs/db_query_usage.md`

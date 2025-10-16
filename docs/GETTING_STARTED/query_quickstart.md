@@ -299,4 +299,4 @@ if count > 10000:
 
 ---
 
-**Ready for more?** Check out the [complete documentation](README.md) or jump straight to the [Query User Guide](../PIPELINE_STAGES/01_query/db_query_usage.md)!
+**Ready for more?** Check out the [complete documentation](../../README.md) or jump straight to the [Query User Guide](../PIPELINE_STAGES/01_query/db_query_usage.md)!

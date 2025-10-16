@@ -31,7 +31,7 @@ agir-cvtoolkit query --db semif \
   --sample "stratified:by=category_common_name,per_group=50"
 ```
 
-📖 **Full docs**: [Query Quickstart](query_quickstart.md) | [Query Guide](PIPELINE_STAGES/01_query/db_query_usage.md) | [Query Specs](../PIPELINE_STAGES/01_query/query_specs_quick_reference.md)
+📖 **Full docs**: [Query Quickstart](query_quickstart.md) | [Query Guide](../PIPELINE_STAGES/01_query/db_query_usage.md) | [Query Specs](../PIPELINE_STAGES/01_query/query_specs_quick_reference.md)
 
 ---
 
@@ -458,7 +458,7 @@ agir-cvtoolkit train
 ## Getting Help
 
 1. Check the stage-specific guide
-2. Review the [README](README.md) navigation
+2. Review the [README](../../README.md) navigation
 3. Examine logs in `outputs/runs/{run_id}/logs/`
 4. Check metrics in `metrics.json`
 5. Verify data exists at each stage

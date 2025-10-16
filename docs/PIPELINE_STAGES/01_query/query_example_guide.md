@@ -1819,7 +1819,7 @@ with AgirDB.connect(spec.database) as db:
 
 ---
 
-## 🆘 Common Issues
+## Common Issues
 
 ### Issue 1: "No records found"
 **Solution:** Remove filters one-by-one to identify which is too restrictive

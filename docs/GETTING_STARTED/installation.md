@@ -34,8 +34,8 @@ Complete guide to installing and configuring the AgIR-CVToolkit.
 conda install mamba -n base -c conda-forge
 
 # Clone the repository
-git clone https://github.com/your-org/agir-cvtoolkit.git
-cd agir-cvtoolkit
+git clone https://github.com/your-org/AgIR-CVToolkit.git
+cd AgIR-CVToolkit
 
 # Create environment from file (much faster than conda!)
 mamba env create -f environment.yml
@@ -45,15 +45,15 @@ mamba activate agcv
 pip install -e .
 
 # Verify installation
-agir-cvtoolkit --help
+agir-cv --help
 ```
 
 ### Option 2: From Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/agir-cvtoolkit.git
-cd agir-cvtoolkit
+git clone https://github.com/your-org/AgIR-CVToolkit.git
+cd AgIR-CVToolkit
 
 # Create virtual environment
 python -m venv venv
@@ -125,16 +125,14 @@ pip install pyarrow>=21.0 fastparquet>=2024.11.0
 Set up your database paths:
 
 ```bash
-# Create a configuration directory
-mkdir -p ~/.agir-cvtoolkit
-
 # Create database config
-cat > ~/.agir-cvtoolkit/databases.yaml << EOF
-databases:
-  semif:
-    path: /path/to/semif.db
-  field:
-    path: /path/to/field.db
+cat > src/agir_cvtoolkit/conf/db/default.yaml << EOF
+semif:
+  db_path: tests/data/db/AgIR_DB_v1_SemiF_sample_50_20251016.db
+  table: semif
+field:
+  db_path: tests/data/db/AgIR_DB_v1_Field_sample_10_20251016.db
+  table: field_data
 EOF
 ```
 
@@ -144,35 +142,61 @@ Or specify database paths in your project config:
 # conf/config.yaml
 db:
   semif:
-    sqlite_path: /path/to/semif.db
+    db_path: /path/to/semif.db
+    table: semif
   field:
-    sqlite_path: /path/to/field.db
+    db_path: /path/to/field.db
+    table: field_data
 ```
 
 ### 2. CVAT API Configuration
 
+
 For CVAT integration, set up your API credentials:
+ 
+These environment variables configure access to a CVAT instance:
+   - `CVAT_HOST`     : URL of the CVAT server (e.g. https://cvat.example.com)
+   - `CVAT_USERNAME` : Username for authentication
+   - `CVAT_PASSWORD` : Password or token for authentication
+
+#### Option 1. Unix (temporary for current shell):
+```sh
+export CVAT_HOST="https://cvat.example.com"
+export CVAT_USERNAME="alice"
+export CVAT_PASSWORD="s3cr3t"
+```
+
+#### Option 2. Unix (persist across sessions):
+   - Add the three export lines above to ~/.bashrc, ~/.profile, or ~/.zshrc
+   - Then reload: source ~/.bashrc   (or open a new terminal)
+.env file (example; do NOT commit to version control):
+
+```
+CVAT_HOST=https://cvat.example.com
+CVAT_USERNAME=alice
+CVAT_PASSWORD=s3cr3t
+```
+
+#### Option 3. Alternatively use a key file:
 
 ```bash
-# Option A: Environment variables (recommended)
-export CVAT_HOST="https://app.cvat.ai"
-export CVAT_API_KEY="your-api-key-here"
-
-# Option B: Create keys file
+# Create keys file
 mkdir -p .keys
 cat > .keys/default.yaml << EOF
 cvat:
   host: "https://app.cvat.ai"
-  api_key: "your-api-key-here"
+  username: "your-username"
+  password: "your-password"
   organization_slug: "your-org"  # Optional
 EOF
 ```
 
-**Getting your CVAT API key:**
-1. Log into CVAT (https://app.cvat.ai)
-2. Go to Settings → API Keys
-3. Create a new key
-4. Copy and save it securely
+**Security notes:**
+   - Avoid committing credentials to source control.
+   - Prefer using a secret manager or OS credential store for production.
+   - If using CI, use the CI provider's secret storage and mask values in logs.
+   - Consider using API tokens instead of plain passwords when supported.
+
 
 ### 3. Output Directory (Auto-Generated)
 
@@ -193,34 +217,13 @@ outputs/
         └── logs/                     # Execution logs
 ```
 
-**You only need to:**
-```bash
-# Create a working directory
-mkdir my-agir-project
-cd my-agir-project
-
-# Everything else is created automatically!
-```
-
 ---
 
 ## 🎮 GPU Setup (Optional)
 
 ### For CUDA-enabled Training
 
-```bash
-# Install PyTorch with CUDA support
-# Visit https://pytorch.org/get-started/locally/ for the latest command
-
-# For CUDA 11.8
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-
-# For CUDA 12.1
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
-
-# Verify GPU is available
-python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
-```
+TODO
 
 ### Configure GPU Usage
 
@@ -243,7 +246,7 @@ train:
 
 ```bash
 # Check toolkit is installed
-agir-cvtoolkit --help
+agir-cv --help
 
 # Should show available commands:
 #   query
@@ -258,19 +261,35 @@ agir-cvtoolkit --help
 
 ```bash
 # Test query (replace with your database path)
-agir-cvtoolkit query --db semif \
-  --sqlite-path /path/to/semif.db \
-  --limit 5 \
+agir-cv query --db semif \
+  -o "db.semif.db_path=/path/to/semif.db" \
   --preview 5
 ```
 
 Expected output:
 ```
-Connecting to SemiF database...
-Preview (first 5 records):
-  cutout_id_001: barley (NC)
-  cutout_id_002: wheat (NC)
-  ...
+============================================================
+Preview: First 5 records
+============================================================
+
+[2025-11-01 14:23:03,739][agir_cvtoolkit.core.db.agir_db][INFO] - Query stats (semif): rows_scanned=5 rows_returned=5 rows_invalid=0 query_ms=1
+Record 1:
+  ID: MD_1659702025
+  Image: ...d-developed-images/MD_2022-08-05/images/MD_1659702025.jpg
+  Mask: ...MD_2022-08-05/meta_masks/semantic_masks/MD_1659702025.png
+  category_common_name: giant foxtail
+  state: MD
+  estimated_bbox_area_cm2: 0.08
+  bbox_area_cm2: 0.00
+  datetime: 2022:08:05 20:16:57
+  category_family: Poaceae
+  season: weeds_2022
+  bbot_version: 2.0
+  batch_id: MD_2022-08-05
+  image_id: MD_1659702025
+  fullres_height: 6368
+  ... and 45 more fields
+------------------------------------------------------------
 ```
 
 ### 3. Test Python API
@@ -281,7 +300,15 @@ from agir_cvtoolkit.core.db import AgirDB
 
 # Test database connection
 try:
-    with AgirDB.connect("semif", sqlite_path="/path/to/semif.db") as db:
+    with AgirDB.connect("semif", table="semif", db_path="path/to/semif.db") as db:
+        count = db.count()
+        print(f"✅ Database connected: {count} records")
+except Exception as e:
+    print(f"❌ Database error: {e}")
+
+# Test database connection
+try:
+    with AgirDB.connect("field", table="field_data", db_path="path/to/field.db") as db:
         count = db.count()
         print(f"✅ Database connected: {count} records")
 except Exception as e:
@@ -308,16 +335,26 @@ python test_installation.py
 # test_cvat.py
 import os
 from cvat_sdk import make_client
-
+from agir_cvtoolkit.pipelines.utils.hydra_utils import read_yaml
 # Test CVAT connection
 try:
     client = make_client(
         host=os.getenv("CVAT_HOST"),
         credentials=(os.getenv("CVAT_USERNAME"), os.getenv("CVAT_PASSWORD"))
     )
-    print("✅ CVAT connected")
+    print("✅ CVAT connected using env vars")
 except Exception as e:
-    print(f"❌ CVAT error: {e}")
+    print(f"❌ CVAT error using env vars: {e}")
+
+try:
+    keys = read_yaml("./.keys/default.yaml").get('cvat', {})
+    client = make_client(
+        host=keys.get("host"),
+        credentials=(keys.get("username"), keys.get("password"))
+    )
+    print("✅ CVAT connected using keys file")
+except Exception as e:
+    print(f"❌ CVAT error using keys file: {e}")
 ```
 
 ---
@@ -330,7 +367,7 @@ The toolkit automatically creates all necessary directories!
 
 ```bash
 # Just run a query - everything is created automatically
-agir-cvtoolkit query --db semif \
+agir-cv query --db semif \
   --filters "state=NC" \
   --limit 10 \
   --out csv
@@ -366,7 +403,7 @@ The workspace is now set up! Continue with:
 
 ### Command Not Found
 
-**Problem:** `agir-cvtoolkit: command not found`
+**Problem:** `agir-cv: command not found`
 
 **Solutions:**
 ```bash
@@ -397,7 +434,7 @@ ls -lh /path/to/semif.db
 chmod 644 /path/to/semif.db
 
 # 3. Test with absolute path
-agir-cvtoolkit query --db semif \
+agir-cv query --db semif \
   --sqlite-path /absolute/path/to/semif.db \
   --limit 1
 
@@ -423,7 +460,7 @@ pip check
 # Create fresh environment (using mamba - much faster!)
 mamba create -n agcv-fresh python=3.13
 mamba activate agcv-fresh
-pip install agir-cvtoolkit
+pip install agir-cv
 ```
 
 ### CVAT Connection Issues
@@ -466,7 +503,7 @@ pip uninstall torch torchvision
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 
 # 5. Check GPU config
-agir-cvtoolkit train --help
+agir-cv train --help
 # Look for gpu.max_gpus option
 ```
 
@@ -498,17 +535,17 @@ chmod -R 755 outputs/
 **Solutions:**
 ```bash
 # Reduce batch size
-agir-cvtoolkit train -o train.batch_size=4
+agir-cv train -o train.batch_size=4
 
 # Reduce image size
-agir-cvtoolkit train \
+agir-cv train \
   -o preprocess.pad_gridcrop_resize.size.height=1024
 
 # Use smaller model
-agir-cvtoolkit train -o train.model.encoder_name="resnet18"
+agir-cv train -o train.model.encoder_name="resnet18"
 
 # Reduce number of workers
-agir-cvtoolkit train -o train.num_workers=2
+agir-cv train -o train.num_workers=2
 
 # Clear CUDA cache (in Python)
 import torch
@@ -529,9 +566,6 @@ pip install --upgrade agir-cvtoolkit
 cd agir-cvtoolkit
 git pull
 pip install -e .
-
-# Check version
-agir-cvtoolkit --version
 ```
 
 ### Update Dependencies
@@ -561,12 +595,6 @@ pip uninstall agir-cvtoolkit
 
 # Remove mamba/conda environment
 mamba env remove -n agcv  # or: conda env remove -n agcv
-
-# Remove configuration (optional)
-rm -rf ~/.agir-cvtoolkit
-
-# Remove your working directory (optional)
-rm -rf my-agir-project/
 ```
 
 ---
@@ -596,22 +624,22 @@ rm -rf my-agir-project/
 
 ```bash
 # Query database
-agir-cvtoolkit query --db semif --filters "state=NC" --limit 100
+agir-cv query --db semif --filters "state=NC" --limit 100
 
 # Run inference
-agir-cvtoolkit infer-seg
+agir-cv infer-seg
 
 # Upload to CVAT
-agir-cvtoolkit upload-cvat
+agir-cv upload-cvat
 
 # Download from CVAT
-agir-cvtoolkit download-cvat
+agir-cv download-cvat
 
 # Preprocess data
-agir-cvtoolkit preprocess
+agir-cv preprocess
 
 # Train model
-agir-cvtoolkit train
+agir-cv train
 ```
 
 ### Essential Paths

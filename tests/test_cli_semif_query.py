@@ -33,7 +33,7 @@ def patch_compose_cfg(monkeypatch, sample_db_path, tmp_path):
     def _fake_compose_cfg(config_name: str = "config", overrides: Optional[List[str]] = None):
         cfg = OmegaConf.create({
             "db": {"semif": {
-                "sqlite_path": str(sample_db_path),
+                "db_path": str(sample_db_path),
                 "root_map": {"data": str(tmp_path)},   # not used heavily here, but required by code
                 "table": "semif",                       # change if your test DB uses another table name
             }},

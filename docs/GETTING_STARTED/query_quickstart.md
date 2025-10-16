@@ -31,7 +31,7 @@ agir-cvtoolkit query --db semif \
 ```python
 from agir_cvtoolkit.core.db import AgirDB
 
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = db.filter(
         state="NC",
         category_common_name="barley"
@@ -57,7 +57,7 @@ agir-cvtoolkit query --db semif \
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = db.sample_stratified(
         by=["category_common_name"],
         per_group=20
@@ -88,7 +88,7 @@ agir-cvtoolkit query --db semif \
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = (
         db.where("estimated_bbox_area_cm2 > 100")
         .sort("estimated_bbox_area_cm2", "desc")
@@ -113,7 +113,7 @@ agir-cvtoolkit query --db semif \
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = (
         db.filter(
             state="NC",
@@ -135,7 +135,7 @@ Check what a query will return before executing:
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     # Count matching records
     count = db.filter(state="NC").count()
     print(f"Found {count} matching records")
@@ -257,7 +257,7 @@ Now that you've run your first queries, explore more advanced features:
 
 ✅ **Use context managers** in Python for automatic cleanup:
 ```python
-with AgirDB.connect("semif", sqlite_path="data.db") as db:
+with AgirDB.connect("semif", db_path="data.db") as db:
     records = db.filter(state="NC").all()
 # Connection automatically closed
 ```

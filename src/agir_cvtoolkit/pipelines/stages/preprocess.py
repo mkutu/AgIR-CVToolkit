@@ -286,7 +286,7 @@ class PreprocessStage:
             log.info(f"Connecting to {db_name} database for image resolution...")
             db_client = AgirDB.connect(
                 db_type=db_name,
-                sqlite_path=db_cfg.sqlite_path,
+                db_path=db_cfg.db_path,
                 table=db_cfg.get("table")
             )
             # Check if connection was successful

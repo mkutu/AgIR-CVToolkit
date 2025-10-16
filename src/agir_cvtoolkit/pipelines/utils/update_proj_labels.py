@@ -15,7 +15,7 @@ from src.agir_cvtoolkit.pipelines.utils.hydra_utils import read_yaml
 
 # CVAT connection settings
 keys = read_yaml(Path(".keys") / "default.yaml")['cvat']
-CVAT_HOST = keys['url']  # Change to your CVAT server URL
+CVAT_HOST = keys['host']  # Change to your CVAT server URL
 USERNAME = keys.get("username")
 PASSWORD = keys.get("password")
 UPDATE_PROJECT_LABELS = False  # Set to True to update labels in existing project

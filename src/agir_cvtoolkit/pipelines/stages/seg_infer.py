@@ -156,7 +156,7 @@ class SegmentationInferenceStage:
             
             with AgirDB.connect(
                 db_type=source_cfg.db,
-                sqlite_path=db_cfg.sqlite_path,
+                db_path=db_cfg.db_path,
                 table=db_cfg.get("table"),
             ) as db:
                 query = db.builder()

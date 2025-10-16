@@ -4,7 +4,7 @@ A comprehensive collection of query examples for both SemiF and Field databases,
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 
 - [Basic Queries](#basic-queries)
 - [Filtering Examples](#filtering-examples)
@@ -17,7 +17,7 @@ A comprehensive collection of query examples for both SemiF and Field databases,
 
 ---
 
-## 🎯 Basic Queries
+## Basic Queries
 
 ### Example 1: Get All Records (with limit)
 
@@ -88,7 +88,7 @@ with AgirDB.connect("semif") as db:
 
 ---
 
-## 🔍 Filtering Examples
+## Filtering Examples
 
 ### Single Field Filters
 
@@ -478,7 +478,7 @@ with AgirDB.connect("field") as db:
 
 ---
 
-## 🎲 Sampling Strategies
+## Sampling Strategies
 
 ### Random Sampling
 
@@ -642,7 +642,7 @@ with AgirDB.connect("field") as db:
 
 ---
 
-## 🔧 Complex Queries
+## Complex Queries
 
 ### Combining Filters and Sampling
 
@@ -844,7 +844,7 @@ with AgirDB.connect("semif") as db:
 
 ---
 
-## 🎯 Production Use Cases
+## Production Use Cases
 
 ### Use Case 1: Training Dataset Creation
 
@@ -1057,7 +1057,7 @@ with AgirDB.connect("field") as db:
 
 ---
 
-## 📊 SemiF Database Examples
+## SemiF Database Examples
 
 ### Geographic Distribution Analysis
 
@@ -1304,7 +1304,7 @@ with AgirDB.connect("semif") as db:
 
 ---
 
-## 🌾 Field Database Examples
+## Field Database Examples
 
 ### Crop Classification
 
@@ -1577,7 +1577,7 @@ with AgirDB.connect("field") as db:
 
 ---
 
-## 🚀 Advanced Techniques
+## Advanced Techniques
 
 ### Custom SQL Filters
 
@@ -1745,7 +1745,7 @@ with AgirDB.connect("semif") as db:
 
 ---
 
-## 📝 Query Reproducibility
+## Query Reproducibility
 
 ### Example 47: Save and Load Query Specs
 
@@ -1785,7 +1785,7 @@ with AgirDB.connect(spec.database) as db:
 
 ---
 
-## 🎓 Best Practices Summary
+## Best Practices Summary
 
 ### 1. Start Simple
 - Begin with basic filters
@@ -1819,7 +1819,7 @@ with AgirDB.connect(spec.database) as db:
 
 ---
 
-## 🆘 Common Issues
+## Common Issues
 
 ### Issue 1: "No records found"
 **Solution:** Remove filters one-by-one to identify which is too restrictive
@@ -1838,7 +1838,7 @@ with AgirDB.connect(spec.database) as db:
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 - **Query User Guide**: `docs/db_query_usage.md`
 - **Query Specs Guide**: `docs/query_specs_quick_reference.md`

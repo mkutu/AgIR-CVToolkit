@@ -113,10 +113,8 @@ def finalize_cfg(cfg: DictConfig, *, stage: str, dataset: str, cli_overrides: li
         "query": run_root / "query",
         "images": run_root / "images",
         "masks": run_root / "masks",
-        "yolo_labels": run_root / "yolo_labels",
         "cutouts": run_root / "cutouts",
         "plots": run_root / "plots",
-        "upload": run_root / "upload",
         "cvat_downloads": run_root / "cvat_downloads",  # ADD THIS LINE
         "preprocessed": run_root / "preprocessed",
     }
@@ -148,10 +146,8 @@ def finalize_cfg(cfg: DictConfig, *, stage: str, dataset: str, cli_overrides: li
         "query": str(sub["query"]),
         "images": str(sub["images"]),
         "masks": str(sub["masks"]),
-        "yolo_labels": str(sub["yolo_labels"]),
         "cutouts": str(sub["cutouts"]),
         "plots": str(sub["plots"]),
-        "upload": str(sub["upload"]),
         "cvat_downloads": str(sub["cvat_downloads"]),  # ADD THIS LINE
         "preprocessed": str(sub["preprocessed"]),
         "cfg_path": str(run_root / "cfg.yaml"),

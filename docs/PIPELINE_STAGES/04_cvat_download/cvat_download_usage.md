@@ -340,7 +340,7 @@ Credentials are read from your `keys.yaml` file:
 
 ```yaml
 cvat:
-  url: "https://app.cvat.ai"
+  host: "https://app.cvat.ai"
   username: "your_username"
   password: "your_password"
 ```
@@ -349,7 +349,7 @@ For self-hosted CVAT:
 
 ```yaml
 cvat:
-  url: "http://localhost:8080"
+  host: "http://localhost:8080"
   username: "admin"
   password: "admin123"
 ```

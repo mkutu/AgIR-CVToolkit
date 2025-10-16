@@ -65,7 +65,7 @@ from agir_cvtoolkit.core.db import AgirDB
 db_info = spec["database"]
 params = spec["query_parameters"]["filters"]["parsed"]
 
-with AgirDB.connect(db_info["type"], sqlite_path=db_info["sqlite_path"]) as db:
+with AgirDB.connect(db_info["type"], db_path=db_info["db_path"]) as db:
     query = db.builder()
     for key, value in params.items():
         if key != "$raw":
@@ -84,7 +84,7 @@ AgirDB provides a unified, fluent interface for querying the AgIR CV Toolkit dat
 from agir_cvtoolkit.core.db import AgirDB
 
 # Connect to database
-db = AgirDB.connect("semif", sqlite_path="data/semif.db")
+db = AgirDB.connect("semif", db_path="data/semif.db")
 
 # Simple query
 records = db.filter(category_common_name="barley").limit(10).all()
@@ -93,7 +93,7 @@ records = db.filter(category_common_name="barley").limit(10).all()
 db.close()
 
 # Or use context manager (auto-closes)
-with AgirDB.connect("semif", sqlite_path="data.db") as db:
+with AgirDB.connect("semif", db_path="data.db") as db:
     records = db.filter(state="NC").all()
 ```
 
@@ -472,7 +472,7 @@ Every query automatically saves a `query_spec.json` file containing all paramete
   },
   "database": {
     "type": "semif",
-    "sqlite_path": "/path/to/AgIR_DB_v1_0_202509.db",
+    "db_path": "/path/to/AgIR_DB_v1_0_202509.db",
     "table": "semif"
   },
   "query_parameters": {
@@ -594,7 +594,7 @@ Get 20 records per species for training:
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = db.sample_stratified(
         by=["category_common_name"],
         per_group=20
@@ -622,7 +622,7 @@ Get 10 records per (species, area_bin) for NC only:
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = (
         db.filter(state="NC")
         .sample_stratified(
@@ -647,7 +647,7 @@ Get large bbox areas, sorted by size:
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = (
         db.where("estimated_bbox_area_cm2 > 200")
         .sort("estimated_bbox_area_cm2", "desc")
@@ -671,7 +671,7 @@ Get specific species with area constraints:
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = (
         db.filter(category_common_name=["barley", "wheat", "rye"])
         .where("estimated_bbox_area_cm2 BETWEEN 50 AND 150")
@@ -703,7 +703,7 @@ agir-cvtoolkit query --db semif \
 - **Default table:** `semif`
 
 ```python
-db = AgirDB.connect("semif", sqlite_path="data/semif.db")
+db = AgirDB.connect("semif", db_path="data/semif.db")
 ```
 
 ### Field Database
@@ -713,7 +713,7 @@ db = AgirDB.connect("semif", sqlite_path="data/semif.db")
 - **Default table:** `records`
 
 ```python
-db = AgirDB.connect("field", sqlite_path="data/field.db")
+db = AgirDB.connect("field", db_path="data/field.db")
 ```
 
 ---
@@ -725,7 +725,7 @@ db = AgirDB.connect("field", sqlite_path="data/field.db")
 When building queries conditionally, always start with `.builder()`:
 
 ```python
-db = AgirDB.connect("semif", sqlite_path="data.db")
+db = AgirDB.connect("semif", db_path="data.db")
 
 # Start with builder
 query = db.builder()
@@ -781,7 +781,7 @@ records = db.filter(state="NC").all()
 ## API Reference Summary
 
 ### Connection
-- `AgirDB.connect(db_type, sqlite_path, table=None)` - Create connection
+- `AgirDB.connect(db_type, db_path, table=None)` - Create connection
 
 ### Query Building
 - `.builder()` - Start empty query
@@ -814,7 +814,7 @@ records = db.filter(state="NC").all()
 
 1. **Use context managers** for automatic cleanup:
    ```python
-   with AgirDB.connect("semif", sqlite_path="data.db") as db:
+   with AgirDB.connect("semif", db_path="data.db") as db:
        records = db.filter(state="NC").all()
    ```
 

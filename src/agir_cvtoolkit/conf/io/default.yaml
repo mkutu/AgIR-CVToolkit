@@ -1,8 +1,7 @@
-out_root: outputs/
+out_root: outputs/runs
 # scratch_root: ${oc.env:SCRATCH,/tmp}/${oc.env:USER,unknown}
 keys_file: .keys/default.yaml
-images:
-  mode: "link"
-
+semif_storage_dir: /mnt/research-projects/s/screberg
+field_storage_dir: /mnt/research-projects/r/raatwell/longterm_images3
 # Species information JSON file
 lts_species_info: /mnt/research-projects/s/screberg/longterm_images2/semifield-utils/species_information/species_info.json

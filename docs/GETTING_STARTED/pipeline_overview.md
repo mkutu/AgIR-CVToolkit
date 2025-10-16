@@ -31,7 +31,7 @@ agir-cvtoolkit query --db semif \
   --sample "stratified:by=category_common_name,per_group=50"
 ```
 
-📖 **Full docs**: [Query Quickstart](query_quickstart.md) | [Query Guide](db_query_usage.md) | [Query Specs](query_specs_quick_reference.md)
+📖 **Full docs**: [Query Quickstart](query_quickstart.md) | [Query Guide](../PIPELINE_STAGES/01_query/db_query_usage.md) | [Query Specs](../PIPELINE_STAGES/01_query/query_specs_quick_reference.md)
 
 ---
 
@@ -46,7 +46,7 @@ agir-cvtoolkit infer-seg \
   -o seg_inference.output.save_images=true
 ```
 
-📖 **Full docs**: [Inference Quick Reference](seg_inference_quickstart.md)
+📖 **Full docs**: [Inference Quick Reference](../PIPELINE_STAGES/02_inference/seg_inference_quickstart.md)
 
 ---
 
@@ -61,7 +61,7 @@ agir-cvtoolkit upload-cvat \
   -o cvat_upload.project_id=12345
 ```
 
-📖 **Full docs**: [Upload Quick Reference](cvat_upload_usage.md)
+📖 **Full docs**: [Upload Quick Reference](../PIPELINE_STAGES/03_cvat_upload/cvat_upload_usage.md)
 
 ---
 
@@ -87,7 +87,7 @@ agir-cvtoolkit download-cvat \
   -o cvat_download.required_status=completed
 ```
 
-📖 **Full docs**: [Download Guide](cvat_download_usage.md)
+📖 **Full docs**: [Download Guide](../PIPELINE_STAGES/04_cvat_download/cvat_download_usage.md)
 
 ---
 
@@ -101,7 +101,7 @@ agir-cvtoolkit download-cvat \
 agir-cvtoolkit preprocess
 ```
 
-📖 **Full docs**: [Preprocessing Guide](preprocessing_pipeline_usage.md)
+📖 **Full docs**: [Preprocessing Guide](../PIPELINE_STAGES/05_preprocessing/preprocessing_pipeline_usage.md)
 
 ---
 
@@ -117,7 +117,7 @@ agir-cvtoolkit train \
   -o train.batch_size=8
 ```
 
-📖 **Full docs**: [Training Guide](train_pipeline_usage.md)
+📖 **Full docs**: [Training Guide](../PIPELINE_STAGES/06_training/train_pipeline_usage.md)
 
 ---
 
@@ -446,19 +446,19 @@ agir-cvtoolkit train
 
 ## Quick Links
 
-- [Query Guide](db_query_usage.md) - Database querying
-- [Query Specs](query_specs_quick_reference.md) - Reproducibility
-- [Inference Reference](seg_inference_quickstart.md) - Model inference
-- [Upload Reference](cvat_upload_usage.md) - CVAT upload
-- [Download Guide](cvat_download_usage.md) - CVAT download
-- [Preprocessing Guide](preprocessing_pipeline_usage.md) - Data preparation
-- [Training Guide](train_pipeline_usage.md) - Model training
-- [Config Guide](hydra_config_quick_ref.md) - Configuration
+- [Query Guide](../PIPELINE_STAGES/01_query/db_query_usage.md) - Database querying
+- [Query Specs](../PIPELINE_STAGES/01_query/query_specs_quick_reference.md) - Reproducibility
+- [Inference Reference](../PIPELINE_STAGES/02_inference/seg_inference_quickstart.md) - Model inference
+- [Upload Reference](../PIPELINE_STAGES/03_cvat_upload/cvat_upload_usage.md) - CVAT upload
+- [Download Guide](../PIPELINE_STAGES/04_cvat_download/cvat_download_usage.md) - CVAT download
+- [Preprocessing Guide](../PIPELINE_STAGES/05_preprocessing/preprocessing_pipeline_usage.md) - Data preparation
+- [Training Guide](../PIPELINE_STAGES/06_training/train_pipeline_usage.md) - Model training
+- [Config Guide](../CONFIGURATION/hydra_config_quick_ref.md) - Configuration
 
 ## Getting Help
 
 1. Check the stage-specific guide
-2. Review the [README](README.md) navigation
+2. Review the [README](../../README.md) navigation
 3. Examine logs in `outputs/runs/{run_id}/logs/`
 4. Check metrics in `metrics.json`
 5. Verify data exists at each stage

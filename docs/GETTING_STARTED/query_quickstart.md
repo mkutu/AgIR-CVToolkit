@@ -31,7 +31,7 @@ agir-cvtoolkit query --db semif \
 ```python
 from agir_cvtoolkit.core.db import AgirDB
 
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = db.filter(
         state="NC",
         category_common_name="barley"
@@ -57,7 +57,7 @@ agir-cvtoolkit query --db semif \
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = db.sample_stratified(
         by=["category_common_name"],
         per_group=20
@@ -88,7 +88,7 @@ agir-cvtoolkit query --db semif \
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = (
         db.where("estimated_bbox_area_cm2 > 100")
         .sort("estimated_bbox_area_cm2", "desc")
@@ -113,7 +113,7 @@ agir-cvtoolkit query --db semif \
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     records = (
         db.filter(
             state="NC",
@@ -135,7 +135,7 @@ Check what a query will return before executing:
 
 **Python:**
 ```python
-with AgirDB.connect("semif", sqlite_path="data/semif.db") as db:
+with AgirDB.connect("semif", db_path="data/semif.db") as db:
     # Count matching records
     count = db.filter(state="NC").count()
     print(f"Found {count} matching records")
@@ -247,9 +247,9 @@ python -m agir_cvtoolkit.pipelines.utils.query_utils reproduce \
 
 Now that you've run your first queries, explore more advanced features:
 
-1. **[Query User Guide](db_query_usage.md)** - Complete API reference and advanced usage
-2. **[Query Specifications](query_specs_quick_reference.md)** - Reproducibility and comparing queries
-3. **[Configuration Guide](hydra_config_quick_ref.md)** - Multi-stage workflows
+1. **[Query User Guide](../PIPELINE_STAGES/01_query/db_query_usage.md)** - Complete API reference and advanced usage
+2. **[Query Specifications](../PIPELINE_STAGES/01_query/query_specs_quick_reference.md)** - Reproducibility and comparing queries
+3. **[Configuration Guide](../CONFIGURATION/hydra_config_quick_ref.md)** - Multi-stage workflows
 
 ---
 
@@ -257,7 +257,7 @@ Now that you've run your first queries, explore more advanced features:
 
 ✅ **Use context managers** in Python for automatic cleanup:
 ```python
-with AgirDB.connect("semif", sqlite_path="data.db") as db:
+with AgirDB.connect("semif", db_path="data.db") as db:
     records = db.filter(state="NC").all()
 # Connection automatically closed
 ```
@@ -299,4 +299,4 @@ if count > 10000:
 
 ---
 
-**Ready for more?** Check out the [complete documentation](README.md) or jump straight to the [Query User Guide](db_query_usage.md)!
+**Ready for more?** Check out the [complete documentation](../../README.md) or jump straight to the [Query User Guide](../PIPELINE_STAGES/01_query/db_query_usage.md)!

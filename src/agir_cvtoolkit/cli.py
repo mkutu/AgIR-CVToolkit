@@ -9,11 +9,9 @@ from hydra import compose, initialize_config_module
 from omegaconf import DictConfig, OmegaConf
 
 from .core.logging_utils import setup_logging
-from .pipelines.stages.query import run_query
-from .pipelines.stages.seg_infer import SegmentationInferenceStage
 from .pipelines.utils.hydra_utils import finalize_cfg
 
-app = typer.Typer(help="AgIR CV Toolkit CLI", pretty_exceptions_show_locals=False)
+app = typer.Typer(help="AgIR CV Toolkit CLI", pretty_exceptions_show_locals=True)
 
 
 def _compose_cfg(config_name: str = "config", overrides: Optional[List[str]] = None) -> DictConfig:
@@ -85,6 +83,7 @@ def query(
 
     setup_logging(cfg)  # consistent logging
     # Run the query
+    from .pipelines.stages.query import run_query
     run_query(
         cfg=cfg,
         db=db,

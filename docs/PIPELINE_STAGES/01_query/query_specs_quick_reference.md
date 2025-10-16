@@ -23,7 +23,7 @@ outputs/runs/{run_id}/query/query_spec.json
   },
   "database": {
     "type": "semif",
-    "sqlite_path": "/path/to/db.sqlite",
+    "db_path": "/path/to/db.sqlite",
     "table": "semif"
   },
   "query_parameters": {
@@ -138,7 +138,7 @@ filters = params["filters"]["parsed"]
 sample = params["sample"]["parsed"]
 
 # Reproduce query
-with AgirDB.connect(db_info["type"], sqlite_path=db_info["sqlite_path"]) as db:
+with AgirDB.connect(db_info["type"], db_path=db_info["db_path"]) as db:
     query = db.builder()
     
     # Apply filters

@@ -3,7 +3,7 @@ Unified, fluent database interface for AgIR CV Toolkit.
 
 Usage:
     # Simple filtering
-    db = AgirDB.connect("semif", sqlite_path="data.db")
+    db = AgirDB.connect("semif", path="data.db")
     records = db.filter(category_common_name="barley").limit(10).execute()
     
     # Complex stratified sampling
@@ -139,6 +139,47 @@ class QueryBuilder:
         """Execute the query and return an iterator of records."""
         return self._db.query(self.to_spec())
     
+    def preview(self, n: int = 10) -> None:
+        """
+        Preview first N records by printing to terminal.
+        
+        Args:
+            n: Number of records to preview (default: 10)
+        
+        Example:
+            >>> db.filter(state="NC").preview(5)
+            
+            === Preview (first 5 records) ===
+            
+            Record 1:
+            cutout_id: cutout_12345
+            category_common_name: barley
+            state: NC
+            estimated_bbox_area_cm2: 125.3
+            ...
+        """
+        from agir_cvtoolkit.pipelines.utils.query_utils import format_record_preview
+        
+        print(f"\n{'='*60}")
+        print(f"Preview: First {n} records")
+        print(f"{'='*60}\n")
+        
+        records = list(self.limit(n).execute())
+        
+        if not records:
+            print("⚠️  No records found matching your query.\n")
+            return
+        
+        for i, record in enumerate(records, 1):
+            print(format_record_preview(record, index=i))
+            if i < len(records):
+                print("-" * 60)
+        
+        print(f"\n{'='*60}")
+        print(f"Displayed {len(records)} of {n} requested record(s)")
+        print(f"{'='*60}\n")
+
+    
     def all(self) -> List[ImageRecord]:
         """Execute and materialize all results into a list."""
         return list(self.execute())
@@ -165,17 +206,17 @@ class AgirDB:
     def __init__(
         self,
         db_type: DBType,
-        sqlite_path: Path,
+        db_path: Path,
         table: str,
         id_column: str = "cutout_id"
     ):
         self.db_type = db_type.lower()
-        self.sqlite_path = Path(sqlite_path)
+        self.db_path = Path(db_path)
         self.table = table
         self.id_column = id_column
         
-        if not self.sqlite_path.exists():
-            raise FileNotFoundError(f"Database not found: {self.sqlite_path}")
+        if not self.db_path.exists():
+            raise FileNotFoundError(f"Database not found: {self.db_path}")
         
         self._conn: Optional[sqlite3.Connection] = None
     
@@ -183,7 +224,7 @@ class AgirDB:
     def connect(
         cls,
         db_type: DBType,
-        sqlite_path: str | Path,
+        db_path: str | Path,
         table: Optional[str] = None
     ) -> AgirDB:
         """
@@ -191,7 +232,7 @@ class AgirDB:
         
         Args:
             db_type: "semif" or "field"
-            sqlite_path: Path to SQLite database
+            db_path: Path to SQLite database
             table: Table name (defaults: "semif" for semif, "records" for field)
         """
         db_type = db_type.lower()
@@ -200,7 +241,7 @@ class AgirDB:
         
         id_col = "cutout_id" if db_type == "semif" else "id"
         
-        return cls(db_type, Path(sqlite_path), table, id_col)
+        return cls(db_type, Path(db_path), table, id_col)
     
     def get_by_image_id(self, image_id: str) -> Optional[ImageRecord]:
         """Get a single record by image_id (if applicable)."""
@@ -215,7 +256,7 @@ class AgirDB:
     def _get_connection(self) -> sqlite3.Connection:
         """Get or create database connection."""
         if self._conn is None:
-            self._conn = sqlite3.connect(str(self.sqlite_path))
+            self._conn = sqlite3.connect(str(self.db_path))
             self._conn.row_factory = sqlite3.Row
             # Performance pragmas
             self._conn.execute("PRAGMA journal_mode=WAL;")

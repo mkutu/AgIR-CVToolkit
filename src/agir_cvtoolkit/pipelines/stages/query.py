@@ -82,7 +82,7 @@ def _save_query_spec(
         },
         "database": {
             "type": db,
-            "sqlite_path": str(cfg.get("db", {}).get(db.lower(), {}).get("sqlite_path")),
+            "db_path": str(cfg.get("db", {}).get(db.lower(), {}).get("db_path")),
             "table": cfg.get("db", {}).get(db.lower(), {}).get("table"),
         },
         "query_parameters": {
@@ -134,7 +134,7 @@ def run_query(
     db_cfg = cfg.get("db", {}).get(db.lower())
     agir_db = AgirDB.connect(
         db_type=db.lower(),
-        sqlite_path=Path(db_cfg["sqlite_path"]),
+        db_path=Path(db_cfg["db_path"]),
         table=db_cfg.get("table")
     )
     
@@ -205,7 +205,9 @@ def run_query(
     
     # Execute query
     if preview > 0:
-        recs = list(query.limit(preview).execute())
+        recs = query.preview(n=preview)
+        # agir_db.preview(query, n=preview)
+        recs = query.execute()
     else:
         recs = query.execute()
 

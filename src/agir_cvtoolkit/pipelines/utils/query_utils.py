@@ -239,6 +239,81 @@ def compare_query_specs(spec1_path: Path, spec2_path: Path) -> Dict:
         "details": differences,
     }
 
+def format_record_preview(record, index: int = None) -> str:
+    """
+    Format a single ImageRecord for terminal preview display.
+    
+    Args:
+        record: ImageRecord to format
+        index: Optional index number to display
+    
+    Returns:
+        Formatted string representation of the record
+    """
+    lines = []
+    
+    # Header
+    if index:
+        lines.append(f"Record {index}:")
+    else:
+        lines.append("Record:")
+    
+    # Core fields
+    image_id = getattr(record, 'image_id', None) or getattr(record, 'id', None)
+    lines.append(f"  ID: {image_id}")
+    
+    if record.image_path:
+        # Shorten long paths for readability
+        path_str = str(record.image_path)
+        if len(path_str) > 60:
+            path_str = "..." + path_str[-57:]
+        lines.append(f"  Image: {path_str}")
+    
+    if record.mask_path:
+        path_str = str(record.mask_path)
+        if len(path_str) > 60:
+            path_str = "..." + path_str[-57:]
+        lines.append(f"  Mask: {path_str}")
+    
+    # Extras (metadata) - show most relevant fields first
+    if hasattr(record, 'extras') and record.extras:
+        # Priority fields to show first
+        priority_fields = [
+            'category_common_name', 'common_name',
+            'state', 'us_state',
+            'estimated_bbox_area_cm2', 'bbox_area_cm2',
+            'datetime', 'camera_datetime',
+            'category_family', 'taxonomic_family'
+        ]
+        
+        # Show priority fields first
+        shown_fields = set()
+        for field in priority_fields:
+            if field in record.extras:
+                value = record.extras[field]
+                if value is not None:
+                    # Format value nicely
+                    if isinstance(value, float):
+                        value = f"{value:.2f}"
+                    lines.append(f"  {field}: {value}")
+                    shown_fields.add(field)
+        
+        # Show remaining fields (limit to avoid clutter)
+        remaining = [(k, v) for k, v in record.extras.items() 
+                     if k not in shown_fields and v is not None]
+        
+        # Limit to 5 additional fields
+        for key, value in remaining[:5]:
+            if isinstance(value, float):
+                value = f"{value:.2f}"
+            elif isinstance(value, str) and len(value) > 50:
+                value = value[:47] + "..."
+            lines.append(f"  {key}: {value}")
+        
+        if len(remaining) > 5:
+            lines.append(f"  ... and {len(remaining) - 5} more fields")
+    
+    return "\n".join(lines)
 
 # ==================== CLI Utility ====================
 

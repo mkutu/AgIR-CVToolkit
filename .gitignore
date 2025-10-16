@@ -43,7 +43,6 @@ ENV/
 logs/
 *.out
 *.err
-*.txt
 
 # --- OS / System ---
 .DS_Store

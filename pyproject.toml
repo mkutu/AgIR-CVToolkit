@@ -1,34 +1,90 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "agir-cvtoolkit"
 version = "0.1.0"
-requires-python = ">=3.10"
+description = "AgIR CV Toolkit: query, inference, and pipelines for agricultural computer vision workflows."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = { text = "MIT" }
+authors = [{ name = "Matt K" }]
+
 dependencies = [
+  # --- Core / CLI / Config ---
   "hydra-core>=1.3",
   "typer>=0.12",
   "pydantic>=2.6",
   "rich>=13",
-  "opencv-python>=4.9",
+
+  # --- Scientific / CV Stack ---
   "numpy>=1.26",
   "Pillow>=10.3",
+  "opencv-python>=4.9",
+  "matplotlib>=3.8",
+
+  # --- Data / I/O ---
   "sqlalchemy>=2.0",
+  "pyarrow>=21.0.0",
+  "fastparquet>=2024.11.0",
+  "cvat-sdk>=2.14",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "black>=24.0",
+  "ruff>=0.5",
+  "mypy>=1.8",
+]
+
+torch-cpu = [
+  "torch>=2.8.0",
+  "torchvision==0.23.0",
+  "torchmetrics==1.8.2",
+  "albumentationsx>=2.0.12",
+  "segmentation-models-pytorch>=0.5.0",
+  "pytorch-lightning>=2.5.5",
+  "GPUtil>=1.4.0",
+]
+
+# Example CUDA version (install using index-url)
+# pip install .[torch-cu121] --index-url https://download.pytorch.org/whl/cu121
+torch-cu121 = [
+  "torch>=2.8.0",
+  "torchvision==0.23.0",
+  "torchmetrics==1.8.2",
+  "albumentationsx>=2.0.12",
+  "segmentation-models-pytorch>=0.5.0",
+  "pytorch-lightning>=2.5.5",
+  "GPUtil>=1.4.0",
 ]
 
 [project.scripts]
 agir-cv = "agir_cvtoolkit.cli:app"
 
-[tool.ruff]
-line-length = 100
-
-[project.optional-dependencies]
-dev = [
-  "pytest>=8.0",
-]
-
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-"agir_cvtoolkit.conf" = ["**/*.yaml"]
+"agir_cvtoolkit" = ["**/*.yaml", "**/*.yml"]
 
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.black]
+line-length = 100
+target-version = ["py313"]
+
+[tool.mypy]
+python_version = "3.13"
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+strict_optional = true

@@ -214,7 +214,7 @@ Create `.keys/default.yaml`:
 
 ```yaml
 cvat:
-  url: "https://app.cvat.ai"
+  host: "https://app.cvat.ai"
   username: "your_username"
   password: "your_password"
 ```
@@ -223,7 +223,7 @@ cvat:
 
 ```yaml
 cvat:
-  url: "http://localhost:8080"
+  host: "http://localhost:8080"
   username: "admin"
   password: "admin123"
 ```

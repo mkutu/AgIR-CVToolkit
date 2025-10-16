@@ -247,9 +247,9 @@ python -m agir_cvtoolkit.pipelines.utils.query_utils reproduce \
 
 Now that you've run your first queries, explore more advanced features:
 
-1. **[Query User Guide](db_query_usage.md)** - Complete API reference and advanced usage
-2. **[Query Specifications](query_specs_quick_reference.md)** - Reproducibility and comparing queries
-3. **[Configuration Guide](hydra_config_quick_ref.md)** - Multi-stage workflows
+1. **[Query User Guide](../PIPELINE_STAGES/01_query/db_query_usage.md)** - Complete API reference and advanced usage
+2. **[Query Specifications](../PIPELINE_STAGES/01_query/query_specs_quick_reference.md)** - Reproducibility and comparing queries
+3. **[Configuration Guide](../CONFIGURATION/hydra_config_quick_ref.md)** - Multi-stage workflows
 
 ---
 
@@ -299,4 +299,4 @@ if count > 10000:
 
 ---
 
-**Ready for more?** Check out the [complete documentation](README.md) or jump straight to the [Query User Guide](db_query_usage.md)!
+**Ready for more?** Check out the [complete documentation](README.md) or jump straight to the [Query User Guide](../PIPELINE_STAGES/01_query/db_query_usage.md)!

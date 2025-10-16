@@ -31,7 +31,7 @@ agir-cvtoolkit query --db semif \
   --sample "stratified:by=category_common_name,per_group=50"
 ```
 
-📖 **Full docs**: [Query Quickstart](../GETTING_STARTED/query_quickstart.md) | [Query Guide](../PIPELINE_STAGES/01_query/db_query_usage.md) | [Query Specs](../PIPELINE_STAGES/01_query/query_specs_quick_reference.md)
+📖 **Full docs**: [Query Quickstart](query_quickstart.md) | [Query Guide](PIPELINE_STAGES/01_query/db_query_usage.md) | [Query Specs](../PIPELINE_STAGES/01_query/query_specs_quick_reference.md)
 
 ---
 

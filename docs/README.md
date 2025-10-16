@@ -5,23 +5,23 @@ Welcome to the AgIR CV Toolkit! This toolkit provides a unified interface for qu
 ## 🚀 Getting Started
 
 **New to the toolkit?** Start here:
-- **[5-Minute Quickstart](query_quickstart.md)** - Get up and running fast with common examples
+- **[5-Minute Quickstart](GETTING_STARTED/query_quickstart.md)** - Get up and running fast with common examples
 
 ## 📚 Core Documentation
 
 ### Query System
-- **[Query User Guide](db_query_usage.md)** - Complete guide to querying databases
+- **[Query User Guide](PIPELINE_STAGES/01_query/db_query_usage.md)** - Complete guide to querying databases
   - Filtering and sampling strategies
   - CLI and Python API reference
   - Complete examples and best practices
   
-- **[Query Specifications Guide](query_specs_quick_reference.md)** - Reproducibility and auditing
+- **[Query Specifications Guide](PIPELINE_STAGES/01_query/query_specs_quick_reference.md)** - Reproducibility and auditing
   - Understanding query_spec.json
   - Reproducing queries
   - Comparing and modifying queries
 
 ### Configuration
-- **[Configuration Management](hydra_config_quick_ref.md)** - How Hydra configs work
+- **[Configuration Management](CONFIGURATION/hydra_config_quick_ref.md)** - How Hydra configs work
   - Config file structure
   - Multi-stage workflows
   - Run folder organization
@@ -31,19 +31,19 @@ Welcome to the AgIR CV Toolkit! This toolkit provides a unified interface for qu
 ### I want to...
 
 **Query the database:**
-- [Simple filters](db_query_usage.md#simple-equality-filters) - Filter by species, state, etc.
-- [Stratified sampling](db_query_usage.md#stratified-sampling) - Balanced datasets
-- [Complex queries](db_query_usage.md#complex-filters) - Range filters and combinations
+- [Simple filters](PIPELINE_STAGES/01_query/db_query_usage.md#simple-equality-filters) - Filter by species, state, etc.
+- [Stratified sampling](PIPELINE_STAGES/01_query/db_query_usage.md#stratified-sampling) - Balanced datasets
+- [Complex queries](PIPELINE_STAGES/01_query/db_query_usage.md#complex-filters) - Range filters and combinations
 
 **Reproduce a query:**
-- [Load query specs](query_specs_quick_reference.md#load-and-inspect)
-- [Reproduce via CLI](query_specs_quick_reference.md#get-reproduction-command)
-- [Reproduce programmatically](query_specs_quick_reference.md#reproduce-programmatically)
+- [Load query specs](PIPELINE_STAGES/01_query/query_specs_quick_reference.md#load-and-inspect)
+- [Reproduce via CLI](PIPELINE_STAGES/01_query/query_specs_quick_reference.md#get-reproduction-command)
+- [Reproduce programmatically](PIPELINE_STAGES/01_query/query_specs_quick_reference.md#reproduce-programmatically)
 
 **Work with results:**
-- [Output formats](db_query_usage.md#output-formats) - JSON, CSV, Parquet
-- [Column selection](db_query_usage.md#column-selection)
-- [Counting and preview](db_query_usage.md#counting--preview)
+- [Output formats](PIPELINE_STAGES/01_query/db_query_usage.md#output-formats) - JSON, CSV, Parquet
+- [Column selection](PIPELINE_STAGES/01_query/db_query_usage.md#column-selection)
+- [Counting and preview](PIPELINE_STAGES/01_query/db_query_usage.md#counting--preview)
 
 ## 📖 Reference
 
@@ -70,8 +70,8 @@ agir-cvtoolkit query --db semif \
 ## 🏗️ Architecture & Design
 
 For contributors and those interested in design decisions:
-- [Repository Structure](repo_skeleton.md)
-- [Roadmap](roadmap.md)
+- [Repository Structure](ARCHITECTURE/repo_skeleton.md)
+- [Roadmap](ARCHITECTURE/roadmap.md)
 - [Architecture Decision Records](adr/0001-foundation.md)
 - [Functional Requirements](FR-01.md)
 
@@ -132,7 +132,7 @@ outputs/runs/{run_id}/
 - The run_id is printed at the end of execution
 
 **"How do I reproduce a query?"**
-- See [Query Specifications Guide](query_specs_quick_reference.md#get-reproduction-command)
+- See [Query Specifications Guide](PIPELINE_STAGES/01_query/query_specs_quick_reference.md#get-reproduction-command)
 
 **"How do I filter by multiple values?"**
 - CLI: `--filters "species=barley,wheat,rye"`
@@ -145,9 +145,9 @@ outputs/runs/{run_id}/
 
 ### Need More Help?
 
-- Check the [complete examples](db_query_usage.md#complete-examples)
-- Review the [tips & best practices](db_query_usage.md#tips--best-practices)
-- See [troubleshooting](query_specs_quick_reference.md#troubleshooting)
+- Check the [complete examples](PIPELINE_STAGES/01_query/db_query_usage.md#complete-examples)
+- Review the [tips & best practices](PIPELINE_STAGES/01_query/db_query_usage.md#tips--best-practices)
+- See [troubleshooting](PIPELINE_STAGES/01_query/query_specs_quick_reference.md#troubleshooting)
 
 ## 🔄 Version Information
 

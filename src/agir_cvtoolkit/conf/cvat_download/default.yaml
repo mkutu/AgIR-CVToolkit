@@ -3,7 +3,7 @@
 organization_slug: PSA
 
 # Task filtering
-project_id: 318055  # null = all projects, or specific project ID
+project_id: 319384  # null = all projects, or specific project ID
 task_ids: null  # null = all tasks, or [101, 102, 103] for specific tasks
 required_status: "completed"  # Filter by status: completed, annotation, validation, acceptance, null for all
 

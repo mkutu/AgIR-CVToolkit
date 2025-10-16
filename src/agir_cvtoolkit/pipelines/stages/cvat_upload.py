@@ -70,10 +70,12 @@ class CVATUploadStage:
         self.cvat_cfg = cfg.cvat_upload
         self.paths = cfg.paths
         self.run_root = Path(cfg.paths.run_root)
+
+        self.storage_dir = Path(cfg.io.semif_storage_dir) if cfg.runtime.dataset == "semif" else Path(cfg.io.field_storage_dir)
         
         # Load credentials
         self.keys = read_yaml(cfg.io.keys_file)['cvat']
-        self.cvat_host = self.keys['url']
+        self.cvat_host = self.keys['host']
         self.username = self.keys['username']
         self.password = self.keys['password']
         
@@ -549,25 +551,22 @@ class CVATUploadStage:
         # SemiF cropout
         if "cropout_path" in record and record.get("cropout_path"):
             if record["cropout_path"].lower() not in ("none", "null", ""):
-                root = Path("/mnt/research-projects/s/screberg")
                 cutout_root = record.get("cutout_ncsu_nfs", "")
-                img_path = root / cutout_root / record["cropout_path"]
+                img_path = self.storage_dir / cutout_root / record["cropout_path"]
                 if img_path.exists():
                     return img_path
         
         # SemiF image_path
         if "image_path" in record and record.get("image_path"):
             if record["image_path"].lower() not in ("none", "null", ""):
-                root = Path("/mnt/research-projects/s/screberg")
                 img_root = record.get("ncsu_nfs", "")
-                img_path = root / img_root / record["image_path"]
+                img_path = self.storage_dir / img_root / record["image_path"]
                 if img_path.exists():
                     return img_path
         
         # Field database
         if "developed_image_path" in record and record.get("developed_image_path"):
-            root = Path("/mnt/research-projects/r/raatwell/longterm_images3")
-            img_path = root / record["developed_image_path"]
+            img_path = self.storage_dir / record["developed_image_path"]
             if img_path.exists():
                 return img_path
         

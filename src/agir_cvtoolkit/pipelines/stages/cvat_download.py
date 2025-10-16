@@ -17,6 +17,7 @@ Usage:
 """
 from __future__ import annotations
 
+import os
 import json
 import logging
 import zipfile
@@ -43,10 +44,7 @@ class CVATDownloadStage:
         self.run_root = Path(cfg.paths.run_root)
         
         # Load credentials
-        self.keys = read_yaml(cfg.io.keys_file)['cvat']
-        self.cvat_host = self.keys['url']
-        self.username = self.keys['username']
-        self.password = self.keys['password']
+        self._load_cvat_credentials()
         
         # CVAT organization
         self.organization_slug = self.cvat_cfg.get("organization_slug")
@@ -79,7 +77,23 @@ class CVATDownloadStage:
         }
     
     # ==================== Connection & Setup ====================
-    
+    def _load_cvat_credentials(self) -> None:
+        # try and get from os env first
+        """Load CVAT credentials from environment variables or keys file."""
+        self.cvat_host = os.getenv("CVAT_HOST")
+        self.username = os.getenv("CVAT_USERNAME")
+        self.password = os.getenv("CVAT_PASSWORD")
+
+        if not all([self.cvat_host, self.username, self.password]):
+            log.warning("CVAT credentials not found in environment variables, falling back to keys file.")
+            self.keys = read_yaml(self.cfg.io.keys_file).get('cvat', {})
+            self.cvat_host = self.keys.get('host')
+            self.username = self.keys.get('username')
+            self.password = self.keys.get('password')
+
+        if not all([self.cvat_host, self.username, self.password]):
+            raise ValueError("CVAT credentials are incomplete in both environment variables and keys file. Set CVAT_HOST, CVAT_USERNAME, CVAT_PASSWORD or provide a valid keys file.")
+
     def connect(self) -> None:
         """Connect to CVAT."""
         log.info(f"Connecting to CVAT at {self.cvat_host}...")

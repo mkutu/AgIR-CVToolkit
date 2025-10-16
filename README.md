@@ -8,9 +8,9 @@
 
 **New to the toolkit?** Start here:
 
-1. **[5-Minute Quickstart](query_quickstart.md)** - Get up and running with common examples
-2. **[Pipeline Overview](quick_refs/pipeline_overview.md)** - Understand the complete workflow
-3. **[Repository Structure](repo_skeleton.md)** - Learn how the codebase is organized
+1. **[5-Minute Quickstart](docs/GETTING_STARTED/query_quickstart.md)** - Get up and running with common examples
+2. **[Pipeline Overview](docs/GETTING_STARTED/pipeline_overview.md)** - Understand the complete workflow
+3. **[Repository Structure](docs/ARCHITECTURE/repo_skeleton.md)** - Learn how the codebase is organized
 
 ---
 
@@ -22,49 +22,49 @@ Complete guides for each stage of the CV pipeline:
 
 | Stage | Guide | Purpose |
 |-------|-------|---------|
-| **1. Query** | [Query Guide](db_query_usage.md) | Query SemiF/Field databases with filters and sampling |
-| **2. Inference** | [Inference Guide](seg_inference_quickstart.md) | Run segmentation models to generate masks |
-| **3. CVAT Upload** | [Upload Guide](cvat_upload_usage.md) | Upload images + prelabels to CVAT |
-| **4. CVAT Download** | [Download Guide](cvat_download_usage.md) | Download refined annotations from CVAT |
-| **5. Preprocessing** | [Preprocessing Guide](preprocessing_pipeline_usage.md) | Prepare data for training |
-| **6. Training** | [Training Guide](train_pipeline_usage.md) | Train segmentation models |
+| **1. Query** | [Query Guide](docs/PIPELINE_STAGES/01_query/db_query_usage.md) | Query SemiF/Field databases with filters and sampling |
+| **2. Inference** | [Inference Guide](docs/PIPELINE_STAGES/02_inference/seg_inference_quickstart.md) | Run segmentation models to generate masks |
+| **3. CVAT Upload** | [Upload Guide](docs/PIPELINE_STAGES/03_cvat_upload/cvat_upload_usage.md) | Upload images + prelabels to CVAT |
+| **4. CVAT Download** | [Download Guide](docs/PIPELINE_STAGES/04_cvat_download/cvat_download_usage.md) | Download refined annotations from CVAT |
+| **5. Preprocessing** | [Preprocessing Guide](docs/PIPELINE_STAGES/05_preprocessing/preprocessing_pipeline_usage.md) | Prepare data for training |
+| **6. Training** | [Training Guide](docs/PIPELINE_STAGES/06_training/train_pipeline_usage.md) | Train segmentation models |
 
 ### **Database Documentation** 📊
 
 Understanding your data sources:
 
-- **[SemiF Database Documentation](semif_database_documentation.md)**
+- **[SemiF Database Documentation](docs/DATABASES/semif_database_documentation.md)**
   - 62 columns covering cutout images, bounding boxes, taxonomy, quality metrics
   - Optimized for machine learning training with precise annotations
   - Primary use: Object detection and weed segmentation
 
-- **[Field Database Documentation](field_database_documentation.md)**
+- **[Field Database Documentation](docs/DATABASES/field_database_documentation.md)**
   - 72 columns with comprehensive agricultural context
   - Multi-stage quality control workflows
   - Primary use: Field observation research and phenological tracking
 
 ### **Configuration & Reproducibility** ⚙️
 
-- **[Hydra Configuration Guide](hydra_config_quick_ref.md)** - Multi-stage workflow configs
-- **[Query Specifications Guide](query_specs_quick_reference.md)** - Reproducible queries with `query_spec.json`
+- **[Hydra Configuration Guide](docs/CONFIGURATION/hydra_config_quick_ref.md)** - Multi-stage workflow configs
+- **[Query Specifications Guide](docs/PIPELINE_STAGES/01_query/query_specs_quick_reference.md)** - Reproducible queries with `query_spec.json`
 
 ### **Quick References** ⚡
 
 Fast lookups and common patterns:
 
-- **[Complete Pipeline Overview](quick_refs/pipeline_overview.md)** - All stages, examples, troubleshooting
-- **[CVAT Upload Quick Start](quick_refs/cvat_upload_quick_start.md)** - Fast CVAT upload patterns
-- **[Query Examples Guide](query_example_guide.md)** - 20+ query patterns from basic to advanced
-- **[All Quick References](quick_refs/quick_refs_all.md)** - Consolidated quick reference guide
+- **[Complete Pipeline Overview](docs/GETTING_STARTED/pipeline_overview.md)** - All stages, examples, troubleshooting
+- **[CVAT Upload Quick Start](docs/PIPELINE_STAGES/03_cvat_upload/cvat_upload_usage.md)** - Fast CVAT upload patterns
+- **[Query Examples Guide](docs/PIPELINE_STAGES/01_query/query_example_guide.md)** - 20+ query patterns from basic to advanced
+- **[All Quick References](docs/QUICK_REFERENCES/quick_refs_all.md)** - Consolidated quick reference guide
 
 ### **Design & Architecture** 🏗️
 
 Technical design documents:
 
-- **[Architecture Decision Records](design/adr/0001-foundation.md)** - Foundation decisions
-- **[Feature Requirements (FR-01)](design/FR-01.md)** - Database query and file staging specs
-- **[Repository Skeleton](repo_skeleton.md)** - Codebase structure
-- **[Roadmap](roadmap.md)** - Future features and milestones
+- **[Architecture Decision Records](docs/ARCHITECTURE/design/adr/0001-foundation.md)** - Foundation decisions
+- **[Feature Requirements (FR-01)](docs/ARCHITECTURE/design/feature_requirements/FR-01.md)** - Database query and file staging specs
+- **[Repository Skeleton](docs/ARCHITECTURE/repo_skeleton.md)** - Codebase structure
+- **[Roadmap](docs/ARCHITECTURE/roadmap.md)** - Future features and milestones
 
 ---
 
@@ -133,40 +133,40 @@ agir-cvtoolkit train
 ### **I want to...**
 
 #### **Query the Database**
-- [Filter by species, state, or date](db_query_usage.md#simple-equality-filters)
-- [Use stratified sampling](db_query_usage.md#stratified-sampling)
-- [Reproduce a previous query](query_specs_quick_reference.md#reproducing-queries)
-- [See query examples](query_example_guide.md)
-- [Understand SemiF schema](semif_database_documentation.md)
-- [Understand Field schema](field_database_documentation.md)
+- [Filter by species, state, or date](docs/PIPELINE_STAGES/01_query/db_query_usage.md#simple-equality-filters)
+- [Use stratified sampling](docs/PIPELINE_STAGES/01_query/db_query_usage.md#stratified-sampling)
+- [Reproduce a previous query](docs/PIPELINE_STAGES/01_query/query_specs_quick_reference.md#get-reproduction-command)
+- [See query examples](docs/PIPELINE_STAGES/01_query/query_example_guide.md)
+- [Understand SemiF schema](docs/DATABASES/semif_database_documentation.md)
+- [Understand Field schema](docs/DATABASES/field_database_documentation.md)
 
 #### **Run Models**
-- [Run segmentation inference](seg_inference_quickstart.md)
-- [Use custom model checkpoints](seg_inference_quickstart.md#using-custom-models)
-- [Adjust batch size and GPU settings](seg_inference_quickstart.md#configuration)
+- [Run segmentation inference](docs/PIPELINE_STAGES/02_inference/seg_inference_quickstart.md)
+- [Use custom model checkpoints](docs/PIPELINE_STAGES/02_inference/seg_inference_quickstart.md#with-custom-model)
+- [Adjust batch size and GPU settings](docs/PIPELINE_STAGES/02_inference/seg_inference_quickstart.md#configuration)
 
 #### **Annotate Data**
-- [Upload to CVAT](cvat_upload_usage.md)
-- [Download from CVAT](cvat_download_usage.md)
-- [Combine multiple annotation batches](preprocessing_pipeline_usage.md#multi-task-aggregation)
+- [Upload to CVAT](docs/PIPELINE_STAGES/03_cvat_upload/cvat_upload_usage.md)
+- [Download from CVAT](docs/PIPELINE_STAGES/04_cvat_download/cvat_download_usage.md)
+- [Combine multiple annotation batches](docs/PIPELINE_STAGES/05_preprocessing/preprocessing_pipeline_usage.md#multi-task-training-most-common)
 
 #### **Train Models**
-- [Train segmentation models](train_pipeline_usage.md)
-- [Preprocess training data](preprocessing_pipeline_usage.md)
-- [Configure data augmentation](train_pipeline_usage.md#augmentation)
-- [Use different model architectures](train_pipeline_usage.md#model-configuration)
+- [Train segmentation models](docs/PIPELINE_STAGES/06_training/train_pipeline_usage.md)
+- [Preprocess training data](docs/PIPELINE_STAGES/05_preprocessing/preprocessing_pipeline_usage.md)
+- [Configure data augmentation](docs/PIPELINE_STAGES/06_training/train_pipeline_usage.md#augmentations)
+- [Use different model architectures](docs/PIPELINE_STAGES/06_training/train_pipeline_usage.md#configuration)
 
 #### **Troubleshoot**
-- [Query issues](query_example_guide.md#common-issues)
-- [CVAT connection problems](cvat_download_usage.md#troubleshooting)
-- [Training errors](train_pipeline_usage.md#troubleshooting)
-- [Preprocessing issues](preprocessing_pipeline_usage.md#troubleshooting)
+- [Query issues](docs/PIPELINE_STAGES/01_query/query_example_guide.md#common-issues)
+- [CVAT connection problems](docs/PIPELINE_STAGES/04_cvat_download/cvat_download_usage.md#troubleshooting)
+- [Training errors](docs/PIPELINE_STAGES/06_training/train_pipeline_usage.md#troubleshooting)
+- [Preprocessing issues](docs/PIPELINE_STAGES/05_preprocessing/preprocessing_pipeline_usage.md#troubleshooting)
 
 #### **Understand the System**
-- [See complete pipeline overview](quick_refs/pipeline_overview.md)
-- [Learn Hydra configuration](hydra_config_quick_ref.md)
-- [Understand repository structure](repo_skeleton.md)
-- [Check project roadmap](roadmap.md)
+- [See complete pipeline overview](docs/GETTING_STARTED/pipeline_overview.md)
+- [Learn Hydra configuration](docs/CONFIGURATION/hydra_config_quick_ref.md)
+- [Understand repository structure](docs/ARCHITECTURE/repo_skeleton.md)
+- [Check project roadmap](docs/ARCHITECTURE/roadmap.md)
 
 ---
 
@@ -184,7 +184,7 @@ agir-cvtoolkit train
 - **Key Fields**: `id`, `common_name`, `us_state`, `growth_stage`, `crop_type_secondary`
 - **Use Case**: Agricultural research, field monitoring
 
-[→ Full SemiF Documentation](semif_database_documentation.md) | [→ Full Field Documentation](field_database_documentation.md)
+[→ Full SemiF Documentation](docs/DATABASES/semif_database_documentation.md) | [→ Full Field Documentation](docs/DATABASES/field_database_documentation.md)
 
 ---
 
@@ -203,7 +203,7 @@ AgIR-CVToolkit/
 │   └── augment/default.yaml        # Data augmentation
 ```
 
-[→ Configuration Guide](hydra_config_quick_ref.md)
+[→ Configuration Guide](docs/CONFIGURATION/hydra_config_quick_ref.md)
 
 ---
 
@@ -220,11 +220,12 @@ outputs/runs/{project_name}/{subname}/
 ├── cvat_downloads/            # Downloaded CVAT annotations
 │   ├── task_1/
 │   └── task_2/
-├── train/                     # Training split
-│   ├── images/
-│   └── masks/
-├── val/                       # Validation split
-├── test/                      # Test split
+├── train_val_test/            # train data root
+│   ├── train/                     # Training split
+│   │   ├── images/
+│   │   └── masks/
+│   ├── val/                       # Validation split
+│   └── test/                      # Test split
 ├── checkpoints/               # Training checkpoints
 ├── model/                     # Exported model weights
 ├── cfg.yaml                   # Complete run configuration
@@ -258,7 +259,7 @@ outputs/runs/{project_name}/{subname}/
 ## 🆘 Getting Help
 
 1. **Check the relevant guide** - Use the table above to find your stage
-2. **Review examples** - See [Query Examples](query_example_guide.md) or [Pipeline Overview](quick_refs/pipeline_overview.md)
+2. **Review examples** - See [Query Examples](docs/PIPELINE_STAGES/01_query/query_example_guide.md) or [Pipeline Overview](docs/GETTING_STARTED/pipeline_overview.md)
 3. **Check troubleshooting** - Each guide has a troubleshooting section
 4. **Examine logs** - Located in `outputs/runs/{run_id}/logs/`
 5. **Verify metrics** - Check `metrics.json` after each stage
@@ -269,14 +270,14 @@ outputs/runs/{project_name}/{subname}/
 
 | Topic | Link |
 |-------|------|
-| **Getting Started** | [5-Minute Quickstart](query_quickstart.md) |
-| **Complete Pipeline** | [Pipeline Overview](quick_refs/pipeline_overview.md) |
-| **Database Schemas** | [SemiF](semif_database_documentation.md) \| [Field](field_database_documentation.md) |
-| **Query System** | [Guide](db_query_usage.md) \| [Examples](query_example_guide.md) \| [Specs](query_specs_quick_reference.md) |
-| **CVAT Integration** | [Upload](cvat_upload_usage.md) \| [Download](cvat_download_usage.md) |
-| **Training** | [Train Guide](train_pipeline_usage.md) \| [Preprocess Guide](preprocessing_pipeline_usage.md) |
-| **Configuration** | [Hydra Guide](hydra_config_quick_ref.md) |
-| **Architecture** | [Repo Structure](repo_skeleton.md) \| [Design Docs](design/adr/0001-foundation.md) \| [Roadmap](roadmap.md) |
+| **Getting Started** | [5-Minute Quickstart](docs/GETTING_STARTED/query_quickstart.md) |
+| **Complete Pipeline** | [Pipeline Overview](docs/GETTING_STARTED/pipeline_overview.md) |
+| **Database Schemas** | [SemiF](docs/DATABASES/semif_database_documentation.md) \| [Field](docs/DATABASES/field_database_documentation.md) |
+| **Query System** | [Guide](docs/PIPELINE_STAGES/01_query/db_query_usage.md) \| [Examples](docs/PIPELINE_STAGES/01_query/query_example_guide.md) \| [Specs](docs/PIPELINE_STAGES/01_query/query_specs_quick_reference.md) |
+| **CVAT Integration** | [Upload](docs/PIPELINE_STAGES/03_cvat_upload/cvat_upload_usage.md) \| [Download](docs/PIPELINE_STAGES/04_cvat_download/cvat_download_usage.md) |
+| **Training** | [Train Guide](docs/PIPELINE_STAGES/06_training/train_pipeline_usage.md) \| [Preprocess Guide](docs/PIPELINE_STAGES/05_preprocessing/preprocessing_pipeline_usage.md) |
+| **Configuration** | [Hydra Guide](docs/CONFIGURATION/hydra_config_quick_ref.md) |
+| **Architecture** | [Repo Structure](docs/ARCHITECTURE/repo_skeleton.md) \| [Design Docs](docs/ARCHITECTURE/design/adr/0001-foundation.md) \| [Roadmap](docs/ARCHITECTURE/roadmap.md) |
 
 ---
 

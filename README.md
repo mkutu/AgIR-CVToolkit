@@ -1,6 +1,6 @@
 # AgIR-CVToolkit Documentation
 
-**Agricultural Image Research Computer Vision Toolkit** - A unified pipeline for querying agricultural databases, running CV models, and managing annotation workflows.
+**Agricultural Image Repository (AgIR) Computer Vision Toolkit** - A unified pipeline for querying the SemiF and Field databases, running CV models, and managing annotation workflows.
 
 ---
 

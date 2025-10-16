@@ -8,9 +8,10 @@
 
 **New to the toolkit?** Start here:
 
-1. **[5-Minute Quickstart](docs/GETTING_STARTED/query_quickstart.md)** - Get up and running with common examples
-2. **[Pipeline Overview](docs/GETTING_STARTED/pipeline_overview.md)** - Understand the complete workflow
-3. **[Repository Structure](docs/ARCHITECTURE/repo_skeleton.md)** - Learn how the codebase is organized
+1. **[Installation & Setup](docs/GETTING_STARTED/installation.md)** - Install and configure the toolkit
+2. **[5-Minute Quickstart](docs/GETTING_STARTED/query_quickstart.md)** - Get up and running with common examples
+3. **[Pipeline Overview](docs/GETTING_STARTED/pipeline_overview.md)** - Understand the complete workflow
+4. **[Repository Structure](docs/ARCHITECTURE/repo_skeleton.md)** - Learn how the codebase is organized
 
 ---
 

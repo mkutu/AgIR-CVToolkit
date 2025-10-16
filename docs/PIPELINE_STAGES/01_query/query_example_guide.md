@@ -17,7 +17,7 @@ A comprehensive collection of query examples for both SemiF and Field databases,
 
 ---
 
-## :dart: Basic Queries
+## Basic Queries
 
 ### Example 1: Get All Records (with limit)
 

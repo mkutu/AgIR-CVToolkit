@@ -183,11 +183,21 @@ def run_query(
                 per_group=sample_dict.get("per_group", 10)
             )
     
-    # Apply limit/offset
-    if limit:
-        query = query.limit(limit)
+    # Apply offset
     if offset:
         query = query.offset(offset)
+
+    # Apply limit
+    if limit:
+        query = query.limit(limit)
+
+    # Execute query
+    if preview > 0:
+        recs = query.preview(n=preview)
+        agir_db.close()
+        return  
+    else:
+        recs = query.execute()
 
     # Save query specification BEFORE executing
     query_spec_path = Path(cfg['paths']['query']) / "query_spec.json"
@@ -203,13 +213,7 @@ def run_query(
         cfg=cfg,
     )
     
-    # Execute query
-    if preview > 0:
-        recs = query.preview(n=preview)
-        # agir_db.preview(query, n=preview)
-        recs = query.execute()
-    else:
-        recs = query.execute()
+    
 
     # Output results
     out_path = Path(cfg['paths']['query']) / f"query.{out}"

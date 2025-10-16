@@ -145,26 +145,16 @@ class QueryBuilder:
         
         Args:
             n: Number of records to preview (default: 10)
-        
-        Example:
-            >>> db.filter(state="NC").preview(5)
-            
-            === Preview (first 5 records) ===
-            
-            Record 1:
-            cutout_id: cutout_12345
-            category_common_name: barley
-            state: NC
-            estimated_bbox_area_cm2: 125.3
-            ...
         """
         from agir_cvtoolkit.pipelines.utils.query_utils import format_record_preview
+        from itertools import islice
         
         print(f"\n{'='*60}")
         print(f"Preview: First {n} records")
         print(f"{'='*60}\n")
         
-        records = list(self.limit(n).execute())
+        # Take only first n records from the query results
+        records = list(islice(self.execute(), n))
         
         if not records:
             print("⚠️  No records found matching your query.\n")

@@ -62,7 +62,7 @@ output:
   save_masks: true
   save_images: true
   save_cutouts: false
-  save_visualizations: false
+  save_viz: false
 
 # Visualization (only used if save_visualizations=true)
 visualization:

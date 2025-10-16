@@ -332,7 +332,7 @@ class SegmentationInferenceStage:
         save_mask = output_cfg.get("save_masks", True)
         save_image = output_cfg.get("save_images", False)
         save_cutout = output_cfg.get("save_cutouts", True)
-        save_viz = output_cfg.get("save_visualizations", False)
+        save_viz = output_cfg.get("save_viz", False)
         
         # Process records
         results = []

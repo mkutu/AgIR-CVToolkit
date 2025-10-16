@@ -35,12 +35,22 @@ agir-cvtoolkit query --db field --limit 50 --out csv
 from agir_cvtoolkit.core.db import AgirDB
 
 # SemiF
-with AgirDB.connect("semif") as db:
-    records = db.limit(100).all()
+with AgirDB.connect(
+    db_type="semif", 
+    db_path="path/to/your/semif_db.db", 
+    table="semif") as db:
+    
+    query = db.builder()
+    query.preview(n=1)
 
 # Field
-with AgirDB.connect("field") as db:
-    records = db.limit(50).all()
+with AgirDB.connect(
+    db_type="field", 
+    db_path="path/to/your/field_db.db", 
+    table="field_data") as db:
+
+    query = db.builder()
+    query.preview(n=1)
 ```
 
 ---
@@ -50,18 +60,35 @@ with AgirDB.connect("field") as db:
 **CLI:**
 ```bash
 # Preview first 5 records
-agir-cvtoolkit query --db semif --preview 5
+agir-cv query --db semif --preview 5
 
 # Preview with filters
-agir-cvtoolkit query --db semif \
+agir-cv query --db semif \
   --filters "state=NC" \
   --preview 10
 ```
 
 **Python:**
 ```python
-with AgirDB.connect("semif") as db:
-    db.filter(state="NC").preview(10)
+from agir_cvtoolkit.core.db import AgirDB
+
+with AgirDB.connect(
+    db_type="semif", 
+    db_path="path/to/your/semif_db.db", 
+    table="semif") as db:
+
+    query = db.builder()
+    query.filter(state="NC").preview(10)
+    query.preview(n=1)
+
+with AgirDB.connect(
+    db_type="field", 
+    db_path="path/to/your/field_db.db", 
+    table="field_data") as db:
+
+    query = db.builder()
+    query.filter(us_state="NC").preview(10)
+    query.preview(n=1)
 ```
 
 ---
@@ -81,9 +108,25 @@ agir-cvtoolkit query --db semif \
 
 **Python:**
 ```python
-with AgirDB.connect("semif") as db:
+from agir_cvtoolkit.core.db import AgirDB
+
+with AgirDB.connect(
+    db_type="semif", 
+    db_path="path/to/your/semif_db.db", 
+    table="semif") as db:
+    
+    query = db.builder()
     count = db.filter(state="NC").count()
-    print(f"Found {count} records")
+    print(f"Count of records in NC: {count}")
+
+with AgirDB.connect(
+    db_type="field", 
+    db_path="path/to/your/field_db.db", 
+    table="field_data") as db:
+
+    query = db.builder()
+    count = db.filter(us_state="NC").count()
+    print(f"Count of field records in NC: {count}")
 ```
 
 ---

@@ -3,7 +3,7 @@ title: AgIR Dataset
 description: Agricultural Image Repository
 
 # Theme
-theme: just-the-docs
+remote_theme: just-the-docs
 
 # Basic settings
 baseurl: ""
@@ -40,7 +40,7 @@ plugins:
 # Aux links (top right corner)
 aux_links:
   "GitHub Repository":
-    - "//github.com/yourusername/AgIR-CVToolkit"
-
+    - "//github.com/mkutu/AgIR-CVToolkit"
+  
 # Footer
-footer_content: "Copyright &copy; 2025 AgIR Dataset. <a href='https://github.com/yourusername/AgIR-CVToolkit'>View on GitHub</a>"
+footer_content: "Copyright &copy; 2025 AgIR Dataset. <a href='https://github.com/mkutu/AgIR-CVToolkit'>View on GitHub</a>"

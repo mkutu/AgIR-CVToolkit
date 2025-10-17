@@ -1,8 +1,8 @@
-name: Build & Deploy Jekyll (docs/)
+name: Build & Deploy Jekyll (docs)
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -17,23 +17,42 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # Setup Ruby and install gems from your Gemfile
-      - uses: ruby/setup-ruby@v1
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'           # or 3.3; any supported version is fine
-          bundler-cache: true
+          ruby-version: '3.2'
+          bundler-cache: true  # uses your Gemfile + Gemfile.lock
 
       - name: Install gems
         run: bundle install --jobs 4 --retry 3
 
-      # Build Jekyll site from /docs into the default _site
-      - name: Build site with Jekyll
+      # --- Verification steps so you can SEE the versions used ---
+      - name: Show Bundler environment
+        run: bundle env
+
+      - name: Show key gem versions
+        run: |
+          bundle exec ruby -e 'require "jekyll";           puts "Jekyll: #{Jekyll::VERSION}"'
+          bundle exec ruby -e 'require "just-the-docs";    puts "Just-the-Docs: #{JustTheDocs::VERSION}"'
+          bundle exec ruby -e 'require "jekyll-seo-tag";   puts "jekyll-seo-tag: #{Jekyll::SeoTag::VERSION}"'
+
+      - name: Build site with Jekyll (source=docs, dest=_site)
         run: bundle exec jekyll build --source docs --destination _site
 
-      # Upload the built site as a Pages artifact
+      # Optional: sanity-check that SEO tag rendered on your home page, if it exists
+      - name: Check SEO tag in built HTML (optional)
+        run: |
+          if [ -f "_site/index.html" ]; then
+            echo "Searching for SEO meta tags in _site/index.html"
+            grep -E '<meta property="og:|<meta name="twitter:' _site/index.html || true
+          fi
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

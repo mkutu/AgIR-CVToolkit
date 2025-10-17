@@ -9,7 +9,7 @@ checkpoints/
 .keys
 experimental/
 run.sh
-
+scripts/exports
 
 # --- Python ---
 __pycache__/

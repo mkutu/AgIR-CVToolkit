@@ -5,6 +5,11 @@ source:
   type: "query_result"  # "query_result" | "db_query"
   db: "semif"       # "semif" | "field"
   
+  # Specify whether to use full images or cutouts
+  image_mode: "cutout"  # "cutout" | "full_image"
+  # - "cutout": Use cropout_path or crop from image_path using bbox (default behavior)
+  # - "full_image": Always use the full image_path, ignore bbox and cropout_path
+  
   # Filters (only used when type="db_query")
   filters:
     state: #"NC"

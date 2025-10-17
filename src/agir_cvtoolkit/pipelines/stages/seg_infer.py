@@ -207,9 +207,11 @@ class SegmentationInferenceStage:
     ) -> Optional[Dict]:
         """Process a single record through the inference pipeline."""
         try:
+            # Get image_mode from config
+            image_mode = self.seg_cfg.source.get("image_mode", "cutout")
             # Load image
-            img_rgb_u8 = load_image_from_record(record, self.cfg)
-            
+            img_rgb_u8 = load_image_from_record(record, self.cfg, image_mode=image_mode)
+
             if img_rgb_u8 is None:
                 log.warning(f"Could not load image for record {record.get('cutout_id', 'unknown')}")
                 self.metrics["skipped"] += 1
@@ -217,7 +219,14 @@ class SegmentationInferenceStage:
             
             # Run inference
             t0 = perf_counter()
-            log.debug(f"Running inference for record {record.get('cutout_id', 'unknown')}...")
+            record_id = record.get("cutout_id", record.get("id", "unknown"))
+
+            if image_mode == "full_image":
+                record_id = record.get("image_id", record_id)
+                log.debug(f"Running inference on FULL IMAGE for record {record_id}...")
+            else:
+                log.debug(f"Running inference on CUTOUT for record {record_id}...")
+
             pred_mask = self.tiled_inference.predict(
                 img_rgb_u8=img_rgb_u8,
                 model=self.model,
@@ -241,7 +250,6 @@ class SegmentationInferenceStage:
                 return None
             
             # Get output paths
-            record_id = record.get("cutout_id", record.get("id", "unknown"))
             common_name = record.get("category_common_name", record.get("common_name", "unknown"))
             common_name = common_name.lower().replace(" ", "_")
             area_bin = record.get("area_bin", "")
@@ -281,19 +289,28 @@ class SegmentationInferenceStage:
             self.metrics["processed"] += 1
             self.metrics["total_inference_time_ms"] += inference_time_ms
             
-            # Return result metadata
-            return {
+            # Build manifest entry
+            manifest_entry = {
                 "record_id": record_id,
+                "image_mode": image_mode,  # Track which mode was used
                 "common_name": common_name,
-                "edge_occupancy": float(edge_occupancy),
+                "area_bin": area_bin,
+                "image_path": str(Path(self.paths.images) / f"{record_id}.jpg") if save_image else None,
+                "mask_path": str(Path(self.paths.masks) / f"{record_id}.png") if save_mask else None,
+                "cutout_path": str(Path(self.paths.cutouts) / f"{record_id}.png") if save_cutout else None,
+                "viz_path": str(Path(self.paths.plots) / f"{record_id}_viz.png") if save_viz else None,
                 "inference_time_ms": inference_time_ms,
-                "mask_path": str(mask_path) if save_mask else None,
-                "image_path": str(img_path) if save_image else None,
-                "plot_path": str(viz_path) if save_viz and self.visualizer else None,
+                "edge_occupancy": float(edge_occupancy),
+                "image_shape": list(img_rgb_u8.shape),
+                "mask_shape": list(pred_mask.shape),
             }
+            self.metrics["processed"] += 1
+            self.metrics["total_inference_time_ms"] += inference_time_ms
+            
+            return manifest_entry
         
         except Exception as e:
-            log.error(f"Failed to process record {record.get('cutout_id', 'unknown')}: {e}")
+            log.error(f"Failed to process record {record_id}: {e}")
             self.metrics["failed"] += 1
             return None
     

@@ -508,34 +508,71 @@ class SegVisualizer:
 
 # ======================= Image Loading =======================
 
-def load_image_from_record(record: Dict, cfg: DictConfig) -> Optional[np.ndarray]:
+
+def load_image_from_record(
+    record: Dict, 
+    cfg: DictConfig,
+    image_mode: str = "cutout"
+) -> Optional[np.ndarray]:
     """
     Load RGB image from a database record.
     
-    Handles both SemiF and Field database records.
+    Handles both SemiF and Field database records with two modes:
+    - cutout: Load cropout or apply bbox cropping (default behavior)
+    - full_image: Always load the full image, ignore bbox and cropout
+    
+    Args:
+        record: Database record with image paths
+        cfg: Hydra config
+        image_mode: "cutout" or "full_image"
+    
+    Returns:
+        RGB numpy array (H, W, 3) as uint8, or None on failure
     """
-    # Try different path fields
     img_path = None
     use_cropout = False
     
-    # SemiF paths
+    # For full_image mode, skip cropout/bbox logic entirely
+    if image_mode == "full_image":
+        # SemiF: use image_path
+        if "image_path" in record and record.get("image_path"):
+            if record["image_path"].lower() not in ("none", "null", ""):
+                root = Path(cfg.io.semif_storage_dir)
+                img_root = record.get("ncsu_nfs", "")
+                img_path = root / img_root / record["image_path"]
+        
+        # Field: use developed_image_path
+        elif "developed_image_path" in record and record.get("developed_image_path"):
+            root = Path(cfg.io.field_storage_dir)
+            img_path = root / record["developed_image_path"]
+        
+        if img_path is None or not img_path.exists():
+            return None
+        
+        # Load full image without any cropping
+        img = Image.open(img_path).convert("RGB")
+        img_rgb_u8 = np.array(img, dtype=np.uint8)
+        return img_rgb_u8
+    
+    # Original cutout mode behavior
+    # SemiF paths - try cropout first
     if "cropout_path" in record and record.get("cropout_path"):
         if record["cropout_path"].lower() not in ("none", "null", ""):
-            root = Path("/mnt/research-projects/s/screberg")
+            root = Path(cfg.io.semif_storage_dir)
             cutout_root = record.get("cutout_ncsu_nfs", "")
             img_path = root / cutout_root / record["cropout_path"]
             use_cropout = True
 
     elif "image_path" in record and record.get("image_path"):
         if record["image_path"].lower() not in ("none", "null", ""):
-            root = Path("/mnt/research-projects/s/screberg")
+            root = Path(cfg.io.semif_storage_dir)
             img_root = record.get("ncsu_nfs", "")
             img_path = root / img_root / record["image_path"]
             use_cropout = False
     
     # Field paths
     elif "developed_image_path" in record and record.get("developed_image_path"):
-        root = Path("/mnt/research-projects/r/raatwell/longterm_images3")
+        root = Path(cfg.io.field_storage_dir)
         img_path = root / record["developed_image_path"]
         use_cropout = False
     
@@ -546,7 +583,7 @@ def load_image_from_record(record: Dict, cfg: DictConfig) -> Optional[np.ndarray
     img = Image.open(img_path).convert("RGB")
     img_rgb_u8 = np.array(img, dtype=np.uint8)
     
-    # Apply bbox crop if needed
+    # Apply bbox crop if needed (only in cutout mode)
     if not use_cropout:
         if "bbox_xywh" in record and record.get("bbox_xywh"):
             try:
@@ -558,8 +595,8 @@ def load_image_from_record(record: Dict, cfg: DictConfig) -> Optional[np.ndarray
                 pass  # Skip cropping on error
         else:
             return None
+    
     return img_rgb_u8
-
 
 # ======================= Array Utilities =======================
 

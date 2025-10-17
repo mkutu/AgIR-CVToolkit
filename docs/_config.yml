@@ -3,7 +3,10 @@ title: AgIR Dataset
 description: Agricultural Image Repository
 
 # Theme
-theme: just-the-docs
+# theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs@v0.10.1
+plugins:
+  - jekyll-remote-theme
 
 # Basic settings
 baseurl: ""

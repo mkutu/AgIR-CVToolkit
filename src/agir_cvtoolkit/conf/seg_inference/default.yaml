@@ -68,6 +68,11 @@ output:
   save_images: false
   save_cutouts: false
   save_viz: true
+  # Colorization options
+  save_colorized_masks: false  # Save RGB colorized masks
+  colorize_brightness: 6.5     # Brightness enhancement factor (1.0 = no change)
+  colorize_rgb_field: "category_rgb"  # Field to read RGB from: "category_rgb" or "rgb"
+  colorize_fallback_rgb: "category_class_id"  # Fallback RGB if field missing/invalid
 
 # Visualization (only used if save_visualizations=true)
 visualization:

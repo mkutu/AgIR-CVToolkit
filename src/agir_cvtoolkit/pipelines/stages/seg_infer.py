@@ -7,15 +7,16 @@ Usage:
 from __future__ import annotations
 
 import json
+import ast
 from pathlib import Path
 from time import perf_counter
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pandas as pd
 import torch
 from omegaconf import DictConfig
-from PIL import Image
+from PIL import Image, ImageEnhance
 from tqdm import tqdm
 
 from agir_cvtoolkit.core.db import AgirDB
@@ -197,6 +198,97 @@ class SegmentationInferenceStage:
         else:
             raise ValueError(f"Unknown source type: {source_cfg.type}")
     
+    def _colorize_mask(
+        self, 
+        mask_path: Path, 
+        rgb_value: Any, 
+        out_path: Path,
+        brightness: float = 6.5
+    ) -> None:
+        """
+        Colorize a grayscale mask using the provided RGB value and save as RGB.
+        
+        Args:
+            mask_path: Path to the grayscale/binary mask image (nonzero = mask).
+            rgb_value: list/tuple or string like "[0.3,0.5,0.2]" or "[76,142,34]".
+                    Values in 0–1 will be scaled to 0–255.
+            out_path: Output path for the colorized mask.
+            brightness: Brightness enhancement factor (1.0 = no change, >1.0 = brighter)
+        """
+        if not mask_path.exists():
+            raise FileNotFoundError(f"Mask not found: {mask_path}")
+        
+        # Load grayscale mask
+        mask_img = Image.open(mask_path).convert("L")  # ensure 8-bit grayscale
+        
+        # Parse color safely
+        try:
+            if isinstance(rgb_value, str):
+                rgb_value = ast.literal_eval(rgb_value)
+            
+            if isinstance(rgb_value, (list, tuple)) and len(rgb_value) == 3:
+                # Check if values are normalized (0-1) or absolute (0-255)
+                if all(0.0 <= float(v) <= 1.0 for v in rgb_value):
+                    rgb = tuple(int(float(v) * 255) for v in rgb_value)
+                else:
+                    rgb = tuple(int(v) for v in rgb_value)
+            else:
+                log.warning(f"Invalid RGB value format: {rgb_value}, using fallback")
+                rgb = tuple(self.seg_cfg.output.get("colorize_fallback_rgb", [0, 255, 0]))
+        
+        except Exception as e:
+            log.warning(f"Error parsing RGB value: {e}, using fallback")
+            rgb = tuple(self.seg_cfg.output.get("colorize_fallback_rgb", [0, 255, 0]))
+        
+        # Create colored and black images
+        color_img = Image.new("RGB", mask_img.size, rgb)
+        black_img = Image.new("RGB", mask_img.size, (0, 0, 0))
+        
+        # Where mask_img > 0, take color_img; else black_img
+        colorized = Image.composite(color_img, black_img, mask_img)
+        
+        # Brighten the result for better visualization
+        if brightness != 1.0:
+            enhancer = ImageEnhance.Brightness(colorized)
+            colorized = enhancer.enhance(brightness)
+        
+        # Save colorized mask
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        colorized.save(out_path)
+        log.debug(f"Saved colorized mask to: {out_path}")
+
+
+    def _get_rgb_from_record(self, record: Dict) -> Any:
+        """
+        Extract RGB value from database record.
+        
+        Args:
+            record: Database record
+        
+        Returns:
+            RGB value (string, list, or tuple), or None if not found
+        """
+        rgb_field = self.seg_cfg.output.get("colorize_rgb_field", "category_rgb")
+        
+        # Try primary field
+        rgb_value = record.get(rgb_field)
+        if rgb_value:
+            return rgb_value
+        
+        # Fallback fields
+        fallback_fields = ["category_rgb", "rgb", "category_hex"]
+        for field in fallback_fields:
+            if field in record and record.get(field):
+                rgb_value = record[field]
+                log.debug(f"Using RGB from fallback field: {field}")
+                return rgb_value
+        
+        # Use configured fallback
+        log.warning(f"No RGB field found in record, using fallback color")
+        return self.seg_cfg.output.get("colorize_fallback_rgb", [0, 255, 0])
+
+
+    
     def _process_record(
         self,
         record: Dict,
@@ -204,8 +296,20 @@ class SegmentationInferenceStage:
         save_image: bool,
         save_cutout: bool,
         save_viz: bool,
+        save_colorized: bool,
     ) -> Optional[Dict]:
-        """Process a single record through the inference pipeline."""
+        """Process a single database record through the inference pipeline.
+        
+        Args:
+            record: Database record
+            save_mask: Whether to save the predicted mask
+            save_image: Whether to save the source image
+            save_cutout: Whether to save the masked cutout
+            save_viz: Whether to save visualization
+            save_colorized: Whether to save colorized mask
+        
+        Returns:
+            Manifest entry dict, or None if skipped/failed"""
         try:
             # Get image_mode from config
             image_mode = self.seg_cfg.source.get("image_mode", "cutout")
@@ -260,6 +364,31 @@ class SegmentationInferenceStage:
                 mask_path.parent.mkdir(parents=True, exist_ok=True)
                 log.debug(f"Saving mask to: {mask_path}")
                 Image.fromarray(pred_mask, mode="L").save(mask_path)
+
+            # Save colorized mask
+            colorized_path = None
+            if save_colorized and save_mask:
+                mask_path = Path(self.paths.masks) / f"{record_id}.png"
+                colorized_path = Path(self.paths.colorized_masks) / f"{record_id}.png"
+                
+                # Get RGB value from record
+                rgb_value = self._get_rgb_from_record(record)
+                
+                # Get brightness factor
+                brightness = self.seg_cfg.output.get("colorize_brightness", 6.5)
+                
+                # Colorize and save
+                try:
+                    self._colorize_mask(
+                        mask_path=mask_path,
+                        rgb_value=rgb_value,
+                        out_path=colorized_path,
+                        brightness=brightness
+                    )
+                    log.debug(f"Saved colorized mask: {colorized_path}")
+                except Exception as e:
+                    log.error(f"Failed to colorize mask: {e}")
+                    colorized_path = None
             
             if save_image:
                 img_path = Path(self.paths.images) / f"{record_id}.jpg"
@@ -297,12 +426,14 @@ class SegmentationInferenceStage:
                 "area_bin": area_bin,
                 "image_path": str(Path(self.paths.images) / f"{record_id}.jpg") if save_image else None,
                 "mask_path": str(Path(self.paths.masks) / f"{record_id}.png") if save_mask else None,
+                "colorized_mask_path": str(colorized_path) if colorized_path else None,
                 "cutout_path": str(Path(self.paths.cutouts) / f"{record_id}.png") if save_cutout else None,
                 "viz_path": str(Path(self.paths.plots) / f"{record_id}_viz.png") if save_viz else None,
                 "inference_time_ms": inference_time_ms,
                 "edge_occupancy": float(edge_occupancy),
                 "image_shape": list(img_rgb_u8.shape),
                 "mask_shape": list(pred_mask.shape),
+                "rgb_value": str(rgb_value) if save_colorized else None,
             }
             self.metrics["processed"] += 1
             self.metrics["total_inference_time_ms"] += inference_time_ms
@@ -341,8 +472,8 @@ class SegmentationInferenceStage:
         if not records:
             log.warning("No records to process.")
             return
-        self.metrics["total_records"] = len(records)
         
+        self.metrics["total_records"] = len(records)
         log.info(f"Processing {len(records)} records...")
         
         # Output configuration
@@ -351,6 +482,7 @@ class SegmentationInferenceStage:
         save_image = output_cfg.get("save_images", False)
         save_cutout = output_cfg.get("save_cutouts", True)
         save_viz = output_cfg.get("save_viz", False)
+        save_colorized = output_cfg.get("save_colorized_masks", False)
         
         manifest_path = Path(self.paths.manifest_path)
         manifest_path = manifest_path.with_suffix('.csv')  # Ensure .csv extension
@@ -379,6 +511,7 @@ class SegmentationInferenceStage:
                 save_image=save_image,
                 save_cutout=save_cutout,
                 save_viz=save_viz,
+                save_colorized=save_colorized,
             )
             
             if result:

@@ -113,6 +113,7 @@ def finalize_cfg(cfg: DictConfig, *, stage: str, dataset: str, cli_overrides: li
         "query": run_root / "query",
         "images": run_root / "images",
         "masks": run_root / "masks",
+        "colorized_masks": run_root / "colorized_masks",
         "cutouts": run_root / "cutouts",
         "plots": run_root / "plots",
         "cvat_downloads": run_root / "cvat_downloads",  # ADD THIS LINE
@@ -146,6 +147,7 @@ def finalize_cfg(cfg: DictConfig, *, stage: str, dataset: str, cli_overrides: li
         "query": str(sub["query"]),
         "images": str(sub["images"]),
         "masks": str(sub["masks"]),
+        "colorized_masks": str(sub["colorized_masks"]),
         "cutouts": str(sub["cutouts"]),
         "plots": str(sub["plots"]),
         "cvat_downloads": str(sub["cvat_downloads"]),

@@ -1,0 +1,368 @@
+// Custom colors for agricultural theme
+$link-color: #16a34a;
+$btn-primary-color: #16a34a;
+$base-button-color: #f8fafc;
+
+// Adjust sidebar width
+$nav-width: 250px;           // Default is 264px
+$nav-width-md: 250px;        // Medium screens
+
+
+// Override sidebar width
+.side-bar {
+  width: $nav-width;
+  
+  @media (min-width: 50rem) {
+    width: $nav-width-md;
+  }
+}
+
+// Adjust main content to match
+.main {
+  margin-left: $nav-width;
+  
+  @media (min-width: 50rem) {
+    margin-left: $nav-width-md;
+  }
+}
+// Custom styling
+.site-title {
+  color: #16a34a !important;
+  font-weight: 700;
+}
+
+// Hero section for homepage
+.hero-section {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: white;
+  padding: 3rem;
+  border-radius: 0.75rem;
+  margin: 2rem 0;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.hero-section p {
+  font-size: 1.25rem;
+  opacity: 0.95;
+}
+
+// Stats grid
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: #f0fdf4;
+  border: 2px solid #16a34a;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #16a34a;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Database comparison cards
+.db-card {
+  background: #f8fafc;
+  border-left: 4px solid #16a34a;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+}
+
+.db-card h3 {
+  color: #16a34a;
+  margin-top: 0;
+}
+
+// Feature cards
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.feature-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+// Code blocks
+.highlight {
+  background: #1e293b;
+  border-radius: 0.5rem;
+}
+
+// Tables
+table {
+  font-size: 0.875rem;
+}
+
+th {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+// Image Gallery Styles
+.gallery-section {
+  margin: 3rem 0;
+}
+
+.species-showcase {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.species-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #16a34a;
+}
+
+.species-header h3 {
+  color: #16a34a;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+.species-scientific {
+  color: #64748b;
+  font-style: italic;
+  font-size: 1rem;
+}
+
+// 4-panel image grid
+.image-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 1024px) {
+  .image-comparison-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .image-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.image-panel {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.image-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.image-panel-label {
+  background: #16a34a;
+  color: white;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.image-panel-content {
+  aspect-ratio: 1;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.image-panel-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+// Metadata section
+.species-metadata {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+}
+
+.metadata-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.metadata-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.metadata-value {
+  font-size: 0.875rem;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+// Category badges
+.category-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge-cover-crop {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-weed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-cash-crop {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+// Gallery navigation
+.gallery-nav {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.gallery-nav-btn {
+  flex: 1;
+  min-width: 200px;
+  padding: 1.5rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.gallery-nav-btn:hover {
+  border-color: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.gallery-nav-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.gallery-nav-title {
+  font-weight: 600;
+  color: #1e293b;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.gallery-nav-desc {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+// Lightbox hover effect
+.image-panel-content a.glightbox {
+  display: block;
+  position: relative;
+}
+
+.image-panel-content a.glightbox::after {
+  content: "🔍 Click to expand";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(22, 163, 74, 0.9);
+  color: white;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.image-panel-content a.glightbox:hover::after {
+  opacity: 1;
+}
+
+.image-panel-content a.glightbox img {
+  transition: transform 0.2s;
+}
+
+.image-panel-content a.glightbox:hover img {
+  transform: scale(1.02);
+}

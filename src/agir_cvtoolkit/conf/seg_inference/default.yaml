@@ -59,10 +59,10 @@ post_process:
 
 # Output configuration
 output:
-  save_masks: true
-  save_images: true
+  save_masks: false
+  save_images: false
   save_cutouts: false
-  save_viz: false
+  save_viz: true
 
 # Visualization (only used if save_visualizations=true)
 visualization:

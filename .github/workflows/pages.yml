@@ -1,4 +1,5 @@
-name: Build Jekyll site
+name: Build & Deploy Jekyll (docs/)
+
 on:
   push:
     branches: ["main"]
@@ -8,18 +9,36 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Build with Jekyll (source=docs)
-        uses: actions/jekyll-build-pages@v1
+
+      # Setup Ruby and install gems from your Gemfile
+      - uses: ruby/setup-ruby@v1
         with:
-          source: ./docs
+          ruby-version: '3.2'           # or 3.3; any supported version is fine
+          bundler-cache: true
+
+      - name: Install gems
+        run: bundle install --jobs 4 --retry 3
+
+      # Build Jekyll site from /docs into the default _site
+      - name: Build site with Jekyll
+        run: bundle exec jekyll build --source docs --destination _site
+
+      # Upload the built site as a Pages artifact
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
   deploy:
     runs-on: ubuntu-latest
     needs: build

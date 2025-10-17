@@ -16,7 +16,7 @@ docs/_build/
 _site/
 docs/_site/
 docs/.jekyll-cache/
-Gemfile.lock
+
 
 
 # --- Python ---

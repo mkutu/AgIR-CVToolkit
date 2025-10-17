@@ -38,9 +38,10 @@ jobs:
 
       - name: Show key gem versions
         run: |
-          bundle exec ruby -e 'require "jekyll";           puts "Jekyll: #{Jekyll::VERSION}"'
-          bundle exec ruby -e 'require "just-the-docs";    puts "Just-the-Docs: #{JustTheDocs::VERSION}"'
-          bundle exec ruby -e 'require "jekyll-seo-tag";   puts "jekyll-seo-tag: #{Jekyll::SeoTag::VERSION}"'
+          bundle exec ruby -e 'puts "Jekyll: #{Gem.loaded_specs["jekyll"].version}"'
+          bundle exec ruby -e 'puts "Just-the-Docs: #{Gem.loaded_specs["just-the-docs"].version}"'
+          bundle exec ruby -e 'puts "jekyll-seo-tag: #{Gem.loaded_specs["jekyll-seo-tag"].version}"'
+      
 
       - name: Build site with Jekyll (source=docs, dest=_site)
         run: bundle exec jekyll build --source docs --destination _site

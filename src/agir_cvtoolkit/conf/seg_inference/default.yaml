@@ -6,7 +6,7 @@ source:
   db: "semif"       # "semif" | "field"
   
   # Specify whether to use full images or cutouts
-  image_mode: "cutout"  # "cutout" | "full_image"
+  image_mode: "full_image"  # "cutout" | "full_image"
   # - "cutout": Use cropout_path or crop from image_path using bbox (default behavior)
   # - "full_image": Always use the full image_path, ignore bbox and cropout_path
   
@@ -67,7 +67,10 @@ output:
   save_masks: false
   save_images: false
   save_cutouts: false
-  save_viz: true
+  save_viz: false
+  
+  cutout_use_rgba: false  # Use RGBA for cutouts if saving cutouts
+  
   # Colorization options
   save_colorized_masks: false  # Save RGB colorized masks
   colorize_brightness: 6.5     # Brightness enhancement factor (1.0 = no change)

@@ -292,6 +292,7 @@ class SegmentationInferenceStage:
     def _process_record(
         self,
         record: Dict,
+        manifest: pd.DataFrame,
         save_mask: bool,
         save_image: bool,
         save_cutout: bool,
@@ -313,6 +314,18 @@ class SegmentationInferenceStage:
         try:
             # Get image_mode from config
             image_mode = self.seg_cfg.source.get("image_mode", "cutout")
+
+            if image_mode == "full_image":
+                record_id = record.get("image_id", record.get("id", "unknown"))
+                if record_id in list(manifest['record_id'].unique()):
+                    log.info(f"Skipping record {record_id} - already processed in full_image mode")
+                    self.metrics["skipped"] += 1
+                    return None
+                else:
+                    log.info(f"Processing record {record_id} in full_image mode")
+            else:
+                record_id = record.get("cutout_id", record.get("id", "unknown"))
+
             # Load image
             img_rgb_u8 = load_image_from_record(record, self.cfg, image_mode=image_mode)
 
@@ -323,7 +336,6 @@ class SegmentationInferenceStage:
             
             # Run inference
             t0 = perf_counter()
-            record_id = record.get("cutout_id", record.get("id", "unknown"))
 
             if image_mode == "full_image":
                 record_id = record.get("image_id", record_id)
@@ -367,6 +379,7 @@ class SegmentationInferenceStage:
 
             # Save colorized mask
             colorized_path = None
+            rgb_value = None
             if save_colorized and save_mask:
                 mask_path = Path(self.paths.masks) / f"{record_id}.png"
                 colorized_path = Path(self.paths.colorized_masks) / f"{record_id}.png"
@@ -398,10 +411,11 @@ class SegmentationInferenceStage:
                 Image.fromarray(img_rgb_u8, mode="RGB").save(img_path, format="JPEG", quality=100, subsampling=0, optimize=False)
 
             if save_cutout:
+                use_rgba = self.seg_cfg.output.get("cutout_use_rgba", False)
                 cutout_path = Path(self.paths.cutouts) / f"{record_id}.png"
                 cutout_path.parent.mkdir(parents=True, exist_ok=True)
                 log.debug(f"Saving cutout to: {cutout_path}")
-                self._save_cutout(img_rgb_u8, pred_mask, cutout_path)
+                self._save_cutout(img_rgb_u8, pred_mask, cutout_path, use_rgba=use_rgba)
             
             if save_viz and self.visualizer:
                 viz_path = Path(self.paths.plots) / f"area_{area_bin}_{record_id}_viz.png"
@@ -449,17 +463,71 @@ class SegmentationInferenceStage:
         self,
         img_rgb_u8: np.ndarray,
         pred_mask: np.ndarray,
-        out_path: Path,
+        cutout_path: Path,
+        use_rgba: bool = False,
+        hard_binary: bool = False,   # set True if you want crisp 0/255 edge
+        thresh: int = 128,           # used only when hard_binary=True
     ) -> None:
-        """Save cutout with black background."""
-        alpha = (pred_mask > 0).astype(np.uint8) * 255
-        
-        if alpha.max() == 0:
-            return  # empty mask
-        
-        out = np.zeros_like(img_rgb_u8)
-        out[alpha > 0] = img_rgb_u8[alpha > 0]
-        Image.fromarray(out, "RGB").save(out_path)
+        """
+        Save a cutout image with masked pixels.
+
+        Args:
+            img_rgb_u8: Source image (H, W, 3) as uint8
+            pred_mask: Mask (H, W) as uint8/float/bool; may be soft or binary
+            cutout_path: Output path for cutout
+            use_rgba: If True, save as RGBA (transparent background).
+                    If False, save as RGB with black background.
+            hard_binary: If True, binarize the mask at 'thresh' before saving.
+        """
+        # --- Validate inputs ---
+        assert img_rgb_u8.ndim == 3 and img_rgb_u8.shape[2] == 3, "img_rgb_u8 must be HxWx3 RGB"
+        h, w = img_rgb_u8.shape[:2]
+        assert pred_mask.shape[:2] == (h, w), "pred_mask must match image size"
+
+        # --- Normalize mask to uint8 [0, 255] ---
+        m = pred_mask
+        if m.dtype == np.bool_:
+            alpha = m.astype(np.uint8) * 255
+        else:
+            m = m.astype(np.float32)  # safe cast
+            m_min, m_max = float(np.min(m)), float(np.max(m))
+            if m_max <= 1.0:          # e.g., 0/1 or [0,1]
+                alpha = (m * 255.0).round().astype(np.uint8)
+            elif m_max <= 255.0:      # already looks like 0..255 (possibly 10..40 etc.)
+                # If it's "low range" (e.g., 0..40), scale up to full 0..255 so it isn't faded.
+                # Keep zeros at 0 to preserve transparency.
+                if m_max > 0 and m_max < 255:
+                    alpha = (m * (255.0 / m_max)).clip(0, 255).round().astype(np.uint8)
+                else:
+                    alpha = m.clip(0, 255).round().astype(np.uint8)
+            else:
+                # Unexpected scale; normalize to [0,255]
+                alpha = ((m - m_min) / max(1e-6, (m_max - m_min)) * 255.0).round().astype(np.uint8)
+
+        if hard_binary:
+            alpha = (alpha >= thresh).astype(np.uint8) * 255
+
+        cutout_path.parent.mkdir(parents=True, exist_ok=True)
+
+        if use_rgba:
+            # RGBA with STRAIGHT (un-premultiplied) alpha
+            rgba = np.zeros((h, w, 4), dtype=np.uint8)
+            rgba[:, :, :3] = img_rgb_u8
+            rgba[:, :, 3] = alpha
+
+            # Optional: wipe RGB where fully transparent to avoid halos in some viewers
+            fully_transparent = (alpha == 0)
+            if np.any(fully_transparent):
+                rgba[fully_transparent, :3] = 0
+
+            Image.fromarray(rgba, mode="RGBA").save(cutout_path, format="PNG")
+
+        else:
+            # RGB with black background (no alpha)
+            masked = np.zeros_like(img_rgb_u8, dtype=np.uint8)
+            vis = alpha > 0
+            masked[vis] = img_rgb_u8[vis]
+            Image.fromarray(masked, mode="RGB").save(cutout_path, format="PNG")
     
     def run(self) -> None:
         """Run the segmentation inference pipeline."""
@@ -489,7 +557,7 @@ class SegmentationInferenceStage:
         
         # Initialize CSV with header
         manifest_path.parent.mkdir(parents=True, exist_ok=True)
-        pd.DataFrame(columns=[
+        df = pd.DataFrame(columns=[
             'record_id',
             'common_name',
             'edge_occupancy',
@@ -497,16 +565,18 @@ class SegmentationInferenceStage:
             'mask_path',
             'image_path',
             'plot_path',
-        ]).to_csv(manifest_path, index=False)
+        ])
+        df.to_csv(manifest_path, index=False)
 
         # Metrics update interval
         metrics_update_interval = 10
         metrics_path = Path(self.paths.metrics_path)
-
+        result : Dict[str, Any] = {}
         # Process records and write to CSV in real-time
         for idx, record in enumerate(tqdm(records, desc="Inference"), 1):
             result = self._process_record(
                 record=record,
+                manifest=df,
                 save_mask=save_mask,
                 save_image=save_image,
                 save_cutout=save_cutout,
@@ -515,10 +585,12 @@ class SegmentationInferenceStage:
             )
             
             if result:
-                # Convert result to DataFrame and append to CSV
-                df = pd.DataFrame([result])
-                df.to_csv(manifest_path, mode='a', header=False, index=False)
-            
+                # Create a one-row DataFrame for the result and append to CSV without using deprecated .append
+                new_row = pd.DataFrame([result])
+                new_row.to_csv(manifest_path, mode='a', header=False, index=False)
+                # Update the in-memory dataframe using pd.concat
+                df = pd.concat([df, new_row], ignore_index=True)
+
             # Update metrics periodically
             if idx % metrics_update_interval == 0:
                 self.metrics["avg_inference_time_ms"] = (

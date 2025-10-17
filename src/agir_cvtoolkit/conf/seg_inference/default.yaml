@@ -5,6 +5,11 @@ source:
   type: "query_result"  # "query_result" | "db_query"
   db: "semif"       # "semif" | "field"
   
+  # Specify whether to use full images or cutouts
+  image_mode: "full_image"  # "cutout" | "full_image"
+  # - "cutout": Use cropout_path or crop from image_path using bbox (default behavior)
+  # - "full_image": Always use the full image_path, ignore bbox and cropout_path
+  
   # Filters (only used when type="db_query")
   filters:
     state: #"NC"
@@ -62,7 +67,15 @@ output:
   save_masks: false
   save_images: false
   save_cutouts: false
-  save_viz: true
+  save_viz: false
+  
+  cutout_use_rgba: false  # Use RGBA for cutouts if saving cutouts
+  
+  # Colorization options
+  save_colorized_masks: false  # Save RGB colorized masks
+  colorize_brightness: 6.5     # Brightness enhancement factor (1.0 = no change)
+  colorize_rgb_field: "category_rgb"  # Field to read RGB from: "category_rgb" or "rgb"
+  colorize_fallback_rgb: "category_class_id"  # Fallback RGB if field missing/invalid
 
 # Visualization (only used if save_visualizations=true)
 visualization:

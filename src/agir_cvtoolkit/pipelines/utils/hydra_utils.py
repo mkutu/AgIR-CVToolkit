@@ -148,11 +148,11 @@ def finalize_cfg(cfg: DictConfig, *, stage: str, dataset: str, cli_overrides: li
         "masks": str(sub["masks"]),
         "cutouts": str(sub["cutouts"]),
         "plots": str(sub["plots"]),
-        "cvat_downloads": str(sub["cvat_downloads"]),  # ADD THIS LINE
+        "cvat_downloads": str(sub["cvat_downloads"]),
         "preprocessed": str(sub["preprocessed"]),
         "cfg_path": str(run_root / "cfg.yaml"),
         "metrics_path": str(run_root / "metrics.json"),
-        "manifest_path": str(run_root / "manifest.jsonl"),
+        "manifest_path": str(run_root / "manifest.csv"),  # CHANGED: .jsonl -> .csv
     }
 
     # Setup logging dir

@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+import pandas as pd
 from cvat_sdk import Client, models
 from cvat_sdk.masks import encode_mask
 from cvat_sdk.core.proxies.tasks import ResourceType
@@ -599,19 +600,25 @@ class CVATUploadStage:
     
     def _load_manifest(self) -> List[Dict]:
         """Load manifest from seg-infer stage."""
-        manifest_path = Path(self.paths.manifest_path)
+        manifest_path = self.run_root / "manifest.csv"  # CHANGED: .jsonl -> .csv
         
         if not manifest_path.exists():
-            raise FileNotFoundError(f"Manifest not found: {manifest_path}")
+            raise FileNotFoundError(
+                f"Manifest not found: {manifest_path}\n"
+                f"Run 'agir-cvtoolkit infer-seg' first to generate masks and manifest."
+            )
         
         log.info(f"Loading manifest from: {manifest_path}")
-        manifest = []
-        with open(manifest_path) as f:
-            for line in f:
-                if line.strip():
-                    manifest.append(json.loads(line))
         
-        return manifest
+        # Read CSV with pandas
+        df = pd.read_csv(manifest_path)
+        
+        # Convert to list of dicts
+        records = df.to_dict(orient='records')
+        
+        log.info(f"Loaded {len(records)} records from manifest")
+        
+        return records
     
     # ==================== Main Pipeline ====================
     

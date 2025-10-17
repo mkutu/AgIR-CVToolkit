@@ -289,6 +289,7 @@ class SegmentationInferenceStage:
                 "inference_time_ms": inference_time_ms,
                 "mask_path": str(mask_path) if save_mask else None,
                 "image_path": str(img_path) if save_image else None,
+                "plot_path": str(viz_path) if save_viz and self.visualizer else None,
             }
         
         except Exception as e:
@@ -334,9 +335,27 @@ class SegmentationInferenceStage:
         save_cutout = output_cfg.get("save_cutouts", True)
         save_viz = output_cfg.get("save_viz", False)
         
-        # Process records
-        results = []
-        for record in tqdm(records, desc="Inference"):
+        manifest_path = Path(self.paths.manifest_path)
+        manifest_path = manifest_path.with_suffix('.csv')  # Ensure .csv extension
+        
+        # Initialize CSV with header
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(columns=[
+            'record_id',
+            'common_name',
+            'edge_occupancy',
+            'inference_time_ms',
+            'mask_path',
+            'image_path',
+            'plot_path',
+        ]).to_csv(manifest_path, index=False)
+
+        # Metrics update interval
+        metrics_update_interval = 10
+        metrics_path = Path(self.paths.metrics_path)
+
+        # Process records and write to CSV in real-time
+        for idx, record in enumerate(tqdm(records, desc="Inference"), 1):
             result = self._process_record(
                 record=record,
                 save_mask=save_mask,
@@ -344,22 +363,27 @@ class SegmentationInferenceStage:
                 save_cutout=save_cutout,
                 save_viz=save_viz,
             )
+            
             if result:
-                results.append(result)
+                # Convert result to DataFrame and append to CSV
+                df = pd.DataFrame([result])
+                df.to_csv(manifest_path, mode='a', header=False, index=False)
+            
+            # Update metrics periodically
+            if idx % metrics_update_interval == 0:
+                self.metrics["avg_inference_time_ms"] = (
+                    self.metrics["total_inference_time_ms"] / self.metrics["processed"]
+                    if self.metrics["processed"] > 0 else 0
+                )
+                with open(metrics_path, "w") as f:
+                    json.dump(self.metrics, f, indent=2)
         
-        # Save manifest
-        manifest_path = Path(self.paths.manifest_path)
-        with open(manifest_path, "w") as f:
-            for r in results:
-                f.write(json.dumps(r) + "\n")
-        
-        # Update and save metrics
+        # Final metrics update
         self.metrics["avg_inference_time_ms"] = (
             self.metrics["total_inference_time_ms"] / self.metrics["processed"]
             if self.metrics["processed"] > 0 else 0
         )
         
-        metrics_path = Path(self.paths.metrics_path)
         with open(metrics_path, "w") as f:
             json.dump(self.metrics, f, indent=2)
         

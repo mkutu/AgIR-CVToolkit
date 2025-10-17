@@ -24,6 +24,7 @@ This is a test paragraph. If you can see proper styling (not plain text), the th
 echo "Hello World"
 ```
 
+
 | Column 1 | Column 2 |
 |----------|----------|
 | Data 1   | Data 2   |

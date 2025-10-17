@@ -9,6 +9,15 @@ checkpoints/
 .keys
 experimental/
 run.sh
+scripts/exports/
+
+# Pages
+docs/_build/
+_site/
+docs/_site/
+docs/.jekyll-cache/
+Gemfile.lock
+Gemfile
 
 
 # --- Python ---

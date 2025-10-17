@@ -2,7 +2,7 @@
 source "https://rubygems.org"
 
 gem "jekyll", "~> 4.3.0"
-gem "just-the-docs"
+gem "just-the-docs", "0.8.2"
 gem "webrick"  # Required for Ruby 3.0+
 
 group :jekyll_plugins do

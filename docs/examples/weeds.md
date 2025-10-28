@@ -46,44 +46,36 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Palmer amaranth field image<br>
-          GA, Summer 2023<br>
-          Cotton field infestation
-        </div>
+        <a href="../assets/images/examples/palmeramaranth_original.jpg" class="glightbox" data-title="Palmer Amaranth - Original Field Image" data-description="Full resolution field capture. GA, Summer 2023. Cotton field infestation.">
+          <img src="../assets/images/examples/palmeramaranth_original.jpg" alt="Palmer amaranth original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Upright growth habit<br>
-          [x, y, width, height]
-        </div>
+        <a href="../assets/images/examples/palmeramaranth_bbox.jpg" class="glightbox" data-title="Palmer Amaranth - Bounding Box Overlay" data-description="Detection box overlay. Upright growth habit. Area: 892 cm²">
+          <img src="../assets/images/examples/palmeramaranth_bbox.jpg" alt="Palmer amaranth with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Binary pixel mask<br>
-          Lanceolate leaves<br>
-          Human-verified
-        </div>
+        <a href="../assets/images/examples/palmeramaranth_mask.png" class="glightbox" data-title="Palmer Amaranth - Segmentation Mask" data-description="Binary pixel-level mask. Lanceolate leaves, human-verified.">
+          <img src="../assets/images/examples/palmeramaranth_mask.png" alt="Palmer amaranth segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated Palmer amaranth<br>
-          Vegetative stage<br>
-          Characteristic leaf shape
-        </div>
+        <a href="../assets/images/examples/palmeramaranth_cutout.png" class="glightbox" data-title="Palmer Amaranth - Plant Cutout" data-description="Isolated Palmer amaranth. Vegetative stage, characteristic leaf shape.">
+          <img src="../assets/images/examples/palmeramaranth_cutout.png" alt="Palmer amaranth plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
@@ -160,44 +152,36 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Morningglory field image<br>
-          SC, July 2023<br>
-          Climbing vine behavior
-        </div>
+        <a href="../assets/images/examples/morningglory_original.jpg" class="glightbox" data-title="Morningglory - Original Field Image" data-description="Full resolution field capture. SC, July 2023. Climbing vine behavior.">
+          <img src="../assets/images/examples/morningglory_original.jpg" alt="Morningglory original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Twining stems<br>
-          Multi-component
-        </div>
+        <a href="../assets/images/examples/morningglory_bbox.jpg" class="glightbox" data-title="Morningglory - Bounding Box Overlay" data-description="Detection box overlay. Twining stems, multi-component. Area: 1,245 cm²">
+          <img src="../assets/images/examples/morningglory_bbox.jpg" alt="Morningglory with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Complex vine structure<br>
-          Heart-shaped leaves<br>
-          Precise boundaries
-        </div>
+        <a href="../assets/images/examples/morningglory_mask.png" class="glightbox" data-title="Morningglory - Segmentation Mask" data-description="Binary pixel-level mask. Complex vine structure, heart-shaped leaves.">
+          <img src="../assets/images/examples/morningglory_mask.png" alt="Morningglory segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated morningglory<br>
-          Characteristic foliage<br>
-          Purple flower visible
-        </div>
+        <a href="../assets/images/examples/morningglory_cutout.png" class="glightbox" data-title="Morningglory - Plant Cutout" data-description="Isolated morningglory. Characteristic foliage, purple flower visible.">
+          <img src="../assets/images/examples/morningglory_cutout.png" alt="Morningglory plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
@@ -274,44 +258,36 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Ragweed field image<br>
-          NC, August 2023<br>
-          Post-harvest residue
-        </div>
+        <a href="../assets/images/examples/ragweed_original.jpg" class="glightbox" data-title="Ragweed - Original Field Image" data-description="Full resolution field capture. NC, August 2023. Post-harvest residue.">
+          <img src="../assets/images/examples/ragweed_original.jpg" alt="Ragweed original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Bushy growth form<br>
-          Medium size plant
-        </div>
+        <a href="../assets/images/examples/ragweed_bbox.jpg" class="glightbox" data-title="Ragweed - Bounding Box Overlay" data-description="Detection box overlay. Bushy growth form, medium size. Area: 324 cm²">
+          <img src="../assets/images/examples/ragweed_bbox.jpg" alt="Ragweed with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Deeply lobed leaves<br>
-          Multiple branches<br>
-          Clean segmentation
-        </div>
+        <a href="../assets/images/examples/ragweed_mask.png" class="glightbox" data-title="Ragweed - Segmentation Mask" data-description="Binary pixel-level mask. Deeply lobed leaves, multiple branches.">
+          <img src="../assets/images/examples/ragweed_mask.png" alt="Ragweed segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated ragweed<br>
-          Fern-like foliage<br>
-          Late vegetative
-        </div>
+        <a href="../assets/images/examples/ragweed_cutout.png" class="glightbox" data-title="Ragweed - Plant Cutout" data-description="Isolated ragweed. Fern-like foliage, late vegetative stage.">
+          <img src="../assets/images/examples/ragweed_cutout.png" alt="Ragweed plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
@@ -385,44 +361,36 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Crabgrass field image<br>
-          MS, June 2024<br>
-          Cotton inter-row
-        </div>
+        <a href="../assets/images/examples/crabgrass_original.jpg" class="glightbox" data-title="Crabgrass - Original Field Image" data-description="Full resolution field capture. MS, June 2024. Cotton inter-row.">
+          <img src="../assets/images/examples/crabgrass_original.jpg" alt="Crabgrass original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Prostrate spreading<br>
-          Mat-forming habit
-        </div>
+        <a href="../assets/images/examples/crabgrass_bbox.jpg" class="glightbox" data-title="Crabgrass - Bounding Box Overlay" data-description="Detection box overlay. Prostrate spreading, mat-forming habit. Area: 186 cm²">
+          <img src="../assets/images/examples/crabgrass_bbox.jpg" alt="Crabgrass with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Grass morphology<br>
-          Multiple tillers<br>
-          Precise boundaries
-        </div>
+        <a href="../assets/images/examples/crabgrass_mask.png" class="glightbox" data-title="Crabgrass - Segmentation Mask" data-description="Binary pixel-level mask. Grass morphology, multiple tillers.">
+          <img src="../assets/images/examples/crabgrass_mask.png" alt="Crabgrass segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated crabgrass<br>
-          Characteristic blades<br>
-          Early tillering
-        </div>
+        <a href="../assets/images/examples/crabgrass_cutout.png" class="glightbox" data-title="Crabgrass - Plant Cutout" data-description="Isolated crabgrass. Characteristic blades, early tillering.">
+          <img src="../assets/images/examples/crabgrass_cutout.png" alt="Crabgrass plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>

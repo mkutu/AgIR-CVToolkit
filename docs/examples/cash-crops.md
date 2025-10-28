@@ -23,7 +23,7 @@ Primary agricultural commodities for commercial production.
 
 <div class="db-card" markdown="1">
 
-Cash crops are agricultural products grown for direct sale and commercial profit. Our dataset focuses on the dominant row crops in the southeastern United States: cotton and corn (maize). These images support crop monitoring, growth stage classification, variety identification, and precision agriculture applications.
+Cash crops are agricultural products grown for direct sale and commercial profit. Our dataset focuses on major row crops in the southeastern United States: cotton, corn (maize), soybean, and beet. These images support crop monitoring, species identification, and precision agriculture applications.
 
 <span class="category-badge badge-cash-crop">Cash Crop</span>
 
@@ -340,13 +340,116 @@ Cash crops are agricultural products grown for direct sale and commercial profit
 
 ---
 
+## Beet (*Beta vulgaris*)
+
+<div class="species-showcase" markdown="0">
+  <div class="species-header">
+    <h3>Beet</h3>
+    <div class="species-scientific">Beta vulgaris L.</div>
+    <div style="margin-top: 0.5rem;">
+      <span class="category-badge badge-cash-crop">Cash Crop</span>
+    </div>
+  </div>
+  
+  <div class="image-comparison-grid">
+    <div class="image-panel">
+      <div class="image-panel-label">Original Image</div>
+      <div class="image-panel-content">
+        <div class="image-placeholder">
+          Beet field image<br>
+          NC, Summer 2023<br>
+          Growing season
+        </div>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Bounding Box</div>
+      <div class="image-panel-content">
+        <div class="image-placeholder">
+          Detection box overlay<br>
+          Rosette form<br>
+          Large leaves
+        </div>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Segmentation Mask</div>
+      <div class="image-panel-content">
+        <div class="image-placeholder">
+          Binary pixel mask<br>
+          Broad leaf structure<br>
+          Human-verified
+        </div>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Plant Cutout</div>
+      <div class="image-panel-content">
+        <div class="image-placeholder">
+          Isolated beet plant<br>
+          Characteristic foliage<br>
+          Field capture
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="species-metadata">
+    <div class="metadata-item">
+      <span class="metadata-label">USDA Symbol</span>
+      <span class="metadata-value">BEVU2</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Common Name</span>
+      <span class="metadata-value">Beet</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Family</span>
+      <span class="metadata-value">Amaranthaceae</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Growth Habit</span>
+      <span class="metadata-value">Forb</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Duration</span>
+      <span class="metadata-value">Biennial (grown as annual)</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Location</span>
+      <span class="metadata-value">North Carolina</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Season</span>
+      <span class="metadata-value">2023</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Area</span>
+      <span class="metadata-value">645 cm² (Medium)</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Confidence</span>
+      <span class="metadata-value">0.93</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Database</span>
+      <span class="metadata-value">SEMIF</span>
+    </div>
+  </div>
+</div>
+
+---
+
 ## Dataset Statistics
 
 Cash crop representation in the AgIR dataset:
 
 | Metric | Value |
 |:-------|:------|
-| **Total Cash Crop Species** | 3 (Cotton, Corn, Soybean) |
+| **Total Cash Crop Species** | 4 (Cotton, Corn, Soybean, Beet) |
 | **Total Images** | 12,000+ |
 | **Geographic Coverage** | NC, SC, GA, MS, VA |
 | **Temporal Coverage** | 2022-2025 seasons |
@@ -411,26 +514,52 @@ Use these fields to filter high-quality cash crop annotations:
 
 ---
 
+## Browse More Categories
+
+<div class="gallery-nav" markdown="0">
+  <a href="cover-crops.html" class="gallery-nav-btn">
+    <span class="gallery-nav-icon">🌱</span>
+    <span class="gallery-nav-title">Cover Crops</span>
+    <span class="gallery-nav-desc">40+ species</span>
+  </a>
+  
+  <a href="weeds.html" class="gallery-nav-btn">
+    <span class="gallery-nav-icon">🌿</span>
+    <span class="gallery-nav-title">Weeds</span>
+    <span class="gallery-nav-desc">80+ weed species</span>
+  </a>
+</div>
+
+---
+
 ## Accessing the Data
 
 {: .note }
-> **Query cash crop data** using the AgIR-CVToolkit with filters for variety, growth stage, and field conditions.
+> **Query cash crop data** using the AgIR-CVToolkit with filters for species and field conditions.
 
 **Example queries:**
 
 ```bash
-# Query cotton by variety
+# Query cotton images
 agir-cvtoolkit query --db field \
-  --filters "common_name=cotton,cotton_variety=DP 1646 B2XF"
+  --filters "common_name=cotton"
 
-# Query corn at specific growth stages
-agir-cvtoolkit query --db field \
-  --filters "common_name=corn,growth_stage=V5"
+# Query corn images
+agir-cvtoolkit query --db semif \
+  --filters "category_common_name=corn"
 
-# Sample balanced across growth stages
+# Query soybean images
 agir-cvtoolkit query --db field \
-  --filters "common_name=cotton" \
-  --sample "stratified:by=growth_stage,per_group=50"
+  --filters "common_name=soybean"
+
+# Query beet images
+agir-cvtoolkit query --db semif \
+  --filters "category_common_name=beet"
+
+# Sample balanced across all cash crops
+agir-cvtoolkit query --db field \
+  --filters "common_name=cotton,corn,soybean,beet" \
+  --sample "stratified:by=common_name,per_group=100"
 ```
 
 [Learn How to Query →](https://github.com/yourusername/AgIR-CVToolkit/blob/main/docs/PIPELINE_STAGES/01_query/db_query_usage.md){: .btn .btn-primary }

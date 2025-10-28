@@ -11,6 +11,9 @@ nav_order: 2
 Target weed species for detection and management in agricultural systems.
 {: .fs-6 .fw-300 }
 
+{: .warning }
+> This page is still in development and is not accurate.
+
 ## Table of contents
 {: .no_toc .text-delta }
 

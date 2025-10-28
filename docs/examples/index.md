@@ -21,50 +21,42 @@ Each record in the AgIR dataset includes **four distinct data products**:
   <div class="image-panel">
     <div class="image-panel-label">1. Original Image</div>
     <div class="image-panel-content">
-      <div class="image-placeholder">
-        Full field-level image<br>
-        High resolution<br>
-        RAW or JPG format
-      </div>
+      <a href="../assets/images/examples/barley_original.jpg" class="glightbox" data-title="Barley - Original Field Image" data-description="Full resolution field capture. NC, Nov 2022. Image ID: NC_1668004918">
+          <img src="../assets/images/examples/barley_original.jpg" alt="Barley original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
     </div>
   </div>
   
   <div class="image-panel">
     <div class="image-panel-label">2. Bounding Box Overlay</div>
     <div class="image-panel-content">
-      <div class="image-placeholder">
-        Original + detection box<br>
-        [x, y, width, height]<br>
-        For object detection
-      </div>
+      <a href="../assets/images/examples/barley_bbox.jpg" class="glightbox" data-title="Barley - Bounding Box Overlay" data-description="Detection box overlay showing plant location. Area: 1,756 cm²">
+          <img src="../assets/images/examples/barley_bbox.jpg" alt="Barley with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
     </div>
   </div>
   
   <div class="image-panel">
     <div class="image-panel-label">3. Segmentation Mask</div>
     <div class="image-panel-content">
-      <div class="image-placeholder">
-        Binary pixel mask<br>
-        Precise boundaries<br>
-        Human-verified
-      </div>
+      <a href="../assets/images/examples/barley_mask.png" class="glightbox" data-title="Barley - Segmentation Mask" data-description="Binary pixel-level mask. Human-verified through QC workflow.">
+          <img src="../assets/images/examples/barley_mask.png" alt="Barley segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
     </div>
   </div>
   
   <div class="image-panel">
     <div class="image-panel-label">4. Plant Cutout</div>
     <div class="image-panel-content">
-      <div class="image-placeholder">
-        Isolated plant<br>
-        Cropped from bbox<br>
-        ML training ready
-      </div>
+      <a href="../assets/images/examples/barley_cutout.png" class="glightbox" data-title="Barley - Plant Cutout" data-description="Isolated plant extracted from bounding box. Ready for ML training.">
+          <img src="../assets/images/examples/barley_cutout.png" alt="Barley plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
     </div>
   </div>
 </div>
 
-{: .important }
-> All masks are **human-verified** through our multi-stage quality control process, ensuring pixel-perfect annotations.
+<!-- {: .important }
+> All masks are **human-verified** through our multi-stage quality control process, ensuring pixel-perfect annotations. -->
 
 ---
 
@@ -169,7 +161,7 @@ Cropped image of individual plant from bounding box.
 - **Use**: Classification, feature extraction
 
 ---
-
+<!-- 
 ## Example Use Cases
 
 <div class="feature-grid" markdown="1">
@@ -218,7 +210,7 @@ Geographic and temporal pattern analysis
 
 </div>
 
----
+--- -->
 
 ## Browse Examples
 
@@ -229,10 +221,10 @@ Select a category to view detailed species examples:
 - **[Cash Crops →](cash-crops.html)** - Primary agricultural commodities
 
 ---
-
+<!-- 
 ## Understanding the Data
 
 {: .tip }
 > **New to agricultural computer vision?** Check out our [Data Products Guide](data-products.html) for a detailed explanation of how each data type is generated and used.
 
-[Learn About Data Products →](data-products.html){: .btn .btn-primary }
+[Learn About Data Products →](data-products.html){: .btn .btn-primary } -->

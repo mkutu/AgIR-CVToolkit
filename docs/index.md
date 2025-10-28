@@ -76,7 +76,7 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 </div>
 
----
+<!-- ---
 
 ## Key Features
 
@@ -126,9 +126,9 @@ Complete timestamps for temporal and phenological analysis
 
 </div>
 
----
+--- -->
 
-## Quick Access
+<!-- ## Quick Access
 
 Access the dataset using the AgIR-CVToolkit:
 ```bash
@@ -157,6 +157,6 @@ If you use this dataset in your research, please cite our work.
   publisher={Your Institution},
   url={https://github.com/yourusername/AgIR-CVToolkit}
 }
-```
+``` -->
 
-[More citation formats →](citation/how-to-cite.html)
+<!-- [More citation formats →](citation/how-to-cite.html) -->

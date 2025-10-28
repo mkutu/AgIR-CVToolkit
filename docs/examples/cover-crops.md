@@ -133,12 +133,12 @@ Cover crops are planted to manage soil erosion, soil fertility, soil quality, wa
 
 ---
 
-## Hairy Vetch (*Vicia villosa*)
+## Winter Pea (*Pisum	sativum*)
 
 <div class="species-showcase" markdown="0">
   <div class="species-header">
-    <h3>Hairy Vetch</h3>
-    <div class="species-scientific">Vicia villosa Roth</div>
+    <h3>Winter pea</h3>
+    <div class="species-scientific">Pisum	sativum L.</div>
     <div style="margin-top: 0.5rem;">
       <span class="category-badge badge-cover-crop">Cover Crop</span>
     </div>
@@ -148,44 +148,36 @@ Cover crops are planted to manage soil erosion, soil fertility, soil quality, wa
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Hairy vetch field image<br>
-          SC, Spring 2024<br>
-          Flowering stage
-        </div>
+        <a href="../assets/images/examples/winter_pea_original.jpg" class="glightbox" data-title="Winter pea - Original Field Image" data-description="Full resolution field capture. NC, Nov 2022. Image ID: NC_1668004918">
+          <img src="../assets/images/examples/winter_pea_original.jpg" alt="Winter pea original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Vining growth habit<br>
-          Multiple components
-        </div>
+        <a href="../assets/images/examples/winter_pea_bbox.jpg" class="glightbox" data-title="Winter Pea - Bounding Box Overlay" data-description="Detection box overlay showing plant location. Area: 1,756 cm²">
+          <img src="../assets/images/examples/winter_pea_bbox.jpg" alt="Winter pea with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Complex vine structure<br>
-          Human-verified<br>
-          High precision
-        </div>
+        <a href="../assets/images/examples/winter_pea_mask.png" class="glightbox" data-title="Winter pea - Segmentation Mask" data-description="Binary pixel-level mask. Human-verified through QC workflow.">
+          <img src="../assets/images/examples/winter_pea_mask.png" alt="Winter pea segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated vetch plant<br>
-          Purple flowers visible<br>
-          Large area
-        </div>
+        <a href="../assets/images/examples/winter_pea_cutout.png" class="glightbox" data-title="Winter pea - Plant Cutout" data-description="Isolated plant extracted from bounding box. Ready for ML training.">
+          <img src="../assets/images/examples/winter_pea_cutout.png" alt="Winter pea plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
@@ -228,12 +220,12 @@ Cover crops are planted to manage soil erosion, soil fertility, soil quality, wa
 
 ---
 
-## Crimson Clover (*Trifolium incarnatum*)
+## Winter Wheat (*Triticum aestivum*)
 
 <div class="species-showcase" markdown="0">
   <div class="species-header">
-    <h3>Crimson Clover</h3>
-    <div class="species-scientific">Trifolium incarnatum L.</div>
+    <h3>Winter Wheat</h3>
+    <div class="species-scientific">Triticum aestivum L.</div>
     <div style="margin-top: 0.5rem;">
       <span class="category-badge badge-cover-crop">Cover Crop</span>
     </div>
@@ -243,44 +235,36 @@ Cover crops are planted to manage soil erosion, soil fertility, soil quality, wa
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Crimson clover field<br>
-          GA, Spring 2023<br>
-          Dense ground cover
-        </div>
+        <a href="../assets/images/examples/winter_wheat_original.jpg" class="glightbox" data-title="Winter wheat - Original Field Image" data-description="Full resolution field capture. NC, Nov 2022. Image ID: NC_1668004918">
+          <img src="../assets/images/examples/winter_wheat_original.jpg" alt="Winter wheat original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Compact rosette form<br>
-          Medium size
-        </div>
+        <a href="../assets/images/examples/winter_wheat_bbox.jpg" class="glightbox" data-title="Winter wheat - Bounding Box Overlay" data-description="Detection box overlay showing plant location. Area: 1,756 cm²">
+          <img src="../assets/images/examples/winter_wheat_bbox.jpg" alt="Winter wheat with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Trifoliate leaf structure<br>
-          Human-verified<br>
-          Clean segmentation
-        </div>
+        <a href="../assets/images/examples/winter_wheat_mask.png" class="glightbox" data-title="Winter wheat - Segmentation Mask" data-description="Binary pixel-level mask. Human-verified through QC workflow.">
+          <img src="../assets/images/examples/winter_wheat_mask.png" alt="Winter wheat segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
     
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated clover<br>
-          Characteristic leaves<br>
-          Vegetative stage
-        </div>
+        <a href="../assets/images/examples/winter_wheat_cutout.png" class="glightbox" data-title="Winter wheat - Plant Cutout" data-description="Isolated plant extracted from bounding box. Ready for ML training.">
+          <img src="../assets/images/examples/winter_wheat_cutout.png" alt="Winter wheat plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
@@ -321,6 +305,179 @@ Cover crops are planted to manage soil erosion, soil fertility, soil quality, wa
   </div>
 </div>
 
+## Triticale (*Triticosecale x triticosecale*)
+
+<div class="species-showcase" markdown="0">
+  <div class="species-header">
+    <h3>Triticale</h3>
+    <div class="species-scientific">Triticosecale x triticosecale Wittm.</div>
+    <div style="margin-top: 0.5rem;">
+      <span class="category-badge badge-cover-crop">Cover Crop</span>
+    </div>
+  </div>
+  
+  <div class="image-comparison-grid">
+    <div class="image-panel">
+      <div class="image-panel-label">Original Image</div>
+      <div class="image-panel-content">
+        <a href="../assets/images/examples/triticale_original.jpg" class="glightbox" data-title="Triticale - Original Field Image" data-description="Full resolution field capture. NC, Nov 2022. Image ID: NC_1668004918">
+          <img src="../assets/images/examples/triticale_original.jpg" alt="Triticale original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Bounding Box</div>
+      <div class="image-panel-content">
+        <a href="../assets/images/examples/triticale_bbox.jpg" class="glightbox" data-title="Triticale - Bounding Box Overlay" data-description="Detection box overlay showing plant location. Area: 1,756 cm²">
+          <img src="../assets/images/examples/triticale_bbox.jpg" alt="Triticale with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Segmentation Mask</div>
+      <div class="image-panel-content">
+        <a href="../assets/images/examples/triticale_mask.png" class="glightbox" data-title="Triticale - Segmentation Mask" data-description="Binary pixel-level mask. Human-verified through QC workflow.">
+          <img src="../assets/images/examples/triticale_mask.png" alt="Triticale segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Plant Cutout</div>
+      <div class="image-panel-content">
+        <a href="../assets/images/examples/triticale_cutout.png" class="glightbox" data-title="Triticale - Plant Cutout" data-description="Isolated plant extracted from bounding box. Ready for ML training.">
+          <img src="../assets/images/examples/triticale_cutout.png" alt="Triticale plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="species-metadata">
+    <div class="metadata-item">
+      <span class="metadata-label">USDA Symbol</span>
+      <span class="metadata-value">TRIN3</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Family</span>
+      <span class="metadata-value">Fabaceae</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Growth Habit</span>
+      <span class="metadata-value">Forb</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Duration</span>
+      <span class="metadata-value">Annual</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Location</span>
+      <span class="metadata-value">Georgia</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Area</span>
+      <span class="metadata-value">156 cm² (Small)</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Growth Stage</span>
+      <span class="metadata-value">Vegetative</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Confidence</span>
+      <span class="metadata-value">0.94</span>
+    </div>
+  </div>
+</div>
+
+## Mustards (*Brassica spp.*)
+
+{: .important }
+> Mustards category is a complex made up of several species including Brassica napus (BRNA), Brassica rapa (BRRA), Brassica juncea (BRJU), Sinapis alba (SIAL5)
+
+
+<div class="species-showcase" markdown="0">
+  <div class="species-header">
+    <h3>Mustards</h3>
+    <div class="species-scientific">Brassica spp.</div>
+    <div style="margin-top: 0.5rem;">
+      <span class="category-badge badge-cover-crop">Cover Crop</span>
+    </div>
+  </div>
+  
+  <div class="image-comparison-grid">
+    <div class="image-panel">
+      <div class="image-panel-label">Original Image</div>
+      <div class="image-panel-content">
+        <a href="../assets/images/examples/mustard_original.jpg" class="glightbox" data-title="Mustard - Original Field Image" data-description="Full resolution field capture. NC, Nov 2022. Image ID: NC_1668004918">
+          <img src="../assets/images/examples/mustard_original.jpg" alt="Mustard original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Bounding Box</div>
+      <div class="image-panel-content">
+        <a href="../assets/images/examples/mustard_bbox.jpg" class="glightbox" data-title="Mustard - Bounding Box Overlay" data-description="Detection box overlay showing plant location. Area: 1,756 cm²">
+          <img src="../assets/images/examples/mustard_bbox.jpg" alt="Mustard with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Segmentation Mask</div>
+      <div class="image-panel-content">
+        <a href="../assets/images/examples/mustard_mask.jpg" class="glightbox" data-title="Mustard - Segmentation Mask" data-description="Binary pixel-level mask. Human-verified through QC workflow.">
+          <img src="../assets/images/examples/mustard_mask.jpg" alt="Mustard segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
+      </div>
+    </div>
+    
+    <div class="image-panel">
+      <div class="image-panel-label">Plant Cutout</div>
+      <div class="image-panel-content">
+        <a href="../assets/images/examples/mustard_cutout.png" class="glightbox" data-title="Mustard - Plant Cutout" data-description="Isolated plant extracted from bounding box. Ready for ML training.">
+          <img src="../assets/images/examples/mustard_cutout.png" alt="Mustard plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="species-metadata">
+    <div class="metadata-item">
+      <span class="metadata-label">USDA Symbol</span>
+      <span class="metadata-value">TRIN3</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Family</span>
+      <span class="metadata-value">Fabaceae</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Growth Habit</span>
+      <span class="metadata-value">Forb</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Duration</span>
+      <span class="metadata-value">Annual</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Location</span>
+      <span class="metadata-value">Georgia</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Area</span>
+      <span class="metadata-value">156 cm² (Small)</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Growth Stage</span>
+      <span class="metadata-value">Vegetative</span>
+    </div>
+    <div class="metadata-item">
+      <span class="metadata-label">Confidence</span>
+      <span class="metadata-value">0.94</span>
+    </div>
+  </div>
+</div>
 ---
 
 ## More Cover Crop Species

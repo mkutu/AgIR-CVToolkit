@@ -533,7 +533,7 @@ Weed species representation in the AgIR (SemiF) dataset:
   <a href="cover-crops.html" class="gallery-nav-btn">
     <span class="gallery-nav-icon">🌱</span>
     <span class="gallery-nav-title">Cover Crops</span>
-    <span class="gallery-nav-desc">40+ species</span>
+    <span class="gallery-nav-desc">20+ species</span>
   </a>
   
   <a href="cash-crops.html" class="gallery-nav-btn">

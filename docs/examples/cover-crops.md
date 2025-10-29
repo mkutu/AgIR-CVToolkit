@@ -692,12 +692,12 @@ Cover crop representation in the AgIR (SemiF) dataset:
   <a href="weeds.html" class="gallery-nav-btn">
     <span class="gallery-nav-icon">🌿</span>
     <span class="gallery-nav-title">Weeds</span>
-    <span class="gallery-nav-desc">80+ weed species</span>
+    <span class="gallery-nav-desc">30+ weed species</span>
   </a>
   
   <a href="cash-crops.html" class="gallery-nav-btn">
     <span class="gallery-nav-icon">🌾</span>
     <span class="gallery-nav-title">Cash Crops</span>
-    <span class="gallery-nav-desc">30+ crop varieties</span>
+    <span class="gallery-nav-desc">4 crop varieties</span>
   </a>
 </div>

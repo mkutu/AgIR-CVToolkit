@@ -318,13 +318,13 @@ Cash crop representation in the AgIR dataset:
   <a href="cover-crops.html" class="gallery-nav-btn">
     <span class="gallery-nav-icon">🌱</span>
     <span class="gallery-nav-title">Cover Crops</span>
-    <span class="gallery-nav-desc">40+ species</span>
+    <span class="gallery-nav-desc">20+ species</span>
   </a>
   
   <a href="weeds.html" class="gallery-nav-btn">
     <span class="gallery-nav-icon">🌿</span>
     <span class="gallery-nav-title">Weeds</span>
-    <span class="gallery-nav-desc">80+ weed species</span>
+    <span class="gallery-nav-desc">30+ weed species</span>
   </a>
 </div>
 

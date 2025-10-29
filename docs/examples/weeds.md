@@ -11,9 +11,6 @@ nav_order: 2
 Target weed species for detection and management in agricultural systems.
 {: .fs-6 .fw-300 }
 
-{: .warning }
-> This page is still in development and is not accurate.
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -49,103 +46,63 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/palmeramaranth_original.jpg" class="glightbox" data-title="Palmer Amaranth - Original Field Image" data-description="Full resolution field capture. GA, Summer 2023. Cotton field infestation.">
-          <img src="../assets/images/examples/palmeramaranth_original.jpg" alt="Palmer amaranth original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/palmer_amaranth_original.jpg" class="glightbox" data-title="Palmer Amaranth - Original Field Image" data-description="Full resolution field capture. GA, Summer 2023. Cotton field infestation.">
+          <img src="../assets/images/examples/palmer_amaranth_original.jpg" alt="Palmer amaranth original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/palmeramaranth_bbox.jpg" class="glightbox" data-title="Palmer Amaranth - Bounding Box Overlay" data-description="Detection box overlay. Upright growth habit. Area: 892 cm²">
-          <img src="../assets/images/examples/palmeramaranth_bbox.jpg" alt="Palmer amaranth with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/palmer_amaranth_bbox.jpg" class="glightbox" data-title="Palmer Amaranth - Bounding Box Overlay" data-description="Detection box overlay. Upright growth habit. Area: 892 cm²">
+          <img src="../assets/images/examples/palmer_amaranth_bbox.jpg" alt="Palmer amaranth with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/palmeramaranth_mask.png" class="glightbox" data-title="Palmer Amaranth - Segmentation Mask" data-description="Binary pixel-level mask. Lanceolate leaves, human-verified.">
-          <img src="../assets/images/examples/palmeramaranth_mask.png" alt="Palmer amaranth segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/palmer_amaranth_mask.jpg" class="glightbox" data-title="Palmer Amaranth - Segmentation Mask" data-description="Binary pixel-level mask. Lanceolate leaves, human-verified.">
+          <img src="../assets/images/examples/palmer_amaranth_mask.jpg" alt="Palmer amaranth segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/palmeramaranth_cutout.png" class="glightbox" data-title="Palmer Amaranth - Plant Cutout" data-description="Isolated Palmer amaranth. Vegetative stage, characteristic leaf shape.">
-          <img src="../assets/images/examples/palmeramaranth_cutout.png" alt="Palmer amaranth plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/palmer_amaranth_cutout.png" class="glightbox" data-title="Palmer Amaranth - Plant Cutout" data-description="Isolated Palmer amaranth. Vegetative stage, characteristic leaf shape.">
+          <img src="../assets/images/examples/palmer_amaranth_cutout.png" alt="Palmer amaranth plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
   </div>
-  
+
   <div class="species-metadata">
-    <div class="metadata-item">
-      <span class="metadata-label">USDA Symbol</span>
-      <span class="metadata-value">AMPA</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">EPPO Code</span>
-      <span class="metadata-value">AMAPA</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Family</span>
-      <span class="metadata-value">Amaranthaceae</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Habit</span>
-      <span class="metadata-value">Forb</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Duration</span>
-      <span class="metadata-value">Annual</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Location</span>
-      <span class="metadata-value">Georgia</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Season</span>
-      <span class="metadata-value">2023</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Crop Context</span>
-      <span class="metadata-value">Cotton</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Area</span>
-      <span class="metadata-value">892 cm² (Large)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Stage</span>
-      <span class="metadata-value">Vegetative</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Confidence</span>
-      <span class="metadata-value">0.96</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Database</span>
-      <span class="metadata-value">FIELD</span>
-    </div>
+    <div class="metadata-item"><span class="metadata-label">Image ID</span><span class="metadata-value">NC_1661519848</span></div>
+    <div class="metadata-item"><span class="metadata-label">Cutout ID</span><span class="metadata-value">NC_1661519848_1</span></div>
+    <div class="metadata-item"><span class="metadata-label">Datetime</span><span class="metadata-value">Aug 26, 2022 09:15:20</span></div>
+    <div class="metadata-item"><span class="metadata-label">USDA Symbol</span><span class="metadata-value">AMPA</span></div>
+    <div class="metadata-item"><span class="metadata-label">EPPO Code</span><span class="metadata-value">AMAPA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Growth Habit</span><span class="metadata-value">forb/herb</span></div>
+    <div class="metadata-item"><span class="metadata-label">Estimated BBox Area (cm²)</span><span class="metadata-value">270.7</span></div>
+    <div class="metadata-item"><span class="metadata-label">BBox XYWH</span><span class="metadata-value">[7232, 2354, 1519, 1341]</span></div>
+    <div class="metadata-item"><span class="metadata-label">Fullres (W×H)</span><span class="metadata-value">9560x6368</span></div>
+    <div class="metadata-item"><span class="metadata-label">Lens Model</span><span class="metadata-value">FE 55mm F1.8 ZA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Is Primary</span><span class="metadata-value">False</span></div>
+    <div class="metadata-item"><span class="metadata-label">Num Components</span><span class="metadata-value">1</span></div>
+    <div class="metadata-item"><span class="metadata-label">Category RGB</span><span class="metadata-value">29, 104, 110</span></div>
+    <div class="metadata-item"><span class="metadata-label">Image Path</span><span class="metadata-value">semifield-developed-images/NC_2022-08-26/images/NC_1661519848.jpg</span></div>
   </div>
 </div>
 
-{: .important }
-> **Major Agricultural Threat**: Palmer amaranth is one of the most problematic weeds in cotton and soybean production, with documented herbicide resistance.
-
 ---
 
-## Entireleaf Morningglory (*Ipomoea hederacea*)
+## Pitted Morning-glory (*Ipomoea lacunosa*)
 
 <div class="species-showcase" markdown="0">
   <div class="species-header">
-    <h3>Entireleaf Morningglory</h3>
-    <div class="species-scientific">Ipomoea hederacea Jacq.</div>
+    <h3>Pitted Morning-glory</h3>
+    <div class="species-scientific">Ipomoea lacunosa L.</div>
     <div style="margin-top: 0.5rem;">
       <span class="category-badge badge-weed">Weed</span>
     </div>
@@ -155,103 +112,66 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/morningglory_original.jpg" class="glightbox" data-title="Morningglory - Original Field Image" data-description="Full resolution field capture. SC, July 2023. Climbing vine behavior.">
-          <img src="../assets/images/examples/morningglory_original.jpg" alt="Morningglory original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/pitted_morning-glory_original.jpg" class="glightbox" data-title="Pitted Morning-glory - Original Field Image" data-description="Full resolution field capture. SC, July 2023. Climbing vine behavior.">
+          <img src="../assets/images/examples/pitted_morning-glory_original.jpg" alt="Pitted morning-glory original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/morningglory_bbox.jpg" class="glightbox" data-title="Morningglory - Bounding Box Overlay" data-description="Detection box overlay. Twining stems, multi-component. Area: 1,245 cm²">
-          <img src="../assets/images/examples/morningglory_bbox.jpg" alt="Morningglory with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/pitted_morning-glory_bbox.jpg" class="glightbox" data-title="Pitted Morning-glory - Bounding Box Overlay" data-description="Detection box overlay. Twining stems, multi-component. Area: 1,245 cm²">
+          <img src="../assets/images/examples/pitted_morning-glory_bbox.jpg" alt="Pitted morning-glory with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/morningglory_mask.png" class="glightbox" data-title="Morningglory - Segmentation Mask" data-description="Binary pixel-level mask. Complex vine structure, heart-shaped leaves.">
-          <img src="../assets/images/examples/morningglory_mask.png" alt="Morningglory segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/pitted_morning-glory_mask.png" class="glightbox" data-title="Pitted Morning-glory - Segmentation Mask" data-description="Binary pixel-level mask. Complex vine structure, heart-shaped leaves.">
+          <img src="../assets/images/examples/pitted_morning-glory_mask.png" alt="Pitted morning-glory segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/morningglory_cutout.png" class="glightbox" data-title="Morningglory - Plant Cutout" data-description="Isolated morningglory. Characteristic foliage, purple flower visible.">
-          <img src="../assets/images/examples/morningglory_cutout.png" alt="Morningglory plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/pitted_morning-glory_cutout.png" class="glightbox" data-title="Pitted Morning-glory - Plant Cutout" data-description="Isolated morning-glory. Characteristic foliage, white flower visible.">
+          <img src="../assets/images/examples/pitted_morning-glory_cutout.png" alt="Pitted morning-glory plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
   </div>
-  
+
   <div class="species-metadata">
-    <div class="metadata-item">
-      <span class="metadata-label">USDA Symbol</span>
-      <span class="metadata-value">IPHE</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">EPPO Code</span>
-      <span class="metadata-value">IPOHE</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Family</span>
-      <span class="metadata-value">Convolvulaceae</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Habit</span>
-      <span class="metadata-value">Vine</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Duration</span>
-      <span class="metadata-value">Annual</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Location</span>
-      <span class="metadata-value">South Carolina</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Season</span>
-      <span class="metadata-value">2023</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Crop Context</span>
-      <span class="metadata-value">Soybean</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Area</span>
-      <span class="metadata-value">1,245 cm² (Extra Large)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Stage</span>
-      <span class="metadata-value">Flowering</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Components</span>
-      <span class="metadata-value">6 (vining)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Database</span>
-      <span class="metadata-value">SEMIF</span>
-    </div>
+    <div class="metadata-item"><span class="metadata-label">Image ID</span><span class="metadata-value">MD_1690814343</span></div>
+    <div class="metadata-item"><span class="metadata-label">Cutout ID</span><span class="metadata-value">MD_1690814343_0</span></div>
+    <div class="metadata-item"><span class="metadata-label">Datetime</span><span class="metadata-value">Jul 31, 2023 10:36:32</span></div>
+    <div class="metadata-item"><span class="metadata-label">USDA Symbol</span><span class="metadata-value">IPLA</span></div>
+    <div class="metadata-item"><span class="metadata-label">EPPO Code</span><span class="metadata-value">IPOLA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Growth Habit</span><span class="metadata-value">forb/herb vine</span></div>
+    <div class="metadata-item"><span class="metadata-label">Estimated BBox Area (cm²)</span><span class="metadata-value">460.3</span></div>
+    <div class="metadata-item"><span class="metadata-label">BBox XYWH</span><span class="metadata-value">[1182, 572, 1820, 1903]</span></div>
+    <div class="metadata-item"><span class="metadata-label">Fullres (W×H)</span><span class="metadata-value">9560x6368</span></div>
+    <div class="metadata-item"><span class="metadata-label">Lens Model</span><span class="metadata-value">FE 55mm F1.8 ZA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Is Primary</span><span class="metadata-value">False</span></div>
+    <div class="metadata-item"><span class="metadata-label">Num Components</span><span class="metadata-value">4</span></div>
+    <div class="metadata-item"><span class="metadata-label">Category RGB</span><span class="metadata-value">214, 168, 70</span></div>
+    <div class="metadata-item"><span class="metadata-label">Image Path</span><span class="metadata-value">semifield-developed-images/MD_2023-07-31/images/MD_1690814343.jpg</span></div>
   </div>
 </div>
 
 {: .note }
-> **Management Challenge**: Vining growth habit makes morningglory particularly difficult to control once established, requiring early detection.
+> **Management Challenge**: Vining growth habit makes morning-glory particularly difficult to control once established.
 
 ---
 
-## Common Ragweed (*Ambrosia artemisiifolia*)
+## Jimson Weed (*Datura stramonium*)
 
 <div class="species-showcase" markdown="0">
   <div class="species-header">
-    <h3>Common Ragweed</h3>
-    <div class="species-scientific">Ambrosia artemisiifolia L.</div>
+    <h3>Jimson Weed</h3>
+    <div class="species-scientific">Datura stramonium L.</div>
     <div style="margin-top: 0.5rem;">
       <span class="category-badge badge-weed">Weed</span>
     </div>
@@ -261,100 +181,63 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/ragweed_original.jpg" class="glightbox" data-title="Ragweed - Original Field Image" data-description="Full resolution field capture. NC, August 2023. Post-harvest residue.">
-          <img src="../assets/images/examples/ragweed_original.jpg" alt="Ragweed original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/jimson_weed_original.jpg" class="glightbox" data-title="Jimson Weed - Original Field Image" data-description="Full resolution field capture. NC, Summer 2023. Post-harvest field.">
+          <img src="../assets/images/examples/jimson_weed_original.jpg" alt="Jimson weed original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/ragweed_bbox.jpg" class="glightbox" data-title="Ragweed - Bounding Box Overlay" data-description="Detection box overlay. Bushy growth form, medium size. Area: 324 cm²">
-          <img src="../assets/images/examples/ragweed_bbox.jpg" alt="Ragweed with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/jimson_weed_bbox.jpg" class="glightbox" data-title="Jimson Weed - Bounding Box Overlay" data-description="Detection box overlay. Bushy growth form. Area: 567 cm²">
+          <img src="../assets/images/examples/jimson_weed_bbox.jpg" alt="Jimson weed with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/ragweed_mask.png" class="glightbox" data-title="Ragweed - Segmentation Mask" data-description="Binary pixel-level mask. Deeply lobed leaves, multiple branches.">
-          <img src="../assets/images/examples/ragweed_mask.png" alt="Ragweed segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/jimson_weed_mask.png" class="glightbox" data-title="Jimson Weed - Segmentation Mask" data-description="Binary pixel-level mask. Large toothed leaves, upright growth.">
+          <img src="../assets/images/examples/jimson_weed_mask.png" alt="Jimson weed segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/ragweed_cutout.png" class="glightbox" data-title="Ragweed - Plant Cutout" data-description="Isolated ragweed. Fern-like foliage, late vegetative stage.">
-          <img src="../assets/images/examples/ragweed_cutout.png" alt="Ragweed plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/jimson_weed_cutout.png" class="glightbox" data-title="Jimson Weed - Plant Cutout" data-description="Isolated jimson weed. Distinctive deeply-lobed leaves, vegetative stage.">
+          <img src="../assets/images/examples/jimson_weed_cutout.png" alt="Jimson weed plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
   </div>
-  
+
   <div class="species-metadata">
-    <div class="metadata-item">
-      <span class="metadata-label">USDA Symbol</span>
-      <span class="metadata-value">AMAR2</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">EPPO Code</span>
-      <span class="metadata-value">AMBEL</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Family</span>
-      <span class="metadata-value">Asteraceae</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Habit</span>
-      <span class="metadata-value">Forb</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Duration</span>
-      <span class="metadata-value">Annual</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Location</span>
-      <span class="metadata-value">North Carolina</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Season</span>
-      <span class="metadata-value">2023</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Crop Context</span>
-      <span class="metadata-value">Corn (harvested)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Area</span>
-      <span class="metadata-value">324 cm² (Medium)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Stage</span>
-      <span class="metadata-value">Vegetative</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Confidence</span>
-      <span class="metadata-value">0.91</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Database</span>
-      <span class="metadata-value">FIELD</span>
-    </div>
+    <div class="metadata-item"><span class="metadata-label">Image ID</span><span class="metadata-value">MD_Row-25_1657135455</span></div>
+    <div class="metadata-item"><span class="metadata-label">Cutout ID</span><span class="metadata-value">MD_Row-25_1657135455_1</span></div>
+    <div class="metadata-item"><span class="metadata-label">Datetime</span><span class="metadata-value">Jul 07, 2022 03:21:12</span></div>
+    <div class="metadata-item"><span class="metadata-label">USDA Symbol</span><span class="metadata-value">DAST</span></div>
+    <div class="metadata-item"><span class="metadata-label">EPPO Code</span><span class="metadata-value">DATST</span></div>
+    <div class="metadata-item"><span class="metadata-label">Growth Habit</span><span class="metadata-value">forb/herb, subshrub</span></div>
+    <div class="metadata-item"><span class="metadata-label">Estimated BBox Area (cm²)</span><span class="metadata-value">477.0</span></div>
+    <div class="metadata-item"><span class="metadata-label">BBox XYWH</span><span class="metadata-value">[5565, 4306, 1770, 2028]</span></div>
+    <div class="metadata-item"><span class="metadata-label">Fullres (W×H)</span><span class="metadata-value">9560x6368</span></div>
+    <div class="metadata-item"><span class="metadata-label">Lens Model</span><span class="metadata-value">FE 55mm F1.8 ZA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Is Primary</span><span class="metadata-value">False</span></div>
+    <div class="metadata-item"><span class="metadata-label">Num Components</span><span class="metadata-value">1</span></div>
+    <div class="metadata-item"><span class="metadata-label">Category RGB</span><span class="metadata-value">207, 234, 124</span></div>
+    <div class="metadata-item"><span class="metadata-label">Image Path</span><span class="metadata-value">semifield-developed-images/MD_2022-07-06/images/MD_Row-25_1657135455.jpg</span></div>
   </div>
 </div>
 
 ---
 
-## Large Crabgrass (*Digitaria sanguinalis*)
+## Horseweed (*Erigeron canadensis*)
 
 <div class="species-showcase" markdown="0">
   <div class="species-header">
-    <h3>Large Crabgrass</h3>
-    <div class="species-scientific">Digitaria sanguinalis (L.) Scop.</div>
+    <h3>Horseweed</h3>
+    <div class="species-scientific">Erigeron canadensis L.</div>
     <div style="margin-top: 0.5rem;">
       <span class="category-badge badge-weed">Weed</span>
     </div>
@@ -364,89 +247,52 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/crabgrass_original.jpg" class="glightbox" data-title="Crabgrass - Original Field Image" data-description="Full resolution field capture. MS, June 2024. Cotton inter-row.">
-          <img src="../assets/images/examples/crabgrass_original.jpg" alt="Crabgrass original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/horseweed_original.jpg" class="glightbox" data-title="Horseweed - Original Field Image" data-description="Full resolution field capture. VA, August 2023. Soybean field.">
+          <img src="../assets/images/examples/horseweed_original.jpg" alt="Horseweed original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/crabgrass_bbox.jpg" class="glightbox" data-title="Crabgrass - Bounding Box Overlay" data-description="Detection box overlay. Prostrate spreading, mat-forming habit. Area: 186 cm²">
-          <img src="../assets/images/examples/crabgrass_bbox.jpg" alt="Crabgrass with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/horseweed_bbox.jpg" class="glightbox" data-title="Horseweed - Bounding Box Overlay" data-description="Detection box overlay. Erect growth, narrow leaves. Area: 345 cm²">
+          <img src="../assets/images/examples/horseweed_bbox.jpg" alt="Horseweed with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/crabgrass_mask.png" class="glightbox" data-title="Crabgrass - Segmentation Mask" data-description="Binary pixel-level mask. Grass morphology, multiple tillers.">
-          <img src="../assets/images/examples/crabgrass_mask.png" alt="Crabgrass segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/horseweed_mask.png" class="glightbox" data-title="Horseweed - Segmentation Mask" data-description="Binary pixel-level mask. Slender upright form, many narrow leaves.">
+          <img src="../assets/images/examples/horseweed_mask.png" alt="Horseweed segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <a href="../assets/images/examples/crabgrass_cutout.png" class="glightbox" data-title="Crabgrass - Plant Cutout" data-description="Isolated crabgrass. Characteristic blades, early tillering.">
-          <img src="../assets/images/examples/crabgrass_cutout.png" alt="Crabgrass plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        <a href="../assets/images/examples/horseweed_cutout.png" class="glightbox" data-title="Horseweed - Plant Cutout" data-description="Isolated horseweed. Linear leaves, vegetative rosette stage.">
+          <img src="../assets/images/examples/horseweed_cutout.png" alt="Horseweed plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
         </a>
       </div>
     </div>
   </div>
-  
+
   <div class="species-metadata">
-    <div class="metadata-item">
-      <span class="metadata-label">USDA Symbol</span>
-      <span class="metadata-value">DISA</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">EPPO Code</span>
-      <span class="metadata-value">DIGSA</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Family</span>
-      <span class="metadata-value">Poaceae</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Habit</span>
-      <span class="metadata-value">Grass</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Duration</span>
-      <span class="metadata-value">Annual</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Location</span>
-      <span class="metadata-value">Mississippi</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Season</span>
-      <span class="metadata-value">2024</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Crop Context</span>
-      <span class="metadata-value">Cotton</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Area</span>
-      <span class="metadata-value">186 cm² (Small)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Stage</span>
-      <span class="metadata-value">Tillering</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Mat Prediction</span>
-      <span class="metadata-value">Yes (0.87)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Database</span>
-      <span class="metadata-value">SEMIF</span>
-    </div>
+    <div class="metadata-item"><span class="metadata-label">Image ID</span><span class="metadata-value">MD_1696013257</span></div>
+    <div class="metadata-item"><span class="metadata-label">Cutout ID</span><span class="metadata-value">MD_1696013257_0</span></div>
+    <div class="metadata-item"><span class="metadata-label">Datetime</span><span class="metadata-value">Sep 29, 2023 14:44:53</span></div>
+    <div class="metadata-item"><span class="metadata-label">USDA Symbol</span><span class="metadata-value">ERCA20</span></div>
+    <div class="metadata-item"><span class="metadata-label">EPPO Code</span><span class="metadata-value">ERICA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Growth Habit</span><span class="metadata-value">forb/herb</span></div>
+    <div class="metadata-item"><span class="metadata-label">Estimated BBox Area (cm²)</span><span class="metadata-value">188.9</span></div>
+    <div class="metadata-item"><span class="metadata-label">BBox XYWH</span><span class="metadata-value">[643, 2398, 1154, 1232]</span></div>
+    <div class="metadata-item"><span class="metadata-label">Fullres (W×H)</span><span class="metadata-value">9560x6368</span></div>
+    <div class="metadata-item"><span class="metadata-label">Lens Model</span><span class="metadata-value">FE 55mm F1.8 ZA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Is Primary</span><span class="metadata-value">False</span></div>
+    <div class="metadata-item"><span class="metadata-label">Num Components</span><span class="metadata-value">2</span></div>
+    <div class="metadata-item"><span class="metadata-label">Category RGB</span><span class="metadata-value">90, 237, 195</span></div>
+    <div class="metadata-item"><span class="metadata-label">Image Path</span><span class="metadata-value">semifield-developed-images/MD_2023-09-29/images/MD_1696013257.jpg</span></div>
   </div>
 </div>
 
@@ -457,220 +303,227 @@ Weeds compete with crops for resources and can significantly reduce yields. Our 
 Additional weed species represented in the dataset:
 
 <div class="feature-grid" markdown="1">
-
-<div class="feature-card" markdown="1">
-
-**Common Lambsquarters**  
-*Chenopodium album*  
-USDA: CHAL7 | Amaranthaceae
-</div>
-
-<div class="feature-card" markdown="1">
-
-**Redroot Pigweed**  
-*Amaranthus retroflexus*  
-USDA: AMRE | Amaranthaceae
-</div>
-
-<div class="feature-card" markdown="1">
-
-**Ivyleaf Morningglory**  
-*Ipomoea hederacea*  
-USDA: IPHE | Convolvulaceae
-</div>
-
-<div class="feature-card" markdown="1">
-
-**Sicklepod**  
-*Senna obtusifolia*  
-USDA: SEOB | Fabaceae
-</div>
-
-<div class="feature-card" markdown="1">
-
-**Horseweed / Marestail**  
-*Erigeron canadensis*  
-USDA: ERCA3 | Asteraceae
-</div>
-
-<div class="feature-card" markdown="1">
-
-**Johnsongrass**  
-*Sorghum halepense*  
-USDA: SOHA | Poaceae
-</div>
-
-<div class="feature-card" markdown="1">
-
-**Goosegrass**  
-*Eleusine indica*  
-USDA: ELIN2 | Poaceae
-</div>
-
 <div class="feature-card" markdown="1">
 
 **Barnyardgrass**  
 *Echinochloa crus-galli*  
-USDA: ECCG | Poaceae
+EPPO: ECHCG | Poaceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Annual Bluegrass**  
-*Poa annua*  
-USDA: POAN | Poaceae
+**Bermudagrass**  
+*Cynodon dactylon*  
+EPPO: CYNDA | Poaceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Yellow Nutsedge**  
-*Cyperus esculentus*  
-USDA: CYES | Cyperaceae
+**Broadleaf Signalgrass**  
+*Urochloa platyphylla*  
+EPPO: BRAPP | Poaceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Common Cocklebur**  
+**Browntop Millet**  
+*Urochloa ramosa*  
+EPPO: PANRA | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Canada Thistle**  
+*Cirsium arvensis*  
+EPPO: CIRAR | Asteraceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Cocklebur**  
 *Xanthium strumarium*  
-USDA: XAST | Asteraceae
+EPPO: XANST | Asteraceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Tall Waterhemp**  
-*Amaranthus tuberculatus*  
-USDA: AMTU | Amaranthaceae
+**Common Lambsquarters**  
+*Chenopodium album*  
+EPPO: CHEAL | Chenopodiaceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Velvetleaf**  
-*Abutilon theophrasti*  
-USDA: ABTH | Malvaceae
+**Common Pokeweed**  
+*Phytolacca americana*  
+EPPO: PHTAM | Phytolaccaceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Giant Ragweed**  
-*Ambrosia trifida*  
-USDA: AMTR | Asteraceae
+**Common Ragweed**  
+*Ambrosia artemisiifolia*  
+EPPO: AMBEL | Asteraceae
 </div>
+<div class="feature-card" markdown="1">
 
+**Common Sunflower**  
+*Helianthus annuus*  
+EPPO: HELAN | Asteraceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Desert Horsepurslane**  
+*Trianthema portulacastrum*  
+EPPO: TRTPO | Aizoaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Fall Panicum**  
+*Panicum dichotomiflorum*  
+EPPO: PANDI | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Giant Foxtail**  
+*Setaria faberi*  
+EPPO: SETFA | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Goosegrass**  
+*Eleusine indica*  
+EPPO: ELEIN | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Ivyleaf Morning-Glory**  
+*Ipomoea hederacea*  
+EPPO: IPOHE | Convolvulaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Johnsongrass**  
+*Sorghum halepense*  
+EPPO: SORHA | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Jungle Rice**  
+*Echinochloa colona*  
+EPPO: ECHCO | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Kochia**  
+*Bassia scoparia*  
+EPPO: KCHSC | Chenopodiaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Large Crabgrass**  
+*Digitaria sanguinalis*  
+EPPO: DIGSA | Poaceae
+</div>
 <div class="feature-card" markdown="1">
 
 **Prickly Sida**  
 *Sida spinosa*  
-USDA: SISP2 | Malvaceae
+EPPO: SIDSP | Malvaceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Florida Pusley**  
-*Richardia scabra*  
-USDA: RISC | Rubiaceae
+**Purple Nutsedge**  
+*Cyperus rotundus*  
+EPPO: CYPRO | Cyperaceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Wild Radish**  
-*Raphanus raphanistrum*  
-USDA: RARA3 | Brassicaceae
+**Ragweed Parthenium**  
+*Parthenium hysterophorus*  
+EPPO: PTNHY | Asteraceae
 </div>
-
 <div class="feature-card" markdown="1">
 
-**Field Pennycress**  
-*Thlaspi arvense*  
-USDA: THAR5 | Brassicaceae
+**Sicklepod**  
+*Senna obtusifolia*  
+EPPO: CASOB | Fabaceae
 </div>
+<div class="feature-card" markdown="1">
 
+**Smooth Pigweed**  
+*Amaranthus hybridus*  
+EPPO: AMACH | Amaranthaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Spiny Amaranth**  
+*Amaranthus spinosus*  
+EPPO: AMASP | Amaranthaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Sprawling Signalgrass**  
+*Urochloa reptans*  
+EPPO: PANRP | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Texas Millet**  
+*Urochloa texana*  
+EPPO: PANTE | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Velvetleaf**  
+*Abutilon theophrasti*  
+EPPO: ABUTH | Malvaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Venice Mallow**  
+*Hibiscus trionum*  
+EPPO: HIBTR | Malvaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Waterhemp**  
+*Amaranthus tuberculatus*  
+EPPO: AMATU | Amaranthaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Wild Oats**  
+*Avena fatua*  
+EPPO: AVEFA | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Yellow Foxtail**  
+*Setaria pumila*  
+EPPO: SETPU | Poaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Yellow Nutsedge**  
+*Cyperus esculentus*  
+EPPO: CYPES | Cyperaceae
+</div>
+<div class="feature-card" markdown="1">
+
+**Zoysia**  
+*Zoysia japonica*  
+EPPO: ZOYJA | Poaceae
+</div>
 </div>
 
 ---
 
 ## Dataset Statistics
 
-Weed species representation in the AgIR dataset:
+Weed species representation in the AgIR (SemiF) dataset:
 
 | Metric | Value |
 |:-------|:------|
-| **Total Weed Species** | 80+ |
-| **Total Images** | 28,000+ |
-| **Most Common** | Palmer amaranth, Morningglory spp., Pigweed spp. |
-| **Growth Habits** | Forbs, Grasses, Vines, Sedges |
-| **Geographic Coverage** | NC, SC, GA, MS, VA |
-| **Crop Contexts** | Cotton, Soybean, Corn, Fallow fields |
-
----
-
-## Weed Categories
-
-### Broadleaf Weeds
-
-**Family Representation:**
-- **Amaranthaceae**: Palmer amaranth, Pigweeds, Waterhemp
-- **Asteraceae**: Ragweeds, Horseweed, Cocklebur
-- **Convolvulaceae**: Morningglories (multiple species)
-- **Fabaceae**: Sicklepod, Wild sensitive plant
-- **Brassicaceae**: Wild radish, Pennycress
-
-### Grass Weeds
-
-**Common Species:**
-- Large crabgrass (*Digitaria sanguinalis*)
-- Goosegrass (*Eleusine indica*)
-- Barnyardgrass (*Echinochloa crus-galli*)
-- Johnsongrass (*Sorghum halepense*)
-- Annual bluegrass (*Poa annua*)
-
-### Sedges
-
-**Key Species:**
-- Yellow nutsedge (*Cyperus esculentus*)
-- Purple nutsedge (*Cyperus rotundus*)
-
----
-
-## Detection Challenges
-
-{: .important }
-> **Why These Species Matter**: The weeds in this dataset represent the most economically significant agricultural pests in the southeastern United States, many with documented herbicide resistance.
-
-### Key Identification Features
-
-**Palmer Amaranth:**
-- Lanceolate leaves with smooth margins
-- Erect growth habit
-- Distinctive petiole length
-
-**Morningglories:**
-- Heart-shaped or lobed leaves
-- Twining vine behavior
-- Difficult to detect when intertwined with crops
-
-**Crabgrass:**
-- Prostrate, mat-forming growth
-- Multiple tillers from base
-- Often confused with desirable turfgrasses
-
-**Ragweed:**
-- Deeply dissected, fern-like leaves
-- Bushy growth form
-- Common in disturbed areas
-
----
-
-## Quality Metrics for Weed Detection
-
-Use these fields to filter high-quality weed annotations:
-
-| Feature | Typical Values | Notes |
-|:--------|:--------------|:------|
-| **Detection Confidence** | > 0.85 | High confidence detections |
-| **Growth Stage** | Vegetative, Flowering | Earlier stages preferred for management |
-| **Area** | 50-2000 cm² | Typical detection range |
-| **Blur Effect** | < 50 | Sharp images for feature identification |
-| **Non-target Flag** | 0 | Confirmed target weed species |
+| **Total Weed Species** | 38 |
+| **Total Images** | 70,000+ |
+| **Total Instances (cutouts)** | 1,280,000+ |
+| **Instances > 100 cm²** | 148,000+ |
+| **Instances < 100 cm²** | 1,132,000+ |
+| **Primary Instances** | 250,000+ |
+| **Non-Primary Instances** | 1,027,000+ |
 
 ---
 
@@ -688,48 +541,4 @@ Use these fields to filter high-quality weed annotations:
     <span class="gallery-nav-title">Cash Crops</span>
     <span class="gallery-nav-desc">30+ crop varieties</span>
   </a>
-</div>
-
----
-
-## Research Applications
-
-<div class="feature-grid" markdown="1">
-
-<div class="feature-card" markdown="1">
-
-**🎯 Precision Weed Control**  
-Species-specific herbicide application
-</div>
-
-<div class="feature-card" markdown="1">
-
-**🤖 Real-time Detection**  
-Automated field scouting systems
-</div>
-
-<div class="feature-card" markdown="1">
-
-**🧬 Resistance Monitoring**  
-Tracking herbicide resistance spread
-</div>
-
-<div class="feature-card" markdown="1">
-
-**📊 Population Dynamics**  
-Weed density and distribution analysis
-</div>
-
-<div class="feature-card" markdown="1">
-
-**🌾 Crop Competition**  
-Yield loss assessment and prediction
-</div>
-
-<div class="feature-card" markdown="1">
-
-**🗺️ Regional Surveys**  
-Geographic distribution mapping
-</div>
-
 </div>

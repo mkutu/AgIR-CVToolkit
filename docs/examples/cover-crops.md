@@ -673,7 +673,7 @@ EPPO: TRFRE | Fabaceae
 
 ## Dataset Statistics
 
-Cover crop representation in the AgIR dataset:
+Cover crop representation in the AgIR (SemiF) dataset:
 
 | Metric | Value |
 |:-------|:------|

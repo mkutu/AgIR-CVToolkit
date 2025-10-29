@@ -11,9 +11,6 @@ nav_order: 3
 Primary agricultural commodities for commercial production.
 {: .fs-6 .fw-300 }
 
-{: .warning }
-> This page is still in development and is not accurate.
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -49,192 +46,118 @@ Cash crops are agricultural products grown for direct sale and commercial profit
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Cotton field image<br>
-          GA, Summer 2023<br>
-          Mid-season growth
-        </div>
+        <a href="../assets/images/examples/upland_cotton_original.jpg" class="glightbox" data-title="Upland cotton - Original Field Image" data-description="Full resolution field capture.">
+          <img src="../assets/images/examples/upland_cotton_original.jpg" alt="Upland cotton original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Lobed leaves<br>
-          [x, y, width, height]
-        </div>
+        <a href="../assets/images/examples/upland_cotton_bbox.jpg" class="glightbox" data-title="Upland cotton - Bounding Box Overlay" data-description="Detection box overlay.">
+          <img src="../assets/images/examples/upland_cotton_bbox.jpg" alt="Upland cotton with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Binary pixel mask<br>
-          Leaf structure<br>
-          Human-verified
-        </div>
+        <a href="../assets/images/examples/upland_cotton_mask.png" class="glightbox" data-title="Upland cotton - Segmentation Mask" data-description="Binary pixel-level mask.">
+          <img src="../assets/images/examples/upland_cotton_mask.png" alt="Upland cotton segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated cotton plant<br>
-          Characteristic leaves<br>
-          ML training ready
-        </div>
+        <a href="../assets/images/examples/upland_cotton_cutout.png" class="glightbox" data-title="Upland cotton - Plant Cutout" data-description="Isolated plant cutout.">
+          <img src="../assets/images/examples/upland_cotton_cutout.png" alt="Upland cotton plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
-  
+
   <div class="species-metadata">
-    <div class="metadata-item">
-      <span class="metadata-label">USDA Symbol</span>
-      <span class="metadata-value">GOHI</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Common Name</span>
-      <span class="metadata-value">Upland Cotton</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Family</span>
-      <span class="metadata-value">Malvaceae</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Habit</span>
-      <span class="metadata-value">Forb</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Duration</span>
-      <span class="metadata-value">Annual</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Location</span>
-      <span class="metadata-value">Georgia</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Season</span>
-      <span class="metadata-value">2023</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Area</span>
-      <span class="metadata-value">2,845 cm² (Extra Large)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Confidence</span>
-      <span class="metadata-value">0.98</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Database</span>
-      <span class="metadata-value">FIELD</span>
-    </div>
+    <div class="metadata-item"><span class="metadata-label">Image ID</span><span class="metadata-value">TX_1690478564</span></div>
+    <div class="metadata-item"><span class="metadata-label">Cutout ID</span><span class="metadata-value">TX_1690478564_2</span></div>
+    <div class="metadata-item"><span class="metadata-label">Datetime</span><span class="metadata-value">Jul 27, 2023 11:18:02</span></div>
+    <div class="metadata-item"><span class="metadata-label">USDA Symbol</span><span class="metadata-value">GOHI</span></div>
+    <div class="metadata-item"><span class="metadata-label">EPPO Code</span><span class="metadata-value">GOSHI</span></div>
+    <div class="metadata-item"><span class="metadata-label">Growth Habit</span><span class="metadata-value">shrub</span></div>
+    <div class="metadata-item"><span class="metadata-label">Estimated BBox Area (cm²)</span><span class="metadata-value">1378.4</span></div>
+    <div class="metadata-item"><span class="metadata-label">BBox XYWH</span><span class="metadata-value">[2312, 2418, 3347, 3099]</span></div>
+    <div class="metadata-item"><span class="metadata-label">Fullres (W×H)</span><span class="metadata-value">9560x6368</span></div>
+    <div class="metadata-item"><span class="metadata-label">Lens Model</span><span class="metadata-value">FE 55mm F1.8 ZA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Is Primary</span><span class="metadata-value">True</span></div>
+    <div class="metadata-item"><span class="metadata-label">Num Components</span><span class="metadata-value">5</span></div>
+    <div class="metadata-item"><span class="metadata-label">Category RGB</span><span class="metadata-value">189, 122, 228</span></div>
+    <div class="metadata-item"><span class="metadata-label">Image Path</span><span class="metadata-value">semifield-developed-images/TX_2023-07-27/images/TX_1690478564.jpg</span></div>
   </div>
 </div>
 
 ---
 
-## Corn (*Zea mays*)
+## Maize / Corn (*Zea mays*)
 
 <div class="species-showcase" markdown="0">
   <div class="species-header">
-    <h3>Corn (Maize)</h3>
+    <h3>Maize (Corn)</h3>
     <div class="species-scientific">Zea mays L.</div>
     <div style="margin-top: 0.5rem;">
       <span class="category-badge badge-cash-crop">Cash Crop</span>
     </div>
   </div>
-  
+
   <div class="image-comparison-grid">
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Corn field image<br>
-          NC, Summer 2023<br>
-          Growing season
-        </div>
+        <a href="../assets/images/examples/maize_original.jpg" class="glightbox" data-title="Maize - Original Field Image" data-description="Full resolution field capture.">
+          <img src="../assets/images/examples/maize_original.jpg" alt="Maize original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Upright growth<br>
-          Single stalk
-        </div>
+        <a href="../assets/images/examples/maize_bbox.jpg" class="glightbox" data-title="Maize - Bounding Box Overlay" data-description="Detection box overlay.">
+          <img src="../assets/images/examples/maize_bbox.jpg" alt="Maize with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Linear leaf structure<br>
-          Grass morphology<br>
-          Clean segmentation
-        </div>
+        <a href="../assets/images/examples/maize_mask.png" class="glightbox" data-title="Maize - Segmentation Mask" data-description="Binary pixel-level mask.">
+          <img src="../assets/images/examples/maize_mask.png" alt="Maize segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated corn plant<br>
-          Characteristic leaves<br>
-          Field capture
-        </div>
+        <a href="../assets/images/examples/maize_cutout.png" class="glightbox" data-title="Maize - Plant Cutout" data-description="Isolated plant cutout.">
+          <img src="../assets/images/examples/maize_cutout.png" alt="Maize plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
-  
+
   <div class="species-metadata">
-    <div class="metadata-item">
-      <span class="metadata-label">USDA Symbol</span>
-      <span class="metadata-value">ZEMA</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Common Name</span>
-      <span class="metadata-value">Corn / Maize</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Family</span>
-      <span class="metadata-value">Poaceae</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Habit</span>
-      <span class="metadata-value">Grass</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Duration</span>
-      <span class="metadata-value">Annual</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Location</span>
-      <span class="metadata-value">North Carolina</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Season</span>
-      <span class="metadata-value">2023</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Area</span>
-      <span class="metadata-value">1,456 cm² (Large)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Confidence</span>
-      <span class="metadata-value">0.94</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Database</span>
-      <span class="metadata-value">SEMIF</span>
-    </div>
+    <div class="metadata-item"><span class="metadata-label">Image ID</span><span class="metadata-value">MD_1688059042</span></div>
+    <div class="metadata-item"><span class="metadata-label">Cutout ID</span><span class="metadata-value">MD_1688059042_2</span></div>
+    <div class="metadata-item"><span class="metadata-label">Datetime</span><span class="metadata-value">Jun 29, 2023 13:15:02</span></div>
+    <div class="metadata-item"><span class="metadata-label">USDA Symbol</span><span class="metadata-value">ZEA</span></div>
+    <div class="metadata-item"><span class="metadata-label">EPPO Code</span><span class="metadata-value">ZEAMX</span></div>
+    <div class="metadata-item"><span class="metadata-label">Growth Habit</span><span class="metadata-value">graminoid</span></div>
+    <div class="metadata-item"><span class="metadata-label">Estimated BBox Area (cm²)</span><span class="metadata-value">510.9</span></div>
+    <div class="metadata-item"><span class="metadata-label">BBox XYWH</span><span class="metadata-value">[1873, 2286, 1378, 2790]</span></div>
+    <div class="metadata-item"><span class="metadata-label">Fullres (W×H)</span><span class="metadata-value">9560x6368</span></div>
+    <div class="metadata-item"><span class="metadata-label">Lens Model</span><span class="metadata-value">FE 55mm F1.8 ZA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Is Primary</span><span class="metadata-value">False</span></div>
+    <div class="metadata-item"><span class="metadata-label">Num Components</span><span class="metadata-value">2</span></div>
+    <div class="metadata-item"><span class="metadata-label">Category RGB</span><span class="metadata-value">232, 60, 43</span></div>
+    <div class="metadata-item"><span class="metadata-label">Image Path</span><span class="metadata-value">semifield-developed-images/MD_2023-06-29/images/MD_1688059042.jpg</span></div>
   </div>
 </div>
 
@@ -250,94 +173,57 @@ Cash crops are agricultural products grown for direct sale and commercial profit
       <span class="category-badge badge-cash-crop">Cash Crop</span>
     </div>
   </div>
-  
+
   <div class="image-comparison-grid">
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Soybean field image<br>
-          SC, Summer 2023<br>
-          Row crop system
-        </div>
+        <a href="../assets/images/examples/soybean_original.jpg" class="glightbox" data-title="Soybean - Original Field Image" data-description="Full resolution field capture.">
+          <img src="../assets/images/examples/soybean_original.jpg" alt="Soybean original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Trifoliate leaves<br>
-          Bushy growth
-        </div>
+        <a href="../assets/images/examples/soybean_bbox.jpg" class="glightbox" data-title="Soybean - Bounding Box Overlay" data-description="Detection box overlay.">
+          <img src="../assets/images/examples/soybean_bbox.jpg" alt="Soybean with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Binary pixel mask<br>
-          Compound leaves<br>
-          Human-verified
-        </div>
+        <a href="../assets/images/examples/soybean_mask.png" class="glightbox" data-title="Soybean - Segmentation Mask" data-description="Binary pixel-level mask.">
+          <img src="../assets/images/examples/soybean_mask.png" alt="Soybean segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated soybean<br>
-          Legume structure<br>
-          Field observation
-        </div>
+        <a href="../assets/images/examples/soybean_cutout.png" class="glightbox" data-title="Soybean - Plant Cutout" data-description="Isolated plant cutout.">
+          <img src="../assets/images/examples/soybean_cutout.png" alt="Soybean plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
-  
+
   <div class="species-metadata">
-    <div class="metadata-item">
-      <span class="metadata-label">USDA Symbol</span>
-      <span class="metadata-value">GLMA4</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Common Name</span>
-      <span class="metadata-value">Soybean</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Family</span>
-      <span class="metadata-value">Fabaceae</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Habit</span>
-      <span class="metadata-value">Forb</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Duration</span>
-      <span class="metadata-value">Annual</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Location</span>
-      <span class="metadata-value">South Carolina</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Season</span>
-      <span class="metadata-value">2023</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Area</span>
-      <span class="metadata-value">892 cm² (Large)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Confidence</span>
-      <span class="metadata-value">0.96</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Database</span>
-      <span class="metadata-value">FIELD</span>
-    </div>
+    <div class="metadata-item"><span class="metadata-label">Image ID</span><span class="metadata-value">NC_1688393345</span></div>
+    <div class="metadata-item"><span class="metadata-label">Cutout ID</span><span class="metadata-value">NC_1688393345_0</span></div>
+    <div class="metadata-item"><span class="metadata-label">Datetime</span><span class="metadata-value">Jul 03, 2023 10:00:30</span></div>
+    <div class="metadata-item"><span class="metadata-label">USDA Symbol</span><span class="metadata-value">GLMA4</span></div>
+    <div class="metadata-item"><span class="metadata-label">EPPO Code</span><span class="metadata-value">GLXMA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Growth Habit</span><span class="metadata-value">forb/herb</span></div>
+    <div class="metadata-item"><span class="metadata-label">Estimated BBox Area (cm²)</span><span class="metadata-value">1150.6</span></div>
+    <div class="metadata-item"><span class="metadata-label">BBox XYWH</span><span class="metadata-value">[1369, 3002, 2660, 3255]</span></div>
+    <div class="metadata-item"><span class="metadata-label">Fullres (W×H)</span><span class="metadata-value">9560x6368</span></div>
+    <div class="metadata-item"><span class="metadata-label">Lens Model</span><span class="metadata-value">FE 55mm F1.8 ZA</span></div>
+    <div class="metadata-item"><span class="metadata-label">Is Primary</span><span class="metadata-value">True</span></div>
+    <div class="metadata-item"><span class="metadata-label">Num Components</span><span class="metadata-value">1</span></div>
+    <div class="metadata-item"><span class="metadata-label">Category RGB</span><span class="metadata-value">160, 184, 55</span></div>
+    <div class="metadata-item"><span class="metadata-label">Image Path</span><span class="metadata-value">semifield-developed-images/NC_2023-07-03/images/NC_1688393345.jpg</span></div>
   </div>
 </div>
 
@@ -353,96 +239,60 @@ Cash crops are agricultural products grown for direct sale and commercial profit
       <span class="category-badge badge-cash-crop">Cash Crop</span>
     </div>
   </div>
-  
+
   <div class="image-comparison-grid">
     <div class="image-panel">
       <div class="image-panel-label">Original Image</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Beet field image<br>
-          NC, Summer 2023<br>
-          Growing season
-        </div>
+        <a href="../assets/images/examples/beet_original.jpg" class="glightbox" data-title="Beet - Original Field Image" data-description="Full resolution field capture.">
+          <img src="../assets/images/examples/beet_original.jpg" alt="Beet original field image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Bounding Box</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Detection box overlay<br>
-          Rosette form<br>
-          Large leaves
-        </div>
+        <a href="../assets/images/examples/beet_bbox.jpg" class="glightbox" data-title="Beet - Bounding Box Overlay" data-description="Detection box overlay.">
+          <img src="../assets/images/examples/beet_bbox.jpg" alt="Beet with bounding box overlay" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Segmentation Mask</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Binary pixel mask<br>
-          Broad leaf structure<br>
-          Human-verified
-        </div>
+        <a href="../assets/images/examples/beet_mask.png" class="glightbox" data-title="Beet - Segmentation Mask" data-description="Binary pixel-level mask.">
+          <img src="../assets/images/examples/beet_mask.png" alt="Beet segmentation mask" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
-    
     <div class="image-panel">
       <div class="image-panel-label">Plant Cutout</div>
       <div class="image-panel-content">
-        <div class="image-placeholder">
-          Isolated beet plant<br>
-          Characteristic foliage<br>
-          Field capture
-        </div>
+        <a href="../assets/images/examples/beet_cutout.png" class="glightbox" data-title="Beet - Plant Cutout" data-description="Isolated plant cutout.">
+          <img src="../assets/images/examples/beet_cutout.png" alt="Beet plant cutout" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;">
+        </a>
       </div>
     </div>
   </div>
-  
+
   <div class="species-metadata">
-    <div class="metadata-item">
-      <span class="metadata-label">USDA Symbol</span>
-      <span class="metadata-value">BEVU2</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Common Name</span>
-      <span class="metadata-value">Beet</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Family</span>
-      <span class="metadata-value">Amaranthaceae</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Growth Habit</span>
-      <span class="metadata-value">Forb</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Duration</span>
-      <span class="metadata-value">Biennial (grown as annual)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Location</span>
-      <span class="metadata-value">North Carolina</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Season</span>
-      <span class="metadata-value">2023</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Area</span>
-      <span class="metadata-value">645 cm² (Medium)</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Confidence</span>
-      <span class="metadata-value">0.93</span>
-    </div>
-    <div class="metadata-item">
-      <span class="metadata-label">Database</span>
-      <span class="metadata-value">SEMIF</span>
-    </div>
+    <div class="metadata-item"><span class="metadata-label">Image ID</span><span class="metadata-value">MD_1759503060</span></div>
+    <div class="metadata-item"><span class="metadata-label">Cutout ID</span><span class="metadata-value">MD_1759503060_1</span></div>
+    <div class="metadata-item"><span class="metadata-label">Datetime</span><span class="metadata-value">Oct 03, 2025 14:51:00</span></div>
+    <div class="metadata-item"><span class="metadata-label">USDA Symbol</span><span class="metadata-value">BEVU2</span></div>
+    <div class="metadata-item"><span class="metadata-label">EPPO Code</span><span class="metadata-value">BEAVX</span></div>
+    <div class="metadata-item"><span class="metadata-label">Growth Habit</span><span class="metadata-value">forb/herb</span></div>
+    <div class="metadata-item"><span class="metadata-label">Estimated BBox Area (cm²)</span><span class="metadata-value">1717.5</span></div>
+    <div class="metadata-item"><span class="metadata-label">BBox XYWH</span><span class="metadata-value">[8397, 2537, 4950, 3622]</span></div>
+    <div class="metadata-item"><span class="metadata-label">Fullres (W×H)</span><span class="metadata-value">13368x9520</span></div>
+    <div class="metadata-item"><span class="metadata-label">Lens Model</span><span class="metadata-value"></span></div>
+    <div class="metadata-item"><span class="metadata-label">Is Primary</span><span class="metadata-value">False</span></div>
+    <div class="metadata-item"><span class="metadata-label">Num Components</span><span class="metadata-value">0</span></div>
+    <div class="metadata-item"><span class="metadata-label">Category RGB</span><span class="metadata-value">67, 110, 66</span></div>
+    <div class="metadata-item"><span class="metadata-label">Image Path</span><span class="metadata-value">semifield-developed-images/MD_2025-10-03/images/MD_1759503060.jpg</span></div>
   </div>
 </div>
+
 
 ---
 
@@ -452,68 +302,13 @@ Cash crop representation in the AgIR dataset:
 
 | Metric | Value |
 |:-------|:------|
-| **Total Cash Crop Species** | 4 (Cotton, Corn, Soybean, Beet) |
-| **Total Images** | 12,000+ |
-| **Geographic Coverage** | NC, SC, GA, MS, VA |
-| **Temporal Coverage** | 2022-2025 seasons |
-| **Primary Use** | Crop monitoring and identification |
-
----
-
-## Use Cases for Cash Crop Data
-
-<div class="feature-grid" markdown="1">
-
-<div class="feature-card" markdown="1">
-
-**🌾 Crop Identification**  
-Automated species recognition in mixed fields
-</div>
-
-<div class="feature-card" markdown="1">
-
-**🌿 Plant Health Monitoring**  
-Stress detection and vigor assessment
-</div>
-
-<div class="feature-card" markdown="1">
-
-**📊 Stand Count Estimation**  
-Population density and uniformity analysis
-</div>
-
-<div class="feature-card" markdown="1">
-
-**🎯 Precision Agriculture**  
-Variable rate application and field mapping
-</div>
-
-<div class="feature-card" markdown="1">
-
-**🔬 Phenotyping Research**  
-Plant characteristics and trait analysis
-</div>
-
-<div class="feature-card" markdown="1">
-
-**🗺️ Field Surveys**  
-Geographic distribution and coverage mapping
-</div>
-
-</div>
-
----
-
-## Quality Metrics
-
-Use these fields to filter high-quality cash crop annotations:
-
-| Feature | Recommended Values | Notes |
-|:--------|:------------------|:------|
-| **Detection Confidence** | > 0.90 | High confidence for crop ID |
-| **Area** | 500-5000 cm² | Typical plant sizes |
-| **Blur Effect** | < 40 | Sharp images for analysis |
-| **Database** | SEMIF or FIELD | Both databases available |
+| **Total Cash Crop Species** | 4 |
+| **Total Images** | 36,000+ |
+| **Total Instances (cutouts)** | 415,000+ |
+| **Instances > 100 cm²** | 96,000+ |
+| **Instances < 100 cm²** | 319,000+ |
+| **Primary Instances** | 67,000+ |
+| **Non-Primary Instances** | 278,000+ |
 
 ---
 
@@ -533,8 +328,8 @@ Use these fields to filter high-quality cash crop annotations:
   </a>
 </div>
 
----
-
+<!-- --- -->
+<!-- 
 ## Accessing the Data
 
 {: .note }
@@ -565,4 +360,4 @@ agir-cvtoolkit query --db field \
   --sample "stratified:by=common_name,per_group=100"
 ```
 
-[Learn How to Query →](https://github.com/yourusername/AgIR-CVToolkit/blob/main/docs/PIPELINE_STAGES/01_query/db_query_usage.md){: .btn .btn-primary }
+[Learn How to Query →](https://github.com/yourusername/AgIR-CVToolkit/blob/main/docs/PIPELINE_STAGES/01_query/db_query_usage.md){: .btn .btn-primary } -->

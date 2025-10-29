@@ -15,7 +15,7 @@ Visual showcase of the AgIR dataset with example species across all plant catego
 
 ## Data Products Overview
 
-Each record in the AgIR dataset includes **four distinct data products**:
+Each record in the AgIR dataset includes **four distinct data products** along with [DB metadata](../dataset/index.html) :
 
 <div class="image-comparison-grid" markdown="0">
   <div class="image-panel">
@@ -55,9 +55,6 @@ Each record in the AgIR dataset includes **four distinct data products**:
   </div>
 </div>
 
-<!-- {: .important }
-> All masks are **human-verified** through our multi-stage quality control process, ensuring pixel-perfect annotations. -->
-
 ---
 
 ## Browse by Plant Category
@@ -66,13 +63,13 @@ Each record in the AgIR dataset includes **four distinct data products**:
   <a href="cover-crops.html" class="gallery-nav-btn">
     <span class="gallery-nav-icon">🌱</span>
     <span class="gallery-nav-title">Cover Crops</span>
-    <span class="gallery-nav-desc">Barley, wheat, rye, vetch, clovers</span>
+    <span class="gallery-nav-desc">Barley, winter pea, triticale</span>
   </a>
   
   <a href="weeds.html" class="gallery-nav-btn">
     <span class="gallery-nav-icon">🌿</span>
     <span class="gallery-nav-title">Weeds</span>
-    <span class="gallery-nav-desc">Palmer amaranth, morning glory, grasses</span>
+    <span class="gallery-nav-desc">Palmer amaranth, jimson weed</span>
   </a>
   
   <a href="cash-crops.html" class="gallery-nav-btn">
@@ -90,12 +87,9 @@ Each record in the AgIR dataset includes **four distinct data products**:
 
 Every species example includes:
 
-✅ **Four data products** - Original, bbox, mask, cutout  
-✅ **Taxonomic information** - Scientific name, family, USDA codes  
-✅ **Size characteristics** - Area measurements and bins  
-✅ **Geographic origin** - US state, field conditions  
-✅ **Growth information** - Stage, habit, duration  
-✅ **Quality metrics** - Confidence scores, blur ratings
+**Four data products** - Original, bbox, mask, cutout  
+**Taxonomic information** - Including scientific name, family, USDA codes  
+**Size characteristics** - Area measurements and bins  
 
 ### Species Coverage
 
@@ -130,10 +124,9 @@ Every species example includes:
 ### 1. Original Image
 High-resolution field capture showing the plant in natural context.
 
-- **Format**: JPG or RAW
-- **Resolution**: 12+ megapixels typical
+- **Format**: JPG
+- **Resolution**: 64 or 133 megapixels
 - **Content**: Full field view with multiple plants
-- **Use**: Context analysis, field monitoring
 
 ### 2. Bounding Box Overlay
 Detection box drawn over the original image.
@@ -148,17 +141,15 @@ Binary mask showing exact plant pixels.
 
 - **Format**: PNG (binary or multi-class)
 - **Precision**: Pixel-level accuracy
-- **Quality**: Human-verified through QC workflow
 - **Use**: Semantic segmentation, instance segmentation
 
 ### 4. Plant Cutout
 Cropped image of individual plant from bounding box.
 
-- **Format**: JPG or PNG
+- **Format**: PNG
 - **Content**: Single plant, minimal background
 - **Size**: Variable based on plant area
-- **Quality**: Includes blur and RGB metrics
-- **Use**: Classification, feature extraction
+- **Use**: Synthetic image generation
 
 ---
 <!-- 

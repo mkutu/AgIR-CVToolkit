@@ -118,6 +118,31 @@ def infer_seg(
     
     typer.echo(f"Segmentation inference complete\nrun_id: {cfg['runtime']['run_id']}\nrun_root: {cfg['paths']['run_root']}")
 
+@app.command("infer-det")
+def infer_det(
+    config: str = typer.Option("config", help="Hydra config name (without .yaml)"),
+    override: List[str] = typer.Option(None, "--override", "-o", help="Hydra overrides"),
+):
+    """Run detection inference pipeline with multiscale processing."""
+    cfg = _compose_cfg(config, override)
+    cfg = finalize_cfg(
+        cfg,
+        stage="infer_det",
+        dataset=cfg.get("det_inference", {}).get("source", {}).get("db", "semif"), 
+        cli_overrides=override
+    )
+
+    setup_logging(cfg)
+    from agir_cvtoolkit.pipelines.stages.det_infer import DetectionInferenceStage
+    DetectionInferenceStage(cfg).run()
+    
+    typer.echo(
+        f"Detection inference complete\n"
+        f"run_id: {cfg['runtime']['run_id']}\n"
+        f"run_root: {cfg['paths']['run_root']}"
+    )
+
+
 @app.command("upload-cvat")
 def upload_cvat(
     config: str = typer.Option("config", help="Hydra config name (without .yaml)"),

@@ -12,6 +12,7 @@ from typing import Dict, List, Optional, Tuple
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import torch
 from PIL import Image
 from omegaconf import DictConfig
@@ -556,14 +557,14 @@ def load_image_from_record(
     
     # Original cutout mode behavior
     # SemiF paths - try cropout first
-    if "cropout_path" in record and record.get("cropout_path"):
+    if "cropout_path" in record and pd.notna(record["cropout_path"]):
         if record["cropout_path"].lower() not in ("none", "null", ""):
             root = Path(cfg.io.semif_storage_dir)
             cutout_root = record.get("cutout_ncsu_nfs", "")
             img_path = root / cutout_root / record["cropout_path"]
             use_cropout = True
 
-    elif "image_path" in record and record.get("image_path"):
+    elif "image_path" in record and pd.notna(record["image_path"]):
         if record["image_path"].lower() not in ("none", "null", ""):
             root = Path(cfg.io.semif_storage_dir)
             img_root = record.get("ncsu_nfs", "")

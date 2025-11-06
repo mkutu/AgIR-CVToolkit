@@ -137,11 +137,7 @@ class SegmentationInferenceStage:
                 return records
             elif query_path_csv.exists():
                 log.info(f"Loading records from previous query: {query_path_csv}")
-                try:
-                    df = pd.read_csv(query_path_csv)
-                except pd.errors.EmptyDataError:
-                    log.info("CSV file is empty.")
-                    return []
+                df = pd.read_csv(query_path_csv)
                 if df.empty:
                     return []
                 log.info(f"Loaded {len(df)} records from CSV")
@@ -249,9 +245,6 @@ class SegmentationInferenceStage:
         black_img = Image.new("RGB", mask_img.size, (0, 0, 0))
         
         # Where mask_img > 0, take color_img; else black_img
-        mask_np = np.array(mask_img)
-        mask_np = np.where(mask_np > 0, 255, 0).astype(np.uint8)
-        mask_img = Image.fromarray(mask_np, mode="L")
         colorized = Image.composite(color_img, black_img, mask_img)
         
         # Brighten the result for better visualization

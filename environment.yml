@@ -46,6 +46,3 @@ dependencies:
       # ---- Tools / SDKs ----
       - cvat-sdk>=2.14
       - GPUtil>=1.4.0
-
-      # ---- YOLO / Ultralytics ----
-      - ultralytics

@@ -202,9 +202,9 @@ Geographic and temporal pattern analysis
 
 Select a category to view detailed species examples:
 
-- **[Cover Crops →](cover-crops.html)** - Soil health, nitrogen fixation, erosion control
-- **[Weeds →](weeds.html)** - Target species for detection and management
-- **[Cash Crops →](cash-crops.html)** - Primary agricultural commodities
+- **[Cover Crops →](../examples/cover-crops.html)** - Soil health, nitrogen fixation, erosion control
+- **[Weeds →](../examples/weeds.html)** - Target species for detection and management
+- **[Cash Crops →](../examples/cash-crops.html)** - Primary agricultural commodities
 
 ---
 <!-- 

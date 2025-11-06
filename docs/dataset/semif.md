@@ -405,7 +405,7 @@ Explore species distribution and data characteristics
 **🖼️ See Examples**  
 Browse sample images and annotations
 
-[Gallery →](../examples/gallery.html)
+[Gallery →](../examples/index.html)
 </div>
 
 <div class="feature-card" markdown="1">

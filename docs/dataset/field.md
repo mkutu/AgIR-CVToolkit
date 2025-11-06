@@ -27,7 +27,7 @@ Field Observation Database - Comprehensive field observations with detailed agri
 
 **Purpose:** Comprehensive field observation database for plant specimens with detailed agricultural context, taxonomy, quality control workflows, and phenological tracking. Designed for agricultural research and monitoring applications.
 
-</div>
+<!-- </div>
 
 <div class="stats-grid" markdown="1">
 
@@ -51,7 +51,7 @@ Field Observation Database - Comprehensive field observations with detailed agri
 <span class="stat-label">US States</span>
 </div>
 
-</div>
+</div> -->
 
 ---
 <!-- 

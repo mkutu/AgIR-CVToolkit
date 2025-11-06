@@ -96,23 +96,18 @@ Every species example includes:
 <div class="stats-grid" markdown="1">
 
 <div class="stat-card">
-<span class="stat-number">40+</span>
+<span class="stat-number">20</span>
 <span class="stat-label">Cover Crop Species</span>
 </div>
 
 <div class="stat-card">
-<span class="stat-number">80+</span>
+<span class="stat-number">38</span>
 <span class="stat-label">Weed Species</span>
 </div>
 
 <div class="stat-card">
-<span class="stat-number">30+</span>
+<span class="stat-number">4</span>
 <span class="stat-label">Cash Crop Varieties</span>
-</div>
-
-<div class="stat-card">
-<span class="stat-number">150+</span>
-<span class="stat-label">Total Species</span>
 </div>
 
 </div>

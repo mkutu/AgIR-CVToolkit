@@ -29,7 +29,7 @@ Semi-Automated Field Database - Optimized for machine learning training with pre
 
 </div>
 
-<div class="stats-grid" markdown="1">
+<!-- <div class="stats-grid" markdown="1">
 
 <div class="stat-card">
 <span class="stat-number">62</span>
@@ -51,7 +51,7 @@ Semi-Automated Field Database - Optimized for machine learning training with pre
 <span class="stat-label">Quality</span>
 </div>
 
-</div>
+</div> -->
 
 ---
 
@@ -382,7 +382,6 @@ Use these fields to filter for high-quality data:
 The SEMIF database includes version tracking:
 
 - **`bbot_version`**: Annotation tool version
-- **`version`**: Dataset version number  
 - **`batch_id`**: Processing batch identifier
 
 This enables reproducibility and tracking of data processing changes over time.

@@ -23,23 +23,23 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 <div class="stats-grid" markdown="1">
 
 <div class="stat-card">
-<span class="stat-number">50,000+</span>
-<span class="stat-label">Plant Images</span>
+<span class="stat-number">183,000+</span>
+<span class="stat-label">Images</span>
 </div>
 
 <div class="stat-card">
-<span class="stat-number">150+</span>
+<span class="stat-number">2,704,000+</span>
+<span class="stat-label">Instances</span>
+</div>
+
+<div class="stat-card">
+<span class="stat-number">60+</span>
 <span class="stat-label">Species</span>
 </div>
 
 <div class="stat-card">
-<span class="stat-number">5</span>
-<span class="stat-label">US States</span>
-</div>
-
-<div class="stat-card">
-<span class="stat-number">98%</span>
-<span class="stat-label">Human Verified</span>
+<span class="stat-number">3</span>
+<span class="stat-label">Locations</span>
 </div>
 
 </div>
@@ -55,7 +55,6 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 - 62 attributes per record
 - Precise bounding boxes and cutouts  
-- Quality metrics (blur, area, components)
 - Perfect for object detection & segmentation
 
 [Explore SEMIF →](dataset/semif.html){: .btn .btn-primary }
@@ -69,7 +68,6 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 - 72 attributes per record
 - Crop types, phenology, field conditions
-- Multi-stage quality control workflow
 - Ideal for agricultural research
 
 [Explore FIELD →](dataset/field.html){: .btn .btn-blue }

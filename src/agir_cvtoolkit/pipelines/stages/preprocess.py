@@ -52,6 +52,19 @@ class PreprocessStage:
             "total_tasks": 0,
             "resolution_stats": {},
         }
+    @staticmethod
+    def _unique_glob(directory: Path, patterns: tuple[str, ...]) -> list[Path]:
+        """Return files matching any pattern (case-aware) without duplicates."""
+        seen = set()
+        files = []
+        for pattern in patterns:
+            for path in directory.glob(pattern):
+                key = path.name.lower()
+                if key in seen:
+                    continue
+                seen.add(key)
+                files.append(path)
+        return files
     
     def _find_source_data(self) -> tuple[Path, Path]:
         """
@@ -191,7 +204,7 @@ class PreprocessStage:
             # Copy images if they exist
             copied_images = 0
             if images_dir.exists():
-                task_images = list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.JPG"))
+                task_images = self._unique_glob(images_dir, ("*.jpg", "*.JPG"))
                 for img_path in task_images:
                     # Create unique filename: taskname_originalname
                     new_name = f"{img_path.name}"
@@ -210,7 +223,10 @@ class PreprocessStage:
                 log.warning(f"  No masks directory found, skipping masks")
                 continue
             
-            task_masks = list(masks_dir.glob("*_mask.png")) + list(masks_dir.glob("*.png"))
+            task_masks = self._unique_glob(
+                masks_dir,
+                ("*_mask.png", "*_mask.PNG", "*.png", "*.PNG"),
+            )
             copied_masks = 0
             for mask_path in task_masks:
                 # Match the renamed image
@@ -333,7 +349,10 @@ class PreprocessStage:
         source_images, source_masks = self._find_source_data()
         
         # Count source masks
-        source_mask_files = list(source_masks.glob("*.png")) + list(source_masks.glob("*_mask.png"))
+        source_mask_files = self._unique_glob(
+            source_masks,
+            ("*_mask.png", "*_mask.PNG", "*.png", "*.PNG"),
+        )
         self.metrics["source_images"] = len(source_mask_files)
         log.info(f"Found {len(source_mask_files)} source masks")
         
@@ -376,17 +395,25 @@ class PreprocessStage:
             )
             
             # Count preprocessed images
-            preprocessed_files = list(preprocessed_images.glob("*.jpg")) + list(preprocessed_images.glob("*.png"))
+            preprocessed_files = self._unique_glob(
+                preprocessed_images,
+                ("*.jpg", "*.JPG", "*.png", "*.PNG"),
+            )
             self.metrics["preprocessed_images"] = len(preprocessed_files)
             log.info(f"Created {self.metrics['preprocessed_images']} preprocessed images")
         else:
             log.info("Skipping pad/grid-crop/resize (disabled)")
             # Copy source files directly
             import shutil
-            source_image_files = list(source_images.glob("*.jpg")) + list(source_images.glob("*.JPG"))
+            source_image_files = self._unique_glob(
+                source_images,
+                ("*.jpg", "*.JPG"),
+            )
             for img_path in source_image_files:
                 shutil.copy2(img_path, preprocessed_images / img_path.name)
                 mask_path = source_masks / f"{img_path.stem}_mask.png"
+                if not mask_path.exists():
+                    mask_path = source_masks / f"{img_path.stem}.png"
                 if mask_path.exists():
                     shutil.copy2(mask_path, preprocessed_masks / mask_path.name)
             self.metrics["preprocessed_images"] = len(source_image_files)
@@ -433,7 +460,10 @@ class PreprocessStage:
             log.info("Step 3: Computing dataset statistics...")
             log.info("-" * 80)
             
-            train_images = self.run_root / "train" / "images"
+            train_images = self.run_root / "train_val_test" / "train" / "images"
+            if not train_images.exists():
+                # Backward-compatible fallback if older runs used run_root/train/images
+                train_images = self.run_root / "train" / "images"
             stats_file = self.run_root / "datastats" / "rgb_mean_std.json"
             
             if train_images.exists() and any(train_images.iterdir()):

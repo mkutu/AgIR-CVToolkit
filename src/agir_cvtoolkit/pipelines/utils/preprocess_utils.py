@@ -454,6 +454,7 @@ def compute_rgb_mean_std(
     # Compute mean and std
     mean = (sum_c / total_pixels).tolist()
     var = (sum_sq / total_pixels) - np.square(mean)
+    var = np.clip(var, a_min=0.0, a_max=None)  # tiny negative values can occur from FP error
     std = np.sqrt(var).tolist()
     
     stats = {"mean": mean, "std": std}

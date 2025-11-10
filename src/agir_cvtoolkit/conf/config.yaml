@@ -1,0 +1,34 @@
+defaults:
+  - io: default
+  - db: default
+  - det_inference: default
+  - seg_inference: default
+  - cvat_upload: default
+  - cvat_download: default
+  - augment: default
+  - preprocess: default
+  - train: default
+  - _self_                     # Ensures overriding behavior
+
+project:
+  name: test
+  subname: "001"
+run:
+  stage: infer
+  dataset: semifield_v1
+
+seed: 42
+
+query:
+runtime:
+paths:
+
+job:
+  now: ${now:%Y-%m-%d_%H-%M-%S}
+  
+run_id: ${now:%Y%m%d_%H%M%S}
+
+working_dir: ${hydra:runtime.cwd}                      # usually the repo root
+
+  
+

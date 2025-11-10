@@ -67,8 +67,6 @@ desktop.ini
 *.env
 .env*
 secrets.yml
-config.yaml
-config.yml
 
 # --- Cache & temp ---
 .cache/

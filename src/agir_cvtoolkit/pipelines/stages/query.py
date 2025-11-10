@@ -57,6 +57,7 @@ def _save_query_spec(
     limit: Optional[int],
     offset: Optional[int],
     sample: Optional[str],
+    output_path: Path,
     cfg: DictConfig,
 ) -> None:
     """Save the query specification to a JSON file for reproducibility."""
@@ -106,6 +107,7 @@ def _save_query_spec(
             "preview_mode": cfg.get("query", {}).get("preview", 0) > 0,
             "preview_count": cfg.get("query", {}).get("preview", 0),
             "output_format": cfg.get("query", {}).get("out", "json"),
+            "output_path": str(output_path),
         },
     }
     
@@ -125,6 +127,7 @@ def run_query(
     limit: Optional[int],
     offset: Optional[int],
     out: str,
+    out_path: Optional[Path],
     preview: int,
     sample: Optional[str],
 ) -> None:
@@ -193,14 +196,15 @@ def run_query(
 
     # Execute query
     if preview > 0:
-        recs = query.preview(n=preview)
-        agir_db.close()
-        return  
-    else:
-        recs = query.execute()
+        query.preview(n=preview)
+    recs = query.execute()
 
-    # Save query specification BEFORE executing
-    query_spec_path = Path(cfg['paths']['query']) / "query_spec.json"
+    query_spec_dir = Path(cfg['paths']['query'])
+    query_spec_path = query_spec_dir / "query_spec.json"
+    # Determine final result path: honor explicit --out-path else fall back to run dir default
+    result_path = Path(out_path) if out_path else query_spec_dir / f"query.{out}"
+    result_path.parent.mkdir(parents=True, exist_ok=True)
+
     _save_query_spec(
         query_spec_path,
         db=db,
@@ -210,18 +214,15 @@ def run_query(
         limit=limit,
         offset=offset,
         sample=sample,
+        output_path=result_path,
         cfg=cfg,
     )
     
-    
 
     # Output results
-    out_path = Path(cfg['paths']['query']) / f"query.{out}"
-    
     if out == "json":
-        save_records_to_json(out_path, recs)
+        save_records_to_json(result_path, recs)
     elif out in ("csv", "parquet"):
-        save_records_as_dataframe(projection, out, out_path, recs)
+        save_records_as_dataframe(projection, out, result_path, recs)
     
     agir_db.close()
-

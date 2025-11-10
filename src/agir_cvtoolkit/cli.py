@@ -51,6 +51,11 @@ def query(
     limit: Optional[int] = typer.Option(None),
     offset: Optional[int] = typer.Option(None),
     out: str = typer.Option("csv", help="json|csv|parquet"),
+    out_path: Optional[Path] = typer.Option(
+        None,
+        "--out-path",
+        help="Optional file path for query results (defaults to run output directory)",
+    ),
     preview: int = typer.Option(0, help="If >0, show first N via preview()"),
     sample: Optional[str] = typer.Option(
         None,
@@ -72,6 +77,7 @@ def query(
         "limit": limit,
         "offset": offset or None,
         "out": out or "json",
+        "out_path": str(out_path) if out_path else None,
         "preview": preview or 0,
         "sample": sample
     }
@@ -93,6 +99,7 @@ def query(
         limit=limit,
         offset=offset,
         out=out,
+        out_path=out_path,
         preview=preview,
         sample=sample,
     )

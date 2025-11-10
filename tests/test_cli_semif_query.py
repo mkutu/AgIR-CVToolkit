@@ -4,6 +4,7 @@ import json
 import re
 from pathlib import Path
 from typing import List, Optional
+import sqlite3
 
 import pytest
 from typer.testing import CliRunner   # <- Typer runner to invoke a Typer app
@@ -11,14 +12,80 @@ from omegaconf import OmegaConf
 
 from agir_cvtoolkit.cli import app as cli_app
 
-
 # ───────────────────────── Fixtures ─────────────────────────
 
 @pytest.fixture(scope="session")
 def sample_db_path() -> Path:
     """Path to the small test copy of the AgIR DB."""
-    db_path = Path("tests/data/db/AgIR_DB_v1_0_202509_100000sample.db")
+    db_path = Path("tests/data/db/AgIR_DB_v1_SemiF_sample_50_20251016.db")
     assert db_path.exists(), f"missing test db: {db_path}"
+    if not db_path.exists():
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        cur.execute(
+            """
+            CREATE TABLE semif (
+                cutout_id TEXT PRIMARY KEY,
+                image_id TEXT,
+                image_path TEXT,
+                mask_path TEXT,
+                state TEXT,
+                category_common_name TEXT,
+                datetime TEXT,
+                estimated_bbox_area_cm2 REAL
+            )
+            """
+        )
+        rows = [
+            (
+                "c1",
+                "img-10",
+                "/tmp/semif_c1.jpg",
+                "/tmp/semif_c1_mask.png",
+                "NC",
+                "barley",
+                "2024-04-01T09:00:00",
+                150.0,
+            ),
+            (
+                "c2",
+                "img-11",
+                "/tmp/semif_c2.jpg",
+                None,
+                "NC",
+                "hairy vetch",
+                "2024-04-03T11:30:00",
+                90.0,
+            ),
+            (
+                "c3",
+                "img-12",
+                "/tmp/semif_c3.jpg",
+                None,
+                "SC",
+                "barley",
+                "2024-04-05T14:15:00",
+                60.0,
+            ),
+        ]
+        cur.executemany(
+            """
+            INSERT INTO semif (
+                cutout_id,
+                image_id,
+                image_path,
+                mask_path,
+                state,
+                category_common_name,
+                datetime,
+                estimated_bbox_area_cm2
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            rows,
+        )
+        conn.commit()
+        conn.close()
     return db_path
 
 
@@ -29,7 +96,6 @@ def patch_compose_cfg(monkeypatch, sample_db_path, tmp_path):
     pointing to the real sample db on disk.
     """
     from agir_cvtoolkit import cli as cli_mod
-
     def _fake_compose_cfg(config_name: str = "config", overrides: Optional[List[str]] = None):
         cfg = OmegaConf.create({
             "db": {"semif": {
@@ -39,10 +105,16 @@ def patch_compose_cfg(monkeypatch, sample_db_path, tmp_path):
             }},
             "query_defaults": {"limit": 5, "expand": {}},
             "log_level": "INFO",
+            "io": {"out_root": str(tmp_path / "outputs")},
+            "train": {
+                "logger": {
+                    "csv": {"save_dir": str(tmp_path / "logs")},
+                    "wandb": {"save_dir": str(tmp_path / "logs"), "name": ""},
+                }
+            },
         })
         cfg["working_dir"] = tmp_path
         return cfg
-
     monkeypatch.setattr(cli_mod, "_compose_cfg", _fake_compose_cfg)
     yield
 

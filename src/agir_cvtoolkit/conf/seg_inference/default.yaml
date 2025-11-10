@@ -33,7 +33,7 @@ gpu:
 # Model configuration
 model:
   arch: "unet"  # "unet" | "deeplabv3plus" | "segformer"
-  encoder_name: "mit_b0"
+  encoder_name: "mit_b4"
   in_channels: 3
   num_classes: 1  # 1=binary, >=2 multi-class
   encoder_weights: "imagenet"
@@ -41,13 +41,13 @@ model:
   strict_load: true
   
   # Checkpoint path (REQUIRED - override via CLI)
-  ckpt_path: /home/mkutuga/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-11_13_29_12/checkpoints/epoch=49-step=38750-val_loss=0.00.ckpt # mit_bo
+  ckpt_path: /home/mkutuga/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-10_08_36_13/checkpoints/epoch=47-step=37200-val_loss=0.00.ckpt
   # ckpt_path: /home/mkutuga/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-10_08_36_13/checkpoints/epoch=47-step=37200-val_loss=0.00.ckpt # mit_b4
   
   # Normalization parameters
   normalization:
-    mean: [0.41402342925576485, 0.39733920011077273, 0.307018603782374]
-    std: [0.16444163299636838, 0.1441124174531256, 0.14779539166305755]
+    mean: [0.41402342925576485, 0.39733920011077273, 0.307018603782374] # [0.387073605995068,0.37504915320836685, 0.2874635005985575]
+    std: [0.16444163299636838, 0.1441124174531256, 0.14779539166305755] # [0.17819966530480363, 0.15686458664146127, 0.15478363135797227]
 
 # Tiled inference configuration
 tile:
@@ -73,7 +73,7 @@ output:
   
   # Colorization options
   save_colorized_masks: false  # Save RGB colorized masks
-  colorize_brightness: 6.5     # Brightness enhancement factor (1.0 = no change)
+  colorize_brightness: 3.5     # Brightness enhancement factor (1.0 = no change)
   colorize_rgb_field: "category_rgb"  # Field to read RGB from: "category_rgb" or "rgb"
   colorize_fallback_rgb: "category_class_id"  # Fallback RGB if field missing/invalid
 

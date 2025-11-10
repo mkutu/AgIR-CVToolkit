@@ -1,76 +1,55 @@
 #!/usr/bin/env python3
 """
-Export original image, bbox overlay for a single image, and (optionally) a cutout + mask,
-pulling rows from your AgIR SQLite DB via AgirDB.
+Export resized originals and bbox overlays from a CSV.
+
+Required CSV columns:
+  - image_id
+  - image_path            (relative path under a logical store)
+  - ncsu_nfs              (logical store key; resolved via --root-map)
+  - bbox_xywh             (string like "[x,y,w,h]" or list/tuple)
+
+Outputs per image_id:
+  <image_id>_original.jpg   (downscaled + optimized)
+  <image_id>_bbox.jpg       (downscaled + optimized, red rectangles)
 
 Example:
-  python extract_visuals_from_db.py \
-    --db-path /home/mkutuga/SemiF-DB/AgIR_DB_v1_0_202510.db \
-    --table semif \
-    --image-id MD_1667496966 \
-    --cutout-id MD_1667496966_000001 \
-    --base-name barley \
+  python export_bbox_from_csv.py \
+    --csv /path/to/rows.csv \
     --outdir ./exports \
-    --root-map '{"longterm_images": "/mnt/research-projects/r/raatwell/longterm_images",
-                 "longterm_images2": "/mnt/research-projects/r/raatwell/longterm_images2",
-                 "GROW_DATA": "/mnt/GROW_DATA"}' \
-    --state NC \
-    --limit 100
-
-If --base-name is omitted, the exporter will attempt to use category_common_name, else image_id.
+    --root-map '{
+      "longterm_images": "/mnt/research-projects/s/screberg/longterm_images",
+      "longterm_images2": "/mnt/research-projects/s/screberg/longterm_images2",
+      "GROW_DATA": "/mnt/research-projects/s/screberg/GROW_DATA"
+    }' \
+    --max-side 2200 \
+    --line-width 8
 """
 
 from __future__ import annotations
 
 import argparse
 import ast
-from pprint import pprint
 import json
-import sqlite3
-import pandas as pd
-
-from dataclasses import dataclass
-import random
+import numpy as np
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple, Any
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
-from PIL import Image, ImageDraw, ImageEnhance, ImageOps
-
-# Import your DB API
-from agir_cvtoolkit.core.db import AgirDB  # noqa: F401
-
-# ----------------------------- Data Model ------------------------------------
-
-@dataclass
-class Record:
-    image_id: str
-    bbox_xywh: Tuple[int, int, int, int]
-    image_path: Optional[str]
-    ncsu_nfs: Optional[str]
-    mask_path: Optional[str] = None
-
-    cutout_id: Optional[str] = None
-    cutout_path: Optional[str] = None
-    cropout_path: Optional[str] = None
-    cutout_mask_path: Optional[str] = None
-    cutout_ncsu_nfs: Optional[str] = None
-
-    category_common_name: Optional[str] = None
+import pandas as pd
+from PIL import Image, ImageDraw, ImageOps, ImageEnhance
 
 
-# ----------------------------- Core Extractor --------------------------------
+class BBoxOverlayExporter:
+    def __init__(self) -> None:
+        """
+        root_map: mapping from logical store (e.g., 'longterm_images')
+                  to absolute filesystem root.
+        """
 
-class VisualExtractorDB:
-    def __init__(self, root_map: Dict[str, Path]) -> None:
-        self.root_map = root_map #{k: Path(v) for k, v in root_map.items()}
+    # ---------- utils ----------
 
-    # ---- Adapters ----
     @staticmethod
     def _parse_bbox(v: Any) -> Tuple[int, int, int, int]:
-        """
-        Accepts a list/tuple or a string like '[x, y, w, h]'.
-        Returns a 4-tuple of ints; (0,0,0,0) if unparsable.
-        """
+        """Accept list/tuple or string '[x,y,w,h]'; return ints; (0,0,0,0) if bad."""
         try:
             if isinstance(v, (list, tuple)):
                 x, y, w, h = v
@@ -83,27 +62,26 @@ class VisualExtractorDB:
             return (0, 0, 0, 0)
 
     def _resolve(self, store: Optional[str], rel: Optional[str]) -> Optional[Path]:
+        """Resolve <store>/<relative> to an absolute path using root_map."""
         if not store or not rel:
             return None
-        root = self.root_map.get(store)
+        root = Path("/mnt/research-projects/s/screberg") / store
         if not root:
-            raise KeyError(f"Missing root for store '{store}'. Available: {list(self.root_map)}")
-        return Path(root) / rel
-    
-    def _resize_max(self, im: Image.Image, max_side: int) -> Image.Image:
-        """
-        Downscale image in-place preserving aspect ratio so that
-        max(width, height) == max_side (or smaller if already small).
-        """
-        if max(im.size) <= max_side:
+            raise ValueError(f"Unknown store: {store}")
+        rel_norm = str(rel).lstrip("/").rstrip("/")
+        return Path(root) / rel_norm
+
+    @staticmethod
+    def _resize_max(im: Image.Image, max_side: int) -> Image.Image:
+        """Downscale preserving aspect ratio so max(width,height) <= max_side."""
+        if max_side is None or max_side <= 0 or max(im.size) <= max_side:
             return im
         im = im.copy()
-        # thumbnail() keeps aspect and is fast; uses antialiasing
         im.thumbnail((max_side, max_side), Image.Resampling.LANCZOS)
         return im
 
+    @staticmethod
     def _save_jpeg_optimized(
-        self,
         im: Image.Image,
         out_path: Path,
         quality: int = 82,
@@ -113,294 +91,244 @@ class VisualExtractorDB:
         strip_exif: bool = True,
         strip_icc: bool = True,
     ) -> None:
+        """
+        Compact, good-looking JPEG save. Avoid passing None for exif/icc (Pillow quirk).
+        """
         im = im.convert("RGB")
-        im = ImageOps.exif_transpose(im)  # apply orientation
-
-        # Strip metadata from the in-memory image so save() won't try to reuse it
+        im = ImageOps.exif_transpose(im)
         if strip_exif:
             im.info.pop("exif", None)
         if strip_icc:
             im.info.pop("icc_profile", None)
 
-        save_kwargs = {
-            "format": "JPEG",
-            "quality": quality,
-            "subsampling": subsampling,   # e.g. "4:2:0" or 2
-            "progressive": progressive,
-            "optimize": optimize,
-        }
-        # DO NOT pass exif/icc_profile at all when stripping; Pillow chokes on None
-        im.save(out_path, **save_kwargs)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        im.save(
+            out_path,
+            format="JPEG",
+            quality=quality,
+            subsampling=subsampling,
+            progressive=progressive,
+            optimize=optimize,
+        )
 
-    def _colorize_mask(self, mask_path: Path, rgb_value: Any, out_path: Path) -> None:
+    def _colorize_mask(
+        self, 
+        mask_path: Path, 
+        rgb_value: Any, 
+        out_path: Path,
+        brightness: float = 6.5
+    ) -> None:
         """
         Colorize a grayscale mask using the provided RGB value and save as RGB.
-
+        
         Args:
             mask_path: Path to the grayscale/binary mask image (nonzero = mask).
             rgb_value: list/tuple or string like "[0.3,0.5,0.2]" or "[76,142,34]".
                     Values in 0–1 will be scaled to 0–255.
-            out_path:  Output path for the colorized mask.
+            out_path: Output path for the colorized mask.
+            brightness: Brightness enhancement factor (1.0 = no change, >1.0 = brighter)
         """
         if not mask_path.exists():
             raise FileNotFoundError(f"Mask not found: {mask_path}")
-
+        
+        # Load grayscale mask
         mask_img = Image.open(mask_path).convert("L")  # ensure 8-bit grayscale
-
+        
         # Parse color safely
         try:
             if isinstance(rgb_value, str):
                 rgb_value = ast.literal_eval(rgb_value)
+            
             if isinstance(rgb_value, (list, tuple)) and len(rgb_value) == 3:
+                # Check if values are normalized (0-1) or absolute (0-255)
                 if all(0.0 <= float(v) <= 1.0 for v in rgb_value):
                     rgb = tuple(int(float(v) * 255) for v in rgb_value)
                 else:
                     rgb = tuple(int(v) for v in rgb_value)
             else:
-                rgb = (0, 255, 0)  # fallback
-        except Exception:
-            rgb = (0, 255, 0)
-
+                print(f"Invalid RGB value format: {rgb_value}, using fallback")
+                rgb = tuple(self.seg_cfg.output.get("colorize_fallback_rgb", [0, 255, 0]))
+        
+        except Exception as e:
+            print(f"Error parsing RGB value: {e}, using fallback")
+            rgb = tuple(self.seg_cfg.output.get("colorize_fallback_rgb", [0, 255, 0]))
+        
+        # Create colored and black images
         color_img = Image.new("RGB", mask_img.size, rgb)
         black_img = Image.new("RGB", mask_img.size, (0, 0, 0))
-
+        
         # Where mask_img > 0, take color_img; else black_img
+        mask_np = np.array(mask_img)
+        mask_np = np.where(mask_np > 0, 255, 0).astype(np.uint8)
+        mask_img = Image.fromarray(mask_np, mode="L")
         colorized = Image.composite(color_img, black_img, mask_img)
-
-        # --- Brighten the result for better viz ---
         
-        enhancer = ImageEnhance.Brightness(colorized)
-        colorized = enhancer.enhance(6.5)  # tweak factor as needed
-
+        # Brighten the result for better visualization
+        if brightness != 1.0:
+            enhancer = ImageEnhance.Brightness(colorized)
+            colorized = enhancer.enhance(brightness)
+        
+        # Save colorized mask
+        out_path.parent.mkdir(parents=True, exist_ok=True)
         colorized.save(out_path)
-
-    def _make_cutout_transparent(self, cutout_path: Path, out_path: Path, threshold: int = 5) -> None:
-        """
-        Convert a cutout image with black background to RGBA and make black pixels transparent.
-
-        Args:
-            cutout_path:  Path to the RGB cutout image.
-            out_path:     Path to save the RGBA image with transparency.
-            threshold:    Intensity threshold for 'black' (0–255); below this = transparent.
-        """
-        if not cutout_path.exists():
-            raise FileNotFoundError(f"Cutout not found: {cutout_path}")
-
-        img = Image.open(cutout_path).convert("RGBA")
-        datas = img.getdata()
-        new_data = []
-
-        for item in datas:
-            # item = (R, G, B, A)
-            if item[0] < threshold and item[1] < threshold and item[2] < threshold:
-                # make black transparent
-                new_data.append((0, 0, 0, 0))
-            else:
-                new_data.append(item)
-
-        img.putdata(new_data)
-        img.save(out_path)
-
-    def _write_metadata_file(self, record: dict, outdir: Path, base_name: str) -> Path:
-        """
-        Write all metadata for a given record (e.g., cutout) to a text file.
-
-        Args:
-            record: dict of the row or record for the target cutout_id.
-            outdir: directory where the images were saved.
-            base_name: base filename prefix (e.g., 'barley').
-        """
-        out_path = outdir / f"{base_name}_metadata.txt"
-
-        # Format each key/value pair
-        lines = []
-        for k, v in record.items():
-            if isinstance(v, (list, dict)):
-                v = json.dumps(v, indent=2)
-            lines.append(f"{k}: {v}")
-
-        out_path.write_text("\n".join(lines), encoding="utf-8")
-        return out_path
-
-    # ---- Public API ----
-    def export_assets(
-        self,
-        rows: Iterable[Any],
-        outdir: Path,
-        line_width: int = 4,
-        save_image: bool = True,
-        save_cutout: bool = True,
-        save_mask: bool = True,
-        save_bbox: bool = True,
-        save_metadata: bool = True,
-    ) -> Dict[str, Optional[Path]]:
-        """
-        For a given image_id across an iterable of DB rows, export:
-          - <base>_original.jpg
-          - <base>_bbox.jpg  (all bboxes for this image)
-          - <base>_cutout.png (if a matching cutout_id was given and found)
-          - <base>_mask.png   (per-cutout mask; fallback to full-image mask if present)
-        """
-        bbox_out: Optional[Path] = None
-        original_out: Optional[Path] = None
-        cutout_out: Optional[Path] = None
-        mask_out: Optional[Path] = None
-        if not rows:
-            raise ValueError(f"No rows found for image_id='{image_id}' in provided record set")
-
-        # Get a random row to extract image_id, cutout_id, base_name
-        # Get the row with the largest estimated_bbox_area_cm2
-        sample_row = max(rows, key=lambda r: r.get("estimated_bbox_area_cm2", 0))
-
-        recs = [r for r in rows if r["image_id"] == sample_row["image_id"]]
-
-        image_id = sample_row["image_id"]
-        cutout_id = sample_row.get("cutout_id", None)
-        base_name = sample_row.get("category_common_name", None)
-
-        # Resolve the original image using the first record
-        img_path = self._resolve(sample_row["ncsu_nfs"], sample_row["image_path"])
-
-        if save_image:
-            if img_path and img_path.exists():
-                # Save original (downscale + optimized JPEG)
-                original_out = outdir / f"{base_name}_original.jpg"
-                orig_img = Image.open(img_path).convert("RGB")
-                orig_img = self._resize_max(orig_img, max_side=2400)   # tweak: 1600–3000 is a good range
-                self._save_jpeg_optimized(orig_img, original_out, quality=82, subsampling="4:2:0")
-
-            else:
-                raise FileNotFoundError(f"Original image not found: store={sample_row['ncsu_nfs']} path={sample_row['image_path']}")
-            
-        # Draw all bboxes
-        if save_bbox:
-            if img_path and img_path.exists():
-                bbox_out = outdir / f"{base_name}_bbox.jpg"
-                boxes = [self._parse_bbox(r.get("bbox_xywh")) for r in recs]
-                self._draw_bboxes(img_path, boxes, bbox_out, line_width=line_width)
+        print(f"Saved colorized mask to: {out_path}")
+    # ---------- core ----------
 
 
-
-        if save_cutout:
-            cut_nfs = sample_row['cutout_ncsu_nfs']
-            # remove any leading/trailing slashes
-            cutout_rel = sample_row["cutout_path"].lstrip("/").rstrip("/")
-            cutout_path = Path(self.root_map[cut_nfs]) / cutout_rel
-            if cutout_path and cutout_path.exists():
-                cutout_out = outdir / f"{base_name}_cutout.png"
-                self._make_cutout_transparent(cutout_path, cutout_out)
-            else:
-                print(f"[warn] Cutout not found for cutout_id={cutout_id} (store={cut_nfs}, path={cutout_rel})")
-        
-        if save_mask:
-            # mask (prefer per-cutout)
-            dev_nfs = sample_row["ncsu_nfs"]
-            mask_rel = sample_row["mask_path"]
-            mask_path = self._resolve(dev_nfs, mask_rel) if mask_rel else None
-            if mask_path and mask_path.exists():
-                mask_out = outdir / f"{base_name}_mask.png"
-                rgb_value = sample_row.get("rgb") or sample_row.get("category_rgb") or (0, 255, 0)
-                self._colorize_mask(mask_path, rgb_value, mask_out)
-            else:
-                print(f"[warn] Mask not found for cutout_id={cutout_id}")
-
-        if save_metadata:
-            self._write_metadata_file(sample_row, outdir, base_name)
-
-        return {"original": original_out, "bbox": bbox_out, "cutout": cutout_out, "mask": mask_out}
-
-    # ---- Helpers ----
-    def _draw_bboxes(
+    def _draw_and_save(
         self,
         img_path: Path,
+        mask_path: Optional[Path],
         boxes_xywh: List[Tuple[int, int, int, int]],
-        out_path: Path,
-        line_width: int = 4,
+        out_original: Path,
+        out_mask: Path,
+        out_bbox: Path,
+        max_side: int,
+        line_width: int,
+        rgb_value: Tuple[int, int, int],
+        brightness: float = 6.5,
+
     ) -> None:
+        # resized original
         im = Image.open(img_path).convert("RGB")
-        draw = ImageDraw.Draw(im)
+        im_small = self._resize_max(im, max_side=max_side)
+        self._save_jpeg_optimized(im_small, out_original, quality=82, subsampling="4:2:0")
+
+        # resized original mask (if provided)
+        if mask_path and mask_path.exists():
+            self._colorize_mask(mask_path, rgb_value, out_mask, brightness=brightness)
+            
+        # bbox overlay (draw at native res, then resize)
+        im2 = Image.open(img_path).convert("RGB")
+        draw = ImageDraw.Draw(im2)
         for (x, y, w, h) in boxes_xywh:
-            if w <= 0 or h <= 0:
-                continue
-            draw.rectangle([x, y, x + w, y + h], outline=(255, 0, 0), width=line_width)
-        out_path.parent.mkdir(parents=True, exist_ok=True)
+            if w > 0 and h > 0:
+                draw.rectangle([x, y, x + w, y + h], outline=(255, 0, 0), width=line_width)
+        im2_small = self._resize_max(im2, max_side=max_side)
+        self._save_jpeg_optimized(im2_small, out_bbox, quality=82, subsampling="4:2:0")
 
-        
-        bbox_img = self._resize_max(im, max_side=2400)
-        self._save_jpeg_optimized(bbox_img, out_path, quality=82, subsampling="4:2:0")
-        # im.save(out_path, quality=95)
-
-
-def fetch_filtered_images(
-        db_path: str, 
-        table: str, 
-        common_name: str = 'Palmer amaranth', 
-        area_bin: str = '500-1000') -> List[Dict[str, Any]]:
-    
-    conn = sqlite3.connect(db_path)
-
-    query = f"""
-        SELECT t1.*
-        FROM {table} t1
-        WHERE t1.image_id IN (
-            SELECT DISTINCT image_id
-            FROM {table}
-            WHERE category_common_name = ? 
-            AND estimated_area_bin = ?
-        )
+    def export_from_csv_rows(
+        self,
+        rows: Iterable[Dict[str, Any]],
+        outdir: Path,
+        max_side: int = 2200,
+        line_width: int = 8,
+        use_original_mask: bool = False,
+        brightness: float = 6.5,
+    ) -> None:
         """
+        Groups rows by image_id, resolves original path, aggregates all bboxes,
+        and writes exactly two files per image_id:
+          <image_id>_original.jpg
+          <image_id>_bbox.jpg
+        """
+        outdir.mkdir(parents=True, exist_ok=True)
 
-    # Execute query
-    results = pd.read_sql_query(
-        query, 
-        conn, 
-        params=(common_name, area_bin)  # Your filter values
-    )
+        # group rows by image_id
+        by_image: Dict[str, List[Dict[str, Any]]] = {}
+        for r in rows:
+            iid = str(r.get("image_id"))
+            rgb_value_str = r.get("category_rgb", "[255, 0, 0]")
+            by_image.setdefault(iid, []).append(r)
 
-    print(f"Retrieved {len(results)} total records")
-    return results.to_dict(orient='records')
+        mask_path: Optional[Path] = None
+        rgb_value: Tuple[int, int, int] = (255, 0, 0)
+        for image_id, group in by_image.items():
+            sample = group[0]
+            img_path = self._resolve(sample.get("ncsu_nfs"), sample.get("image_path"))
+            if use_original_mask:
+                mask_path = self._resolve(sample.get("ncsu_nfs"), sample.get("mask_path"))
+                rgb_value = ast.literal_eval(rgb_value_str)
+            if not img_path or not img_path.exists():
+                print(f"[warn] missing image for image_id={image_id}: store={sample.get('ncsu_nfs')} path={sample.get('image_path')}")
+                continue
 
-# ----------------------------- Query + CLI -----------------------------------
+            boxes = [self._parse_bbox(r.get("bbox_xywh")) for r in group]
+            out_original = outdir / "images" / f"{image_id}_original.jpg"
+            out_mask     = outdir / "colorized_masks" / f"{image_id}_original_mask.png"
+            out_bbox     = outdir / "plots" / f"{image_id}_bbox.jpg"
+
+            try:
+                self._draw_and_save(
+                    img_path=img_path,
+                    mask_path=mask_path,
+                    boxes_xywh=boxes,
+                    out_original=out_original,
+                    out_mask=out_mask,
+                    out_bbox=out_bbox,
+                    max_side=max_side,
+                    line_width=line_width,
+                    rgb_value=rgb_value,
+                    brightness=brightness
+                )
+                out_meta = outdir / "plots" / f"{image_id}_metadata.txt"
+                self._write_row_metadata(rows=group, out_meta=out_meta)
+                self._write_row_to_csv(rows=group, out_csv=outdir / "plots" / f"{image_id}_metadata.csv")
+                print(f"[ok] {image_id} -> {out_original.name}, {out_bbox.name} {', ' + out_mask.name if use_original_mask else ''}")
+            except Exception as e:
+                print(f"[err] failed on {image_id}: {e}")
+
+    def _write_row_metadata(self, rows: List[Dict[str, Any]], out_meta: Path) -> None:
+        """
+        Write each column and its values for the provided rows to a text file.
+        Each CSV row for the image_id is written as a separate section.
+        """
+        out_meta.parent.mkdir(parents=True, exist_ok=True)
+        with out_meta.open("w", encoding="utf-8") as fh:
+            for idx, r in enumerate(rows):
+                fh.write(f"Row {idx}\n")
+                for k, v in sorted(r.items()):
+                    fh.write(f"{k}: {v}\n")
+                fh.write("\n")
+    def _write_row_to_csv(self, rows: List[Dict[str, Any]], out_csv: Path) -> None:
+        """
+        Write each column and its values for the provided rows to a csv file.
+        Each CSV row for the image_id is written as a separate row.
+        """
+        out_csv.parent.mkdir(parents=True, exist_ok=True)
+        df = pd.DataFrame(rows)
+        df.to_csv(out_csv, index=False)
+
+# ---------- CLI ----------
+
+def parse_args() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(description="Resize originals and write bbox overlays from CSV.")
+    p.add_argument("--csv", type=Path, required=True, help="Path to CSV (must contain image_id, image_path, ncsu_nfs, bbox_xywh)")
+    p.add_argument("--outdir", type=Path, required=True, help="Output directory")
+    p.add_argument("--max-side", type=int, default=2200, help="Downscale so longer side <= this (0 to disable)")
+    p.add_argument("--line-width", type=int, default=8, help="BBox line width in pixels")
+    # option to use original full mask if it exists
+    p.add_argument("--use-original-mask", action="store_true", help="Use original full mask if it exists")
+    p.add_argument("--brightness", type=float, default=6.5, help="Brightness factor for colorized masks (1.0 = no change)")
+    # Optional: quick filter via pandas query
+    p.add_argument("--query", type=str, default=None, help="Optional pandas query string to filter rows")
+    return p
+
 
 def main() -> None:
-    root_map = {
-        "longterm_images": "/mnt/research-projects/s/screberg/longterm_images",
-        "longterm_images2": "/mnt/research-projects/s/screberg/longterm_images2",
-        "GROW_DATA": "/mnt/research-projects/s/screberg/GROW_DATA"
-    }
+    args = parse_args().parse_args()
+    df = pd.read_csv(args.csv)
+    if args.query:
+        try:
+            df = df.query(args.query)
+        except Exception as e:
+            raise SystemExit(f"Bad --query expression: {e}")
 
-    line_width = 16
-    output_dir = Path("./scripts/exports")
-    output_dir.mkdir(parents=True, exist_ok=True)
+    required = {"image_id", "image_path", "ncsu_nfs", "bbox_xywh"}
+    missing = required - set(df.columns)
+    if missing:
+        raise SystemExit(f"CSV missing required columns: {', '.join(sorted(missing))}")
 
-    rows = fetch_filtered_images(
-        db_path="/home/mkutuga/SemiF-DB/AgIR_DB_v1_0_202510.db", 
-        table="semif", 
-        common_name="barley", 
-        area_bin="500-1000"
-    )
-
-    print(f"Extracting visuals for {len(rows)} records...")
-
-    
-    vx = VisualExtractorDB(root_map=root_map)
-    outputs = vx.export_assets(
+    rows = df.to_dict(orient="records")
+    exporter = BBoxOverlayExporter()
+    exporter.export_from_csv_rows(
         rows=rows,
-        outdir=output_dir,
-        line_width=line_width,
-        save_image=True,
-        save_cutout=False,
-        save_mask=False,
-        save_bbox=True,
-        save_metadata=True
+        outdir=args.outdir,
+        max_side=args.max_side,
+        line_width=args.line_width,
+        use_original_mask=args.use_original_mask,
+        brightness=args.brightness,
     )
-
-    print("Wrote:")
-    for k, v in outputs.items():
-        if v:
-            print(f"  {k}: {v}")
-        else:
-            print(f"  {k}: (not written)")
 
 
 if __name__ == "__main__":

@@ -16,6 +16,9 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 </div>
 
+{: .note }
+> Access only available to USDA SciNet users. Public access coming soon.
+
 ---
 
 ## Dataset at a Glance

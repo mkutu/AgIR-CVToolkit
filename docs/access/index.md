@@ -8,8 +8,11 @@ has_children: true
 # Access the Dataset
 {: .no_toc }
 
-Multiple ways to query and access data from the AgIR dataset.
+Querying and accessing data from the AgIR dataset.
 {: .fs-6 .fw-300 }
+
+{: .note }
+> Access only available to USDA SciNet users. Public access coming soon.
 
 ---
 

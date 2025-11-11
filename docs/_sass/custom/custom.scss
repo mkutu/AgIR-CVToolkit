@@ -442,3 +442,39 @@ th {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+// Sticky header on Desktop Only
+// Custom header styles
+.custom-header {
+  background: white;
+  padding: 1rem;
+  border-bottom: 1px solid #eeebee;
+  
+  // Sticky only on desktop
+  @media (min-width: 768px) {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+}
+
+.custom-header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.custom-header-logo {
+  height: 50px;
+}
+
+.custom-header-title {
+  margin: 0;
+}
+
+.custom-header-subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+}

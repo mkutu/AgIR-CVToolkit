@@ -171,6 +171,6 @@ If you use the Agricultural Image Repository in your research, please cite:
 
 ## Contact & Support
 
-- **GitHub**: [AgIR-CVToolkit Repository](https://github.com/mkutu/AgIR-CVToolkit)
-- **Issues**: [Report bugs or request features](https://github.com/mkutu/AgIR-CVToolkit/issues)
+- **GitHub**: [AgIR-CVToolkit Repository](https://github.com/your-org/AgIR-CVToolkit)
+- **Issues**: [Report bugs or request features](https://github.com/your-org/AgIR-CVToolkit/issues)
 - **Email**: [support@example.com](mailto:support@example.com)

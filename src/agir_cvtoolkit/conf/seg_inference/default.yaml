@@ -41,8 +41,8 @@ model:
   strict_load: true
   
   # Checkpoint path (REQUIRED - override via CLI)
-  ckpt_path: /home/mkutuga/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-10_08_36_13/checkpoints/epoch=47-step=37200-val_loss=0.00.ckpt
-  # ckpt_path: /home/mkutuga/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-10_08_36_13/checkpoints/epoch=47-step=37200-val_loss=0.00.ckpt # mit_b4
+  ckpt_path: /home/yourusername/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-10_08_36_13/checkpoints/epoch=47-step=37200-val_loss=0.00.ckpt
+  # ckpt_path: /home/yourusername/Field-SegmentationTraining/projects/PSA_15164_393_unets/train_2025-10-10_08_36_13/checkpoints/epoch=47-step=37200-val_loss=0.00.ckpt # mit_b4
   
   # Normalization parameters
   normalization:

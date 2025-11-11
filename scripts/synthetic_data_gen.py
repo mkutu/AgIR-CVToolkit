@@ -971,12 +971,12 @@ def main():
     
     # Configuration
     config = {
-        'images_dir': '/home/mkutuga/SemiF-SyntheticPipeline/data/all_bbot_backgrounds',           # Directory with source images
+        'images_dir': '/home/yourusername/SemiF-SyntheticPipeline/data/all_bbot_backgrounds',           # Directory with source images
         # 'labels_dir': '/home/psa_images/temp_data/temp_detection_model/data/train/labels',           # Directory with YOLO .txt files
         'labels_dir': None,
-        'segments_dir': '/home/mkutuga/AgIR-CVToolkit/outputs/runs/semif_det_synth_cutouts/001/cutouts',       # Directory with RGBA plant cutouts
-        'output_images_dir': '/home/mkutuga/AgIR-CVToolkit/outputs/runs/semif_det_synth_cutouts/semif_det_synth_cutouts/train/images',  # Where to save augmented images
-        'output_labels_dir': '/home/mkutuga/AgIR-CVToolkit/outputs/runs/semif_det_synth_cutouts/semif_det_synth_cutouts/train/labels',  # Where to save updated labels
+        'segments_dir': '/home/yourusername/AgIR-CVToolkit/outputs/runs/semif_det_synth_cutouts/001/cutouts',       # Directory with RGBA plant cutouts
+        'output_images_dir': '/home/yourusername/AgIR-CVToolkit/outputs/runs/semif_det_synth_cutouts/semif_det_synth_cutouts/train/images',  # Where to save augmented images
+        'output_labels_dir': '/home/yourusername/AgIR-CVToolkit/outputs/runs/semif_det_synth_cutouts/semif_det_synth_cutouts/train/labels',  # Where to save updated labels
         'plant_class_id': 0,                # YOLO class ID for plants
         'num_segment_range': (3, 8),        # Number of segments to add per image
         'cutoff_range': (0.1, 0.8),         # Random cutoff range (each segment picks randomly)

@@ -466,7 +466,7 @@ Every query automatically saves a `query_spec.json` file containing all paramete
   "query_metadata": {
     "run_id": "query_semif_h=a1b2c3d4",
     "timestamp": "2025-01-15T14:30:45",
-    "user": "mkutuga",
+    "user": "yourusername",
     "host": "gpu-server-01",
     "git_commit": "a1b2c3d"
   },

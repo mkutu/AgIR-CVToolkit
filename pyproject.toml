@@ -9,7 +9,7 @@ description = "AgIR CV Toolkit: query, inference, and pipelines for agricultural
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
 license = { text = "MIT" }
-authors = [{ name = "Matt K" }]
+authors = [{ name = "PSA" }]
 
 dependencies = [
   # --- Core / CLI / Config ---

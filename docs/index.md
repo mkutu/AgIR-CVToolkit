@@ -89,8 +89,6 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 **[Access Data](access/)** - Query and download with AgIR-CVToolkit
 
-**[Documentation](access/query-tools.html)** - Query guides and API reference
-
 ---
 
 ## Acknowledgements

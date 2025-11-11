@@ -21,6 +21,28 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 ---
 
+## About This Project
+
+This repository is a product of the **Precision Sustainable AG Network**, a collaborative research initiative advancing sustainable agriculture through precision technology and data science. **PSA** brings together researchers, farmers, and technologists to develop innovative solutions for sustainable crop production and research.
+
+<div class="acknowledgements-simple" markdown="0">
+  
+<div class="sponsors-logo-grid">
+  
+  <div class="sponsor-logo-item">
+    <a href="https://precisionsustainableag.org" title="Precision Sustainable AG">
+      <img src="assets/images/logos/Copy of PSAlogo-text.png" alt="Precision Sustainable AG Network">
+    </a>
+  </div>
+  
+  <!-- Add other partner logos as needed -->
+  
+</div>
+
+</div>
+
+---
+
 ## Dataset at a Glance
 
 <div class="stats-grid" markdown="0">

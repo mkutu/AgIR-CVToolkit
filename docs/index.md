@@ -23,27 +23,26 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 ## Dataset at a Glance
 
-<div class="stats-grid" markdown="1">
+<div class="stats-grid" markdown="0">
+  <div class="stat-card">
+    <span class="stat-number">183K+</span>
+    <span class="stat-label">Plant Images</span>
+  </div>
 
-<div class="stat-card">
-<span class="stat-number">183,000+</span>
-<span class="stat-label">Images</span>
-</div>
-
-<div class="stat-card">
-<span class="stat-number">2,704,000+</span>
-<span class="stat-label">Instances</span>
-</div>
-
-<div class="stat-card">
-<span class="stat-number">60+</span>
-<span class="stat-label">Species</span>
-</div>
-
-<div class="stat-card">
-<span class="stat-number">3</span>
-<span class="stat-label">Locations</span>
-</div>
+  <div class="stat-card">
+    <span class="stat-number">2.7M+</span>
+    <span class="stat-label">Instances</span>
+  </div>
+  
+  <div class="stat-card">
+    <span class="stat-number">60+</span>
+    <span class="stat-label">Species</span>
+  </div>
+  
+  <div class="stat-card">
+    <span class="stat-number">3</span>
+    <span class="stat-label">Locations</span>
+  </div>
 
 </div>
 
@@ -62,9 +61,12 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 [Explore SEMIF →](dataset/semif.html){: .btn .btn-primary }
 
+{: .note }
+> Field DB coming soon
+
 </div>
 
-<div class="db-card" markdown="1">
+<!-- <div class="db-card" markdown="1">
 
 ### FIELD - Field Observation Database
 **Rich agricultural context**
@@ -75,81 +77,86 @@ Comprehensive field-level plant image dataset with precise segmentation masks, d
 
 [Explore FIELD →](dataset/field.html){: .btn .btn-blue }
 
-</div>
-
-<!-- ---
-
-## Key Features
-
-<div class="feature-grid" markdown="1">
-
-<div class="feature-card" markdown="1">
-<div class="feature-icon">🎯</div>
-
-### Precise Annotations
-Pixel-perfect segmentation masks through multi-stage human verification
-</div>
-
-<div class="feature-card" markdown="1">
-<div class="feature-icon">🌱</div>
-
-### Rich Taxonomy
-Complete classification with USDA/EPPO codes, common names, and growth characteristics
-</div>
-
-<div class="feature-card" markdown="1">
-<div class="feature-icon">📊</div>
-
-### Quality Metrics
-Built-in blur detection, area measurements, confidence scores
-</div>
-
-<div class="feature-card" markdown="1">
-<div class="feature-icon">🚜</div>
-
-### Agricultural Context
-Field conditions, crop types, phenology, environmental data
-</div>
-
-<div class="feature-card" markdown="1">
-<div class="feature-icon">🗺️</div>
-
-### Spatial Coverage
-Multi-state collection with GPS coordinates
-</div>
-
-<div class="feature-card" markdown="1">
-<div class="feature-icon">🔄</div>
-
-### Temporal Data
-Complete timestamps for temporal and phenological analysis
-</div>
-
-</div>
-
---- -->
-
-<!-- ## Quick Access
-
-Access the dataset using the AgIR-CVToolkit:
-```bash
-# Install the query toolkit
-pip install agir-cvtoolkit
-
-# Query SEMIF database
-agir-cvtoolkit query --db semif \
-  --filters "state=NC,category_common_name=barley" \
-  --sample "stratified:by=area_bin,per_group=50"
-```
-
-[Full Query Guide →](access/query-guide.html){: .btn }
+</div> -->
 
 ---
 
-## Citation
+## Quick Start
 
-{: .important }
-If you use this dataset in your research, please cite our work.
+**[Explore Dataset](dataset/)** - Browse database schemas and statistics
+
+**[Image Gallery](examples/)** - Visual examples from all plant categories
+
+**[Access Data](access/)** - Query and download with AgIR-CVToolkit
+
+**[Documentation](access/query-tools.html)** - Query guides and API reference
+
+---
+
+## Acknowledgements
+
+<div class="acknowledgements-simple" markdown="0">
+  
+<div class="sponsors-logo-grid">
+  
+  <div class="sponsor-logo-item">
+    <a href="#" title="USDA">
+      <img src="assets/images/sponsors/USDA_logo.png" alt="USDA">
+    </a>
+  </div>
+  
+  <div class="sponsor-logo-item">
+    <a href="#" title="Cotton Inc">
+      <img src="assets/images/sponsors/cottoninc-logo.png" alt="Cotton Inc">
+    </a>
+  </div>
+  
+  <div class="sponsor-logo-item">
+    <a href="#" title="Organization 3">
+      <img src="assets/images/sponsors/logo-3.png" alt="Organization 3">
+    </a>
+  </div>
+  
+  <div class="sponsor-logo-item">
+    <a href="#" title="Organization 4">
+      <img src="assets/images/sponsors/logo-4.png" alt="Organization 4">
+    </a>
+  </div>
+  
+  <div class="sponsor-logo-item">
+    <a href="#" title="Organization 5">
+      <img src="assets/images/sponsors/logo-5.png" alt="Organization 5">
+    </a>
+  </div>
+  
+  <div class="sponsor-logo-item">
+    <a href="#" title="Organization 6">
+      <img src="assets/images/sponsors/logo-6.png" alt="Organization 6">
+    </a>
+  </div>
+  
+  <div class="sponsor-logo-item">
+    <a href="#" title="Organization 7">
+      <img src="assets/images/sponsors/logo-7.png" alt="Organization 7">
+    </a>
+  </div>
+  
+  <div class="sponsor-logo-item">
+    <a href="#" title="Organization 8">
+      <img src="assets/images/sponsors/logo-8.png" alt="Organization 8">
+    </a>
+  </div>
+
+</div>
+
+</div>
+
+---
+
+<!-- ## Citation
+
+If you use the Agricultural Image Repository in your research, please cite:
+
 ```bibtex
 @dataset{agir2025,
   title={Agricultural Image Repository: A Comprehensive Field-Level Plant Dataset},
@@ -161,3 +168,11 @@ If you use this dataset in your research, please cite our work.
 ``` -->
 
 <!-- [More citation formats →](citation/how-to-cite.html) -->
+
+---
+
+## Contact & Support
+
+- **GitHub**: [AgIR-CVToolkit Repository](https://github.com/mkutu/AgIR-CVToolkit)
+- **Issues**: [Report bugs or request features](https://github.com/mkutu/AgIR-CVToolkit/issues)
+- **Email**: [support@example.com](mailto:support@example.com)

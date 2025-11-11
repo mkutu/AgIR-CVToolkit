@@ -447,14 +447,14 @@ th {
 // Custom header styles
 .custom-header {
   background: white;
-  padding: 1rem;
+  padding: 0.5rem 1rem; // Less padding on mobile
   border-bottom: 1px solid #eeebee;
   
-  // Sticky only on desktop
   @media (min-width: 768px) {
     position: sticky;
     top: 0;
     z-index: 100;
+    padding: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 }
@@ -466,7 +466,20 @@ th {
 }
 
 .custom-header-logo {
-  height: 50px;
+  height: 40px; // Smaller on mobile
+  
+  @media (min-width: 768px) {
+    height: 50px; // Larger on desktop
+  }
+}
+
+// Hide text on mobile
+.custom-header-text {
+  display: none; // Hidden on mobile
+  
+  @media (min-width: 768px) {
+    display: block; // Show on desktop
+  }
 }
 
 .custom-header-title {

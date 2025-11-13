@@ -9,6 +9,10 @@ nav_order: 2
 {: .no_toc }
 
 Field Observation Database - Comprehensive field observations with detailed agricultural context, phenology, and quality control workflows.
+
+{: .note }
+> The **Field** database is not yet available but will be incorporated in a future release.
+
 {: .fs-6 .fw-300 }
 
 ## Table of contents

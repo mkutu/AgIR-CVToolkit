@@ -107,7 +107,7 @@ This repository is a product of the **Precision Sustainable AG Network**, a coll
 
 **[Explore Dataset](dataset/)** - Browse database schemas and statistics
 
-**[Image Gallery](examples/)** - Visual examples from all plant categories
+**[Image Gallery](examples/)** - Visualize examples from select plant categories
 
 **[Access Data](access/)** - Query and download with AgIR-CVToolkit
 

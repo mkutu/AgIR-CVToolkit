@@ -388,7 +388,7 @@ This enables reproducibility and tracking of data processing changes over time.
 
 ---
 
-## Next Steps
+<!-- ## Next Steps
 
 <div class="feature-grid" markdown="1">
 
@@ -424,4 +424,4 @@ See the Field observation database
 [FIELD Database →](field.html)
 </div>
 
-</div>
+</div> -->

@@ -14,6 +14,14 @@ Complete guides for accessing and querying the AgIR dataset on USDA's SciNet HPC
 
 ---
 
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+--- 
+
 ## Overview
 
 The AgIR dataset is hosted on SciNet, USDA's high-performance computing infrastructure. This section provides comprehensive documentation for:
@@ -29,27 +37,23 @@ The AgIR dataset is hosted on SciNet, USDA's high-performance computing infrastr
 
 ---
 
-## Available Guides
+## Data Structure on JUNO
 
-<div class="feature-grid" markdown="1">
+The AgIR dataset on JUNO consists of two components:
 
-<div class="feature-card" markdown="1">
+**1. Database:** SQLite database containing metadata and file paths to the actual data. Copy this to your local user space for querying.
+```bash
+# Copy database to your user space
+cp /juno/lts/agir/database/agir_database.db ~/agir/
+```
 
-### 📚 Complete Setup & Query Guide
-Comprehensive documentation covering setup, data staging, SLURM jobs, and best practices.
+**2. Physical Data:** Image files, annotations, and derived products stored in JUNO long-term storage. Access these directly using paths from database queries.
 
-[Read Complete Guide →](query-guide.html){: .btn .btn-primary }
-</div>
+**Workflow:**
+1. Copy the database to your SciNet user directory
+2. Query the database to find images matching your criteria  
+3. Access physical data files using the returned paths
 
-<div class="feature-card" markdown="1">
-
-### ⚡ Quick Reference
-One-page cheat sheet with common commands, SLURM templates, and troubleshooting.
-
-[View Quick Reference →](quick-reference.html){: .btn .btn-blue }
-</div>
-
-</div>
 
 ---
 

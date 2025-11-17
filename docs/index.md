@@ -72,14 +72,17 @@ This repository is a product of the **Precision Sustainable AG Network**, a coll
 
 ## Two Complementary Databases
 
+AgIR encompasses two distinct scene types, each with unique advantages and applications.
+
 <div class="db-card" markdown="1">
 
 ### SEMIF - Semi-Automated Field Database
-**Optimized for machine learning training**
 
-- 62 attributes per record
-- Precise bounding boxes and cutouts  
-- Perfect for object detection & segmentation
+- **Environment**: Images captured in semi-controlled environments (e.g., nurseries) using the BenchBot, a gantry-like robotic system.
+- **Throughput**: High-throughput collection allows for the acquisition of large amounts of data daily (over 500 images across a large nursery potting area) across 3 US locations.
+- **Annotation**: Facilitated by the plain black background of weed fabric and hand weeds, enabling automatic annotation through photogrammetry, digital image processing, and deep learning.
+- **Trade-offs**: While offering scalability and automation, these images may not fully represent real-world plant conditions.
+Browse the sections below to learn about each database.
 
 [Explore SEMIF →](dataset/semif.html){: .btn .btn-primary }
 

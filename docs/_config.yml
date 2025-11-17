@@ -39,4 +39,5 @@ aux_links:
     - "//github.com/your-org/AgIR-CVToolkit"
   
 # Footer
-footer_content: "Copyright &copy; 2025 AgIR Dataset. <a href='https://github.com/your-org/AgIR-CVToolkit'>View on GitHub</a>"
+# footer_content: "Copyright &copy; 2025 Precision Sustainable Ag. <a href='https://github.com/your-org/AgIR-CVToolkit'>View on GitHub</a>"
+footer_content: "<a href='https://github.com/your-org/AgIR-CVToolkit'>View on GitHub</a>"

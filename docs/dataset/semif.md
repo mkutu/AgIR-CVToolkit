@@ -8,7 +8,7 @@ nav_order: 1
 # SEMIF Database
 {: .no_toc }
 
-Semi-Automated Field Database - Optimized for machine learning training with precise bounding boxes and segmentation masks.
+Semi-Field Database - Optimized for machine learning training with precise bounding boxes and segmentation masks.
 {: .fs-6 .fw-300 }
 
 ## Table of contents
@@ -25,9 +25,60 @@ Semi-Automated Field Database - Optimized for machine learning training with pre
 
 **Database Name:** SEMIF (Semi-Automated Field Database)
 
-**Purpose:** Stores processed image cutouts/crops of individual plants with detailed bounding box annotations, taxonomy, and image characteristics. Optimized for machine learning training and object detection applications.
+**Purpose:** Stores processed image cutouts/crops of individual plants with detailed bounding box annotations, taxonomy, and image characteristics. Optimized for machine learning training and synthetic image generation.
+
 
 </div>
+
+---
+
+## Understanding SEMIF Records
+
+{: .important }
+> **Key Concept**: Each row in the SEMIF database represents a **single bounding box detection instance** (individual plant or plant part), not a complete image. Multiple detection instances may originate from the same source image.
+
+### Database Structure
+
+The SEMIF database is organized around **bounding box detections** rather than images:
+
+**Full-Sized Images**  
+Standardized, color-corrected photos capturing entire scenes with multiple potted plants. Each source image has been processed to ensure consistent quality across the dataset. Images are identified by `image_id` and contain dimensions in `fullres_width` and `fullres_height`.
+
+**Bounding Box Instances** *(Every Record)*  
+Every row in SEMIF represents one bounding box detection. Each detection includes coordinates in `bbox_xywh`, a unique `cutout_id`, and links back to its source image via `image_id`.
+
+**Cutout Images** *(Subset of Records)*  
+Some source images have been processed to extract individual plant segments as separate cutout files. Whether cutouts exist is determined at the **source image level** - either all detections from an image have cutouts, or none do. Check the `cutout_exists` field to determine availability.
+
+### Detection Records: Bounding Boxes vs. Cutouts
+
+{: .note }
+> **Critical Distinction**: All records contain bounding box annotations (`bbox_xywh`), but not all records have extracted cutout images. Cutout availability is determined by the source image - all detections from the same `image_id` will have the same `cutout_exists` value.
+
+```
+Source Image (image_id: IMG_001)
+├── Image 1 (cutout_id: IMG_001_0) → bbox ✓ | cutout ✓
+└── Image 1 (cutout_id: IMG_001_1) → bbox ✓ | cutout ✓  
+
+Source Image (image_id: IMG_002)
+├── Image 2 (cutout_id: IMG_002_0) → bbox ✓ | cutout ✗
+└── Image 2 (cutout_id: IMG_002_1) → bbox ✓ | cutout ✗
+```
+
+### What Every Detection Includes
+
+**Mandatory (all records):**
+- **Unique identifier**: `cutout_id` specific to this detection
+- **Source reference**: `image_id` linking back to the original full-sized image
+- **Bounding box coordinates**: `bbox_xywh` defining the detection's location in the source image
+
+**Optional (determined by source image):**
+- **Extracted cutout image**: Path to the cropped image in `cutout_path` or `cropout_path`
+- **Segmentation mask**: Pixel-level plant boundary in `cutout_mask_path`
+- **Availability flag**: `cutout_exists` field (1 = cutout available, 0 = bbox only)
+
+{: .tip }
+> **Query Strategy**: Filter by `cutout_exists = 1` to get only records with extracted cutout images. All records can be used for object detection training with bounding boxes.
 
 <!-- <div class="stats-grid" markdown="1">
 
@@ -53,7 +104,7 @@ Semi-Automated Field Database - Optimized for machine learning training with pre
 
 </div> -->
 
----
+<!-- --- -->
 
 <!-- ## Primary Use Cases
 
@@ -105,19 +156,6 @@ Multiple area metrics with categorical binning
 
 ---
 
-## Key Features
-
-{: .note }
-> **What Makes SEMIF Special**: Comprehensive bounding box management, quality metrics, dual path storage, version control, and multiple area estimation methods.
-
-- **Bounding Box Management**: Comprehensive coordinate tracking and overlap detection
-- **Quality Metrics**: Blur detection, component counting, and RGB statistics  
-- **Dual Path Storage**: Both `cropout_path` and `cutout_path` for redundancy
-- **Version Control**: Tracked through `bbot_version`, `version`, and `batch_id` fields
-- **Area Estimation**: Multiple area metrics (pixel, measured cm², estimated cm²) with binning
-
----
-
 ## Schema Documentation
 
 ### 1. Temporal & Batch Information
@@ -130,7 +168,6 @@ Track when and how data was processed.
 | `datetime` | String | Timestamp of image capture |
 | `bbot_version` | String | Version of the bounding box annotation tool used |
 | `batch_id` | String | Identifier for the processing batch |
-| `version` | Float | Dataset or annotation version number |
 
 ---
 
@@ -191,39 +228,20 @@ Bounding boxes, masks, and detection metadata.
 
 ---
 
-### 5. Weed Classification
-
-Non-target weed detection and confidence scoring.
-
-| Field | Type | Description |
-|:------|:-----|:------------|
-| `non_target_weed` | Float | Boolean flag indicating if this is a non-target weed species |
-| `non_target_weed_pred_conf` | Float | Confidence score for non-target weed prediction (0-1) |
-
-{: .important }
-> **Quality Filtering**: Use `non_target_weed_pred_conf` to filter predictions by confidence threshold.
-
----
-
-### 6. Spatial Information
+### 5. Spatial Information
 
 Geographic location and area measurements.
 
 | Field | Type | Description |
 |:------|:-----|:------------|
-| `local_coordinates` | String | Coordinates within the image frame |
-| `global_coordinates` | String | GPS or field-level coordinates |
-| `pixel_area` | Float | Area in pixels |
 | `bbox_area_cm2` | Float | Measured bounding box area in square centimeters |
 | `estimated_bbox_area_cm2` | Float | Estimated bounding box area in square centimeters |
 | `estimated_area_bin` | String | Categorical size bin for the estimated area |
 | `state` | String | US state where image was captured |
 
-**Area bins** typically include: `small`, `medium`, `large`, `extra_large`
-
 ---
 
-### 7. Taxonomic Classification
+### 6. Taxonomic Classification
 
 Complete taxonomic hierarchy from kingdom to species.
 
@@ -253,7 +271,7 @@ Species: vulgare
 
 ---
 
-### 8. Plant Characteristics
+### 7. Plant Characteristics
 
 Growth and life cycle information.
 
@@ -270,7 +288,7 @@ Growth and life cycle information.
 
 ---
 
-### 9. Reference & Visualization
+### 8. Reference & Visualization
 
 Links to external databases and display properties.
 
@@ -290,7 +308,7 @@ RGB: (76, 175, 80)
 
 ---
 
-### 10. Cutout Image Characteristics
+### 9. Cutout Image Characteristics
 
 Technical properties of the cropped image.
 
@@ -351,19 +369,6 @@ Fields: `ncsu_nfs`, `cutout_ncsu_nfs`
 
 </div>
 
----
-
-## Data Quality Indicators
-
-Use these fields to filter for high-quality data:
-
-| Indicator | Field | Recommended Value |
-|:----------|:------|:------------------|
-| **Mask Availability** | `has_masks` | `1` (masks exist) |
-| **File Existence** | `cutout_exists` | `1` (file exists) |
-| **Primary Annotation** | `is_primary` | `1` (primary in overlaps) |
-| **Weed Confidence** | `non_target_weed_pred_conf` | `> 0.8` (high confidence) |
-| **Image Quality** | `blur_effect` | `< 50` (sharp images) |
 
 ---
 
@@ -377,21 +382,10 @@ Use these fields to filter for high-quality data:
 
 ---
 
-## Version History
-
-The SEMIF database includes version tracking:
-
-- **`bbot_version`**: Annotation tool version
-- **`batch_id`**: Processing batch identifier
-
-This enables reproducibility and tracking of data processing changes over time.
-
----
-
 <!-- ## Next Steps
 
 <div class="feature-grid" markdown="1">
-
+       
 <div class="feature-card" markdown="1">
 
 **📊 View Statistics**  

@@ -78,7 +78,6 @@ LIMIT 100;
 | [Query Guide](query-tools.html) | Filter, sample, and export data |
 | [SemiF Schema](../dataset/semif.html) | Individual plant cutouts - 62 fields |
 | [Field Schema](../dataset/field.html) | Field observations - 72 fields |
-| [Full Toolkit Docs](https://github.com/your-org/AgIR-CVToolkit) | Complete pipeline (inference, annotation, training) |
 
 ---
 

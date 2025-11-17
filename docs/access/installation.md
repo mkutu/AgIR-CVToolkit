@@ -35,7 +35,7 @@ Install and configure the AgIR-CVToolkit for database access.
 
 ## Installation
 
-### Method 1: Conda/Mamba (Recommended)
+### Method: Conda/Mamba
 
 For a controlled environment with all dependencies:
 
@@ -50,26 +50,6 @@ cd AgIR-CVToolkit
 # Create environment from file
 mamba env create -f environment.yml
 mamba activate agcv
-
-# Install toolkit in editable mode
-pip install -e .
-
-# Verify installation
-agir-cv --help
-```
-
-### Method 2: From Source
-
-For development or the latest features:
-
-```bash
-# Clone repository
-git clone https://github.com/your-org/AgIR-CVToolkit.git
-cd AgIR-CVToolkit
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install toolkit in editable mode
 pip install -e .
